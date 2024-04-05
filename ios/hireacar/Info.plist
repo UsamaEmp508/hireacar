@@ -26,14 +26,13 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,5 +47,58 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Aubrey-Regular.ttf</string>
+		<string>Inter-Black.ttf</string>
+		<string>Inter-Bold.ttf</string>
+		<string>Inter-ExtraBold.ttf</string>
+		<string>Inter-ExtraLight.ttf</string>
+		<string>Inter-Light.ttf</string>
+		<string>Inter-Medium.ttf</string>
+		<string>Inter-Regular.ttf</string>
+		<string>Inter-SemiBold.ttf</string>
+		<string>Inter-Thin.ttf</string>
+		<string>Jost-Black.ttf</string>
+		<string>Jost-BlackItalic.ttf</string>
+		<string>Jost-Bold.ttf</string>
+		<string>Jost-BoldItalic.ttf</string>
+		<string>Jost-ExtraBold.ttf</string>
+		<string>Jost-ExtraBoldItalic.ttf</string>
+		<string>Jost-ExtraLight.ttf</string>
+		<string>Jost-ExtraLightItalic.ttf</string>
+		<string>Jost-Italic.ttf</string>
+		<string>Jost-Light.ttf</string>
+		<string>Jost-LightItalic.ttf</string>
+		<string>Jost-Medium.ttf</string>
+		<string>Jost-MediumItalic.ttf</string>
+		<string>Jost-Regular.ttf</string>
+		<string>Jost-SemiBold.ttf</string>
+		<string>Jost-SemiBoldItalic.ttf</string>
+		<string>Jost-Thin.ttf</string>
+		<string>Jost-ThinItalic.ttf</string>
+		<string>Mulish-Black.ttf</string>
+		<string>Mulish-BlackItalic.ttf</string>
+		<string>Mulish-Bold.ttf</string>
+		<string>Mulish-BoldItalic.ttf</string>
+		<string>Mulish-ExtraBold.ttf</string>
+		<string>Mulish-ExtraBoldItalic.ttf</string>
+		<string>Mulish-ExtraLight.ttf</string>
+		<string>Mulish-ExtraLightItalic.ttf</string>
+		<string>Mulish-Italic.ttf</string>
+		<string>Mulish-Light.ttf</string>
+		<string>Mulish-LightItalic.ttf</string>
+		<string>Mulish-Medium.ttf</string>
+		<string>Mulish-MediumItalic.ttf</string>
+		<string>Mulish-Regular.ttf</string>
+		<string>Mulish-SemiBold.ttf</string>
+		<string>Mulish-SemiBoldItalic.ttf</string>
+		<string>Poppins-Black.ttf</string>
+		<string>Poppins-Bold.ttf</string>
+		<string>Poppins-ExtraBold.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
+		<string>Poppins-Regular.ttf</string>
+	</array>
 </dict>
 </plist>
