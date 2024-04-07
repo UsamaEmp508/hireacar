@@ -1,5 +1,4 @@
 export default {
     Slider:"Slider",
-    Home:"Home",
-   
+   CarDetails:"CarDetails"
 }

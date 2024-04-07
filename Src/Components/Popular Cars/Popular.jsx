@@ -63,7 +63,7 @@ const Popular = () => {
         data={carData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{gap:5}}
+        contentContainerStyle={{gap:25}}
       />
     </View>
   );

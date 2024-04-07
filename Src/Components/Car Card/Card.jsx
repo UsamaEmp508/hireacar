@@ -2,23 +2,29 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
+import { useNavigation } from '@react-navigation/native'; 
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Animated from 'react-native-reanimated';
+import { TouchableOpacity } from 'react-native';
 const CarItem = ({ car }) => {
  
     const themeContext = useContext(ThemeContext);
 
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
- 
+    const navigation = useNavigation(); // Initialize navigation hook
+
+    const goToCarDetails = () => {
+      // Navigate to CarDetails screen with the car id as parameter
+      navigation.navigate('CarDetails', { id: car.id });
+    };
+  
  
     return (
-    <View style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]}>
+    <TouchableOpacity onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
 
-     <View>   
       <Animated.Image source={car.image} style={styles.image}  sharedTransitionTag="tag" />
      
-      </View>
      
      <View style={styles.detailsContainer}>
 
@@ -31,15 +37,14 @@ const CarItem = ({ car }) => {
           <Text style={styles.carType}>{car.type}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
   
- paddingHorizontal:20,
-paddingVertical:10,
+ 
 borderRadius:10
 
   },
@@ -59,7 +64,8 @@ row:{
 },
 
   detailsContainer: {
-  
+    paddingHorizontal:20,
+    paddingVertical:10,
 
 },
   carName: {
