@@ -4,6 +4,7 @@ import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
+import Animated from 'react-native-reanimated';
 const CarItem = ({ car }) => {
  
     const themeContext = useContext(ThemeContext);
@@ -15,7 +16,7 @@ const CarItem = ({ car }) => {
     <View style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]}>
 
      <View>   
-      <Image source={car.image} style={styles.image} />
+      <Animated.Image source={car.image} style={styles.image}  sharedTransitionTag="tag" />
      
       </View>
      

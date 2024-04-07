@@ -4,6 +4,8 @@ import { ThemeProvider, createTheme } from '@rneui/themed';
 import { FONTFAMILY } from "./Src/Theme/FontFamily";
 import { FONTSIZE } from "./Src/Theme/FontSize";
 import Route from "./Src/Navigation/Route";
+import { ApolloProvider } from "@apollo/client";
+import client from "./Src/Client/Client";
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -17,7 +19,9 @@ export default function App() {
 
   return (
       <ThemeProvider theme={theme}> 
+      <ApolloProvider client={client}>   
    <Route/>
+   </ApolloProvider>
       </ThemeProvider>
   );
 }
