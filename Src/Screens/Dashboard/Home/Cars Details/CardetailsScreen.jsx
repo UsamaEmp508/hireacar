@@ -1,6 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Details from '../../../../Components/Car Details/Details';
+import { FONTFAMILY } from '../../../../Theme/FontFamily';
+import { FONTSIZE } from '../../../../Theme/FontSize';
+import Animated, {FadeIn, FadeInDown} from 'react-native-reanimated';
+import Header from '../../../../Components/DetailsHeader/Header';
 
 const CardetailsScreen = ({route}) => {
 
@@ -57,15 +61,30 @@ const CardetailsScreen = ({route}) => {
     
     ];
   
-    const selectedCar = carData.find(car => car.id === id);
-    
+   
+    const selecteddata = carData.find((data)=> data.id === id)
+
+console
+
   return (
-    <View>
-    <Details data={selectedCar}  />
+      <View style={styles.container}>
+
+
+<Details data={selecteddata} />
     </View>
   )
 }
 
 export default CardetailsScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+
+  container: {
+  paddingHorizontal:20,
+  flex:1
+ 
+   
+    
+      },
+    
+})

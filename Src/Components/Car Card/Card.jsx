@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import { useNavigation } from '@react-navigation/native'; 
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
-import Animated from 'react-native-reanimated';
+import Animated, {FadeInDown} from 'react-native-reanimated';
 import { TouchableOpacity } from 'react-native';
-const CarItem = ({ car }) => {
+const CarItem = ({ car ,index}) => {
  
     const themeContext = useContext(ThemeContext);
 
@@ -21,9 +21,11 @@ const CarItem = ({ car }) => {
   
  
     return (
-    <TouchableOpacity onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
 
-      <Animated.Image source={car.image} style={styles.image}  sharedTransitionTag="tag" />
+      <Animated.View entering={FadeInDown.delay(200 * index)}>
+    <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
+
+      <Animated.Image source={car.image} style={styles.image}  sharedTransitionTag={car.name} />
      
      
      <View style={styles.detailsContainer}>
@@ -37,7 +39,9 @@ const CarItem = ({ car }) => {
           <Text style={styles.carType}>{car.type}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
+
+    </Animated.View>
   );
 };
 

@@ -1,20 +1,31 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,Image } from 'react-native'
 import React from 'react'
-import Animated from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
+import Header from '../DetailsHeader/Header';
 
 const Details = ({data}) => {
   
   return (
-      <View style={styles.container}>
-      <Animated.Image source={data.image} style={styles.image}  sharedTransitionTag="tag" />
-     
-      <Text style={styles.carName}>Name: {data.name}</Text>
-      <Text style={styles.rating}>Rating: {data.rating}</Text>
-      <Text style={styles.price}>Price: {data.price}</Text>
-      <Text style={styles.carType}>Type: {data.type}</Text>
-      {/* You can render additional details here */}
+      <View >
+      <Header />
+
+<Animated.Image source={data?.image} style={styles.image}  sharedTransitionTag={data?.name} />
+<Animated.View
+    
+      entering={FadeIn.delay(600)}>   
+<Text style={styles.carName}>Name: {data?.name}</Text>
+<Text style={styles.rating}>Rating: {data?.rating}</Text>
+
+</Animated.View>
+
+<Animated.View entering={FadeInDown.delay(800)}>
+<Text style={styles.price}>Price: {data?.price}</Text>
+<Text style={styles.carType}>Type: {data?.type}</Text>
+
+
+</Animated.View>
     </View>
   )
 }
@@ -22,16 +33,11 @@ const Details = ({data}) => {
 export default Details
 
 const styles = StyleSheet.create({
-  container: {
-  
  
-    borderRadius:10
-    
-      },
       image: {
         width: '100%',
         height: 150,
-        borderRadius: 10,
+  
         marginRight: 10,
         backgroundColor:"transparent"
       },
@@ -72,4 +78,5 @@ const styles = StyleSheet.create({
         fontSize:FONTSIZE.size_12,
         fontFamily:FONTFAMILY.Poppins_SemiBold,
       },
+
 })

@@ -4,14 +4,71 @@ import { styles } from './Styles';
 import { ThemeContext } from '../../../Theme/ThemeContext';
 import { lightTheme, darkTheme } from '../../../Theme/Color';
 import Brands from '../../../Components/BrandByCars/Brand';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons'
-import Popular from '../../../Components/Popular Cars/Popular';
+
+import CarItem from '../../../Components/Car Card/Card';
+import Location from '../../../Components/Location/Location';
 
 const Home = () => {
 
     const themeContext = useContext(ThemeContext);
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+
+
+
+  const carData = [
+    {
+      id: '1',
+      image: require('../../../Assets/Images/Home/car1-660x440.jpg'), // Replace with your image source
+      name: 'Toyota Camry',
+      rating: 4.5,
+      price: '$25,000',
+      type: 'Sedan',
+    },
+    {
+      id: '2',
+      image: require('../../../Assets/Images/Home/car3-660x440.jpg'), // Replace with your image source
+      name: 'Honda Civic',
+      rating: 4.3,
+      price: '$22,000',
+      type: 'Sedan',
+    },
+    {
+      id: '3',
+      image: require('../../../Assets/Images/Home/car5-660x440.jpg'), // Replace with your image source
+      name: 'Toyota Camry',
+      rating: 4.5,
+      price: '$25,000',
+      type: 'Sedan',
+    },
+    {
+      id: '4',
+      image: require('../../../Assets/Images/Home/car6-660x440.jpg'), // Replace with your image source
+      name: 'Honda Civic',
+      rating: 4.3,
+      price: '$22,000',
+      type: 'Sedan',
+    },
+    {
+      id: '5',
+      image: require('../../../Assets/Images/Home/car8-660x440.jpg'), // Replace with your image source
+      name: 'Honda Civic',
+      rating: 4.3,
+      price: '$22,000',
+      type: 'Sedan',
+    },
+    {
+      id: '6',
+      image: require('../../../Assets/Images/Home/car11-660x440.jpg'), // Replace with your image source
+      name: 'Honda Civic',
+      rating: 4.3,
+      price: '$22,000',
+      type: 'Sedan',
+    },
+  
+  ];
+
+  const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
 
 
 
@@ -60,13 +117,33 @@ const Home = () => {
 </View>
 <Brands/>
 </View>
+
+<View>   
+<View style={styles.row}>
+<Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Location</Text>
+<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
+
+
+</View>
+<Location/>
+</View>
+
+
+
 <View style={styles.row}>
 <Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Popular Cars</Text>
 <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
 
 
 </View>
-<Popular/>
+<View>
+      <FlatList
+        data={carData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{gap:25}}
+      />
+    </View>
 
 
 

@@ -19,12 +19,12 @@ alignItems:"center"
     },
 
     Header_heading:{
-fontSize:FONTSIZE.size_28,
+fontSize:FONTSIZE.size_24,
 fontFamily:FONTFAMILY.Poppins_Bold
     },
 
     Header_Subheading:{
-        fontSize:FONTSIZE.size_16,
+        fontSize:FONTSIZE.size_14,
         fontFamily:FONTFAMILY.Poppins_Medium
             },
 

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, TouchableOpacity, View,Text } from 'react-native';
 import { ThemeContext } from '../../Theme/ThemeContext';
 import { lightTheme,darkTheme } from '../../Theme/Color';
-import Settings from '../../Screens/Dashboard/Settings/Settings';
+import Profile from '../../Screens/Dashboard/Profile/Profile';
 import Likes from '../../Screens/LIkes/Likes';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Home from '../../Screens/Dashboard/Home/Home';
@@ -27,7 +27,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       icon =  require('../../Assets/Images/Navigator/messages1.png');
     } else if (route.name === 'Insight') {
       icon =  require('../../Assets/Images/Navigator/gg_insights.png');
-    } else if (route.name === 'User') {
+    } else if (route.name === 'Profile') {
       icon =  require('../../Assets/Images/Navigator/iconamoon_profile-light.png');
     }
     return (
@@ -108,7 +108,7 @@ export default Navigator = () => {
       <Tab.Screen name="Insight" component={Likes}   options={{ headerShown: false }}  />
       <Tab.Screen name="Message" component={Messages}   options={{ headerShown: false }}  />
 
-      <Tab.Screen name="User" component={Settings}    options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={Profile}    options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
