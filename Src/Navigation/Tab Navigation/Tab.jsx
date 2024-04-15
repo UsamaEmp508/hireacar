@@ -8,6 +8,10 @@ import Likes from '../../Screens/LIkes/Likes';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Home from '../../Screens/Dashboard/Home/Home';
 import Messages from '../../Screens/Messsages/Messages';
+import Icon from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
+
+
 
 const Tab = createBottomTabNavigator();
 
@@ -22,20 +26,20 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   const getTabBarIcon = (route, focused,label) => {
     let icon;
     if (route.name === 'Home') {
-      icon =  require('../../Assets/Images/Navigator/Vector.png');
+      icon = <Icon name="home" size={20} color={focused ? '#21408E' : theme.primaryText} />;
     } else if (route.name === 'Message') {
-      icon =  require('../../Assets/Images/Navigator/messages1.png');
+      icon = <Entypo name="chat" size={20} color={focused ? '#21408E' : theme.primaryText} />;
+
     } else if (route.name === 'Add Car') {
-      icon =  require('../../Assets/Images/Navigator/gg_insights.png');
+      icon = <Icon name="plus-circle" size={20} color={focused ? '#21408E' : theme.primaryText} />;
     } else if (route.name === 'Profile') {
-      icon =  require('../../Assets/Images/Navigator/iconamoon_profile-light.png');
+      icon = <Icon name="user" size={20} color={focused ? '#21408E' : theme.primaryText} />;
+
     }
     return (
       <View style={{ alignItems: 'center',padding:10}}>
-      <Image
-        source={icon}
-        style={{ width: 20, height: 20, tintColor: focused ? '#21408E' : theme.primaryText }}
-      />
+    {icon}
+     
       <Text style={{ color: focused ? '#21408E' : theme.primaryText,
     fontSize: 12,
     

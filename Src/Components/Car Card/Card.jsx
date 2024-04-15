@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Animated, {FadeInDown} from 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 const CarItem = ({ car ,index}) => {
  
     const themeContext = useContext(ThemeContext);
@@ -18,16 +18,26 @@ const CarItem = ({ car ,index}) => {
       // Navigate to CarDetails screen with the car id as parameter
       navigation.navigate('CarDetails', { id: car.id });
     };
-  
+    const renderItem = ({ item }) => (
+      <Image source={item} style={styles.carouselImage} />
+    );
  
     return (
 
       <Animated.View entering={FadeInDown.delay(200 * index)}>
     <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
 
-      <Animated.Image source={car.image} style={styles.image}  sharedTransitionTag={car.name} />
+      <Animated.Image source={car.image[0]} style={styles.image}  sharedTransitionTag={car.name} />
      
-     
+      <Carousel
+          data={car.image}
+          renderItem={renderItem}
+          sliderWidth={300}
+          itemWidth={300}
+          loop
+          autoplay
+          autoplayInterval={3000}
+        />
      <View style={styles.detailsContainer}>
 
         <View style={styles.row}>   
@@ -49,7 +59,8 @@ const styles = StyleSheet.create({
   container: {
   
  
-borderRadius:10
+borderRadius:10,
+overflow:'hidden',
 
   },
   image: {

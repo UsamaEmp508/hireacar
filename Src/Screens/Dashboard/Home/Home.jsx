@@ -19,7 +19,15 @@ const Home = () => {
   const carData = [
     {
       id: '1',
-      image: require('../../../Assets/Images/Home/car1-660x440.jpg'), // Replace with your image source
+      image: [
+        
+        require('../../../Assets/Images/Home/car1-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Toyota Camry',
       rating: 4.5,
       price: '$25,000',
@@ -27,7 +35,15 @@ const Home = () => {
     },
     {
       id: '2',
-      image: require('../../../Assets/Images/Home/car3-660x440.jpg'), // Replace with your image source
+      image: [
+        
+        require('../../../Assets/Images/Home/car11-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Honda Civic',
       rating: 4.3,
       price: '$22,000',
@@ -35,7 +51,15 @@ const Home = () => {
     },
     {
       id: '3',
-      image: require('../../../Assets/Images/Home/car5-660x440.jpg'), // Replace with your image source
+      image: [
+        
+        require('../../../Assets/Images/Home/car3-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Toyota Camry',
       rating: 4.5,
       price: '$25,000',
@@ -43,7 +67,15 @@ const Home = () => {
     },
     {
       id: '4',
-      image: require('../../../Assets/Images/Home/car6-660x440.jpg'), // Replace with your image source
+      image: [
+        
+        require('../../../Assets/Images/Home/car5-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Honda Civic',
       rating: 4.3,
       price: '$22,000',
@@ -51,7 +83,14 @@ const Home = () => {
     },
     {
       id: '5',
-      image: require('../../../Assets/Images/Home/car8-660x440.jpg'), // Replace with your image source
+      image: [
+        require('../../../Assets/Images/Home/car8-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Honda Civic',
       rating: 4.3,
       price: '$22,000',
@@ -59,7 +98,15 @@ const Home = () => {
     },
     {
       id: '6',
-      image: require('../../../Assets/Images/Home/car11-660x440.jpg'), // Replace with your image source
+        image: [
+        
+        require('../../../Assets/Images/Home/car1-660x440.jpg'), 
+        require('../../../Assets/Images/Home/car5-660x440.jpg'),
+        require('../../../Assets/Images/Home/car6-660x440.jpg'),
+        require('../../../Assets/Images/Home/car8-660x440.jpg'),
+        require('../../../Assets/Images/Home/car11-660x440.jpg'),
+
+      ],
       name: 'Honda Civic',
       rating: 4.3,
       price: '$22,000',

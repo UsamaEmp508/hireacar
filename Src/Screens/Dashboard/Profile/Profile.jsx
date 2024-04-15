@@ -29,26 +29,36 @@ console.log('toggle theme',handletoggletheme)
 
    
         <TouchableOpacity style={styles.tile} onPress={() => console.log('Edit Profile')}>
+          <View style={styles.inner_tile_left}>  
           <Icon name={themeContext?.isDarkTheme ? 'user' : 'user-o'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Edit Profile</Text>
+          </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tile} onPress={() => console.log('My Cars')}>
+          <View style={styles.inner_tile_left}>  
           <Icon name={themeContext?.isDarkTheme ? 'info-circle' : 'info-circle-o'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>My Cars</Text>
+          </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>
+          <View style={styles.inner_tile_left}>  
           <Icon name={themeContext?.isDarkTheme ? 'moon-o' : 'sun-o'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Dark Mode</Text>
+          
+          </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.tile} onPress={() => console.log('Logout')}>
+          <View style={styles.inner_tile_left}>   
           <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
+          </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
@@ -135,5 +145,10 @@ tile: {
 tileText:{
   fontSize: FONTSIZE.size_14,
   fontFamily:FONTFAMILY.Poppins_SemiBold,
+},
+inner_tile_left:{
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap:10
 }
 });
