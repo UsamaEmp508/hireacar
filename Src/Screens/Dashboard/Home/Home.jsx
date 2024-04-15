@@ -79,7 +79,7 @@ const Home = () => {
 
 
 <Text style={[styles.Header_heading,{color:theme.primaryText}]}>Hello Johnson</Text>
-<Text style={[styles.Header_Subheading,{color:theme.primaryText}]}>Lets Find Your Favourite car here </Text>
+<Text style={[styles.Header_Subheading,{color:theme.PrimarylightText}]}>Lets Find Your Favourite car here </Text>
 
 
 {/* Search bar */}
@@ -89,14 +89,14 @@ const Home = () => {
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-<Image source={require('../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
+<Image source={require('../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:20,height:18}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search your car' placeholderTextColor={theme.PrimarylightText} />
 
 </View>
 
 
-<View style={[styles.right,{backgroundColor:"#C3E54B"}]}> 
-<Image source={require('../../../Assets/Images/Home/Filter.png')}  style={{width:28,height:25,tintColor:"#ffffff"} } />
+<View style={[styles.right,{backgroundColor:"#1F4590"}]}> 
+<Image source={require('../../../Assets/Images/Home/Filter.png')}  style={{width:20,height:18,tintColor:"#ffffff",} } />
 
 </View>
 
@@ -141,13 +141,31 @@ const Home = () => {
         data={carData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{gap:25}}
+        contentContainerStyle={{gap:10,marginVertical:10}}
+        horizontal
       />
     </View>
 
 
+    <View style={styles.row}>
+<Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Cars By Price </Text>
+<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
 
+
+</View>
     
+
+<View>
+      <FlatList
+        data={carData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{gap:10,marginVertical:10}}
+        horizontal
+      />
+    </View>
+
+
     
     </ScrollView>
   )

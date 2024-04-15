@@ -54,11 +54,11 @@ const navigation = useNavigation()
     const renderItem = ({ item,index }) => (
       <Animated.View entering={FadeInUp.delay(200 * index)}>
       <Pressable onPress={()=>navigation.navigate('Brand',{name:item.title}) }>  
-      <View style={[styles.image_container,{backgroundColor:theme.BackgroundSecondary}]}>   
+      <View style={styles.image_container}>   
           <Image source={item.image} style={styles.image} />
           
           </View>
-          <Text style={styles.title}>{item.title}</Text>
+          <Text style={[styles.title,{color:theme.PrimarylightText}]}>{item.title}</Text>
           </Pressable>
         </Animated.View>
       );

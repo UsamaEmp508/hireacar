@@ -6,6 +6,7 @@ import { FONTSIZE } from "./Src/Theme/FontSize";
 import Route from "./Src/Navigation/Route";
 import { ApolloProvider } from "@apollo/client";
 import client from "./Src/Client/Client";
+import { Theme } from "./Src/Theme/ThemeContext";
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -19,8 +20,12 @@ export default function App() {
 
   return (
       <ThemeProvider theme={theme}> 
-      <ApolloProvider client={client}>   
+      <ApolloProvider client={client}> 
+
+      <Theme>  
    <Route/>
+
+   </Theme>  
    </ApolloProvider>
       </ThemeProvider>
   );

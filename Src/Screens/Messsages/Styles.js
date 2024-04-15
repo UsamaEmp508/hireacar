@@ -11,8 +11,10 @@ export const styles = StyleSheet.create({
       paddingHorizontal:SPACING.space_20
     },
     screen_title:{
-      fontSize:FONTSIZE.size_18,
-      fontFamily:FONTFAMILY.Poppins_SemiBold
+      fontSize:FONTSIZE.size_20,
+      fontFamily:FONTFAMILY.Poppins_Bold,
+      textAlign:"center",
+      marginVertical:10
     },
 
     search:{
@@ -88,7 +90,7 @@ messageContainer:{
         width:17,
         height:17,
         borderRadius:17,
-        backgroundColor:"#1C6758"
+        backgroundColor:"#21408E"
       },
       count_Text:{
         fontSize:FONTSIZE.size_8,

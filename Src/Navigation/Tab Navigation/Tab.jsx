@@ -25,7 +25,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       icon =  require('../../Assets/Images/Navigator/Vector.png');
     } else if (route.name === 'Message') {
       icon =  require('../../Assets/Images/Navigator/messages1.png');
-    } else if (route.name === 'Insight') {
+    } else if (route.name === 'Add Car') {
       icon =  require('../../Assets/Images/Navigator/gg_insights.png');
     } else if (route.name === 'Profile') {
       icon =  require('../../Assets/Images/Navigator/iconamoon_profile-light.png');
@@ -34,9 +34,9 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       <View style={{ alignItems: 'center',padding:10}}>
       <Image
         source={icon}
-        style={{ width: 20, height: 20, tintColor: focused ? 'red' : theme.primaryText }}
+        style={{ width: 20, height: 20, tintColor: focused ? '#21408E' : theme.primaryText }}
       />
-      <Text style={{ color: focused ? 'red' : theme.primaryText,
+      <Text style={{ color: focused ? '#21408E' : theme.primaryText,
     fontSize: 12,
     
     letterSpacing: 0.12,
@@ -50,7 +50,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       style={{
         flexDirection: 'row',
         backgroundColor: theme.BackgroundSecondary,
-        padding:10
+       
       
       }}
     >
@@ -105,7 +105,7 @@ export default Navigator = () => {
       tabBar={(props) => <CustomTabBar {...props} />}
     >
       <Tab.Screen name="Home" component={Home}    options={{ headerShown: false }} />
-      <Tab.Screen name="Insight" component={Likes}   options={{ headerShown: false }}  />
+      <Tab.Screen name="Add Car" component={Likes}   options={{ headerShown: false }}  />
       <Tab.Screen name="Message" component={Messages}   options={{ headerShown: false }}  />
 
       <Tab.Screen name="Profile" component={Profile}    options={{ headerShown: false }} />

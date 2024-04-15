@@ -31,12 +31,12 @@ const CarItem = ({ car ,index}) => {
      <View style={styles.detailsContainer}>
 
         <View style={styles.row}>   
-        <Text style={styles.carName}>{car.name}</Text>
-        <Text style={styles.rating}>Rating: {car.rating}</Text>
+        <Text style={[styles.carName,{color:theme.primaryText}]}>{car.name}</Text>
+        <Text style={[styles.rating,{color:theme.PrimarylightText}]}>{car.rating}</Text>
         </View>
         <View style={styles.priceContainer}>
-          <Text style={styles.price}>{car.price}</Text>
-          <Text style={styles.carType}>{car.type}</Text>
+          <Text style={[styles.price,{color:theme.PrimarylightText}]}>{car.price}</Text>
+          <Text style={[styles.carType,{color:theme.PrimarylightText}]}>{car.type}</Text>
         </View>
       </View>
     </Pressable>
@@ -54,7 +54,7 @@ borderRadius:10
   },
   image: {
     width: '100%',
-    height: 150,
+    height: 100,
     borderRadius: 10,
     marginRight: 10,
     backgroundColor:"transparent"
@@ -64,16 +64,19 @@ row:{
     flexDirection:"row",
     justifyContent:"space-between",
     alignItems:"center",
-    marginTop:10
+    marginTop:10,
+    gap:10,
+    borderBottomWidth:1,
+    borderBottomColor:'#F3F2F3'
 },
 
   detailsContainer: {
-    paddingHorizontal:20,
+    paddingHorizontal:16,
     paddingVertical:10,
 
 },
   carName: {
-    fontSize:FONTSIZE.size_12,
+    fontSize:FONTSIZE.size_16,
     fontFamily:FONTFAMILY.Poppins_SemiBold,
     marginBottom: 5,
   },
@@ -85,7 +88,8 @@ row:{
   priceContainer: {
     flexDirection:"row",
     justifyContent:"space-between",
-    alignItems:"center"
+    alignItems:"center",
+    marginTop:10
   },
   price: {
     fontSize:FONTSIZE.size_12,

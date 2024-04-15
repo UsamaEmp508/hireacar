@@ -9,7 +9,7 @@ const Messages = () => {
   const themeContext = useContext(ThemeContext);
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-  const isLoading = true;
+  const isLoading = false;
 
 
   const dummyChatData = [
@@ -62,14 +62,14 @@ const Messages = () => {
     </View>
   );
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 <Text style={[styles.screen_title,{color:theme.primaryText}]}>Message</Text>
 
   
   <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-<Image source={require('../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
+<Image source={require('../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext.isDarkTheme ? '#FFF':null}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search chat here.....' placeholderTextColor={theme.PrimarylightText} />
 
 </View>

@@ -14,7 +14,7 @@ const Profile = () => {
 
  
   const handletoggletheme = themeContext?.toggleTheme
-
+console.log('toggle theme',handletoggletheme)
 
   return (
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width:100,
     height:100,
     borderRadius:100,
-    borderColor:'#167F71',
+    borderColor:'#21408E',
     borderWidth:4,
   },
   profile_name:{

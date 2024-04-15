@@ -65,7 +65,7 @@ const navigation = useNavigation()
     const renderItem = ({ item,index }) => (
       <Animated.View entering={FadeInUp.delay(200 * index)}>
       <Pressable onPress={()=>navigation.navigate('location',{name:item.title}) }>  
-      <View style={[styles.image_container,{backgroundColor:theme.BackgroundSecondary}]}>   
+      <View style={styles.image_container}>   
           <Image source={{uri:item.image}} style={styles.image} />
           
           </View>
