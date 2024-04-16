@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Text, Image, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Image, Pressable, ScrollView, FlatList } from 'react-native';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import { useNavigation } from '@react-navigation/native'; 
@@ -18,26 +18,19 @@ const CarItem = ({ car ,index}) => {
       // Navigate to CarDetails screen with the car id as parameter
       navigation.navigate('CarDetails', { id: car.id });
     };
-    const renderItem = ({ item }) => (
-      <Image source={item} style={styles.carouselImage} />
-    );
- 
+   
     return (
 
       <Animated.View entering={FadeInDown.delay(200 * index)}>
     <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
 
-      <Animated.Image source={car.image[0]} style={styles.image}  sharedTransitionTag={car.name} />
-     
-      <Carousel
-          data={car.image}
-          renderItem={renderItem}
-          sliderWidth={300}
-          itemWidth={300}
-          loop
-          autoplay
-          autoplayInterval={3000}
-        />
+    <Animated.Image source={car.image[0]} style={styles.image}  />  
+  
+
+
+  
+
+
      <View style={styles.detailsContainer}>
 
         <View style={styles.row}>   

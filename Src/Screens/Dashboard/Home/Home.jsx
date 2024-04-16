@@ -191,7 +191,8 @@ const Home = () => {
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
       />
-    </View>
+</View>
+
 
 
     <View style={styles.row}>

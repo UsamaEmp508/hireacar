@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome as an example
+import Feather from 'react-native-vector-icons/Feather'; // Import FontAwesome as an example
+import Ionicons from 'react-native-vector-icons/Ionicons'; // Import FontAwesome as an example
+
+
 
 import { ThemeContext } from '../../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../../Theme/Color';
@@ -30,7 +34,7 @@ console.log('toggle theme',handletoggletheme)
    
         <TouchableOpacity style={styles.tile} onPress={() => console.log('Edit Profile')}>
           <View style={styles.inner_tile_left}>  
-          <Icon name={themeContext?.isDarkTheme ? 'user' : 'user-o'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Feather name={themeContext?.isDarkTheme ? 'user' : 'user'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Edit Profile</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
@@ -38,7 +42,7 @@ console.log('toggle theme',handletoggletheme)
 
         <TouchableOpacity style={styles.tile} onPress={() => console.log('My Cars')}>
           <View style={styles.inner_tile_left}>  
-          <Icon name={themeContext?.isDarkTheme ? 'info-circle' : 'info-circle-o'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>My Cars</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />

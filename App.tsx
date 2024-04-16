@@ -7,6 +7,7 @@ import Route from "./Src/Navigation/Route";
 import { ApolloProvider } from "@apollo/client";
 import client from "./Src/Client/Client";
 import { Theme } from "./Src/Theme/ThemeContext";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -19,6 +20,7 @@ export default function App() {
   });
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>   
       <ThemeProvider theme={theme}> 
       <ApolloProvider client={client}> 
 
@@ -28,5 +30,6 @@ export default function App() {
    </Theme>  
    </ApolloProvider>
       </ThemeProvider>
+      </GestureHandlerRootView>
   );
 }

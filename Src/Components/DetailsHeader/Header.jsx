@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SharedElementStackParamList} from '../navigator/SharedElementNavigator';
 import AntDesign  from 'react-native-vector-icons/AntDesign';
-import Entypo  from 'react-native-vector-icons/Entypo';
+
 
 const Header = () => {
   const inset = useSafeAreaInsets();
@@ -20,14 +20,9 @@ const Header = () => {
         onPress={() => {
           navigation.goBack();
         }}>
-          <Entypo name="chevron-with-circle-left" size={32} color="black" />
+         <AntDesign name="arrowleft" size={32} color="#21408E" />
       </Pressable>
-      <Pressable
-        onPress={() => {
-          console.log('LIKE');
-        }}>
-           <AntDesign name="like2" size={32} color="black" />
-      </Pressable>
+      
     </Animated.View>
   );
 };
@@ -37,8 +32,9 @@ export default Header;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    left: 20,
-    right: 20,
+    left: 10,
+  top:30,
+ 
     zIndex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
