@@ -115,7 +115,7 @@ const Home = () => {
   
   ];
 
-  const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
+  
 
 
 
@@ -186,10 +186,11 @@ const Home = () => {
 <View>
       <FlatList
         data={carData}
-        renderItem={renderItem}
+        renderItem={({ item, index }) => <CarItem car={item} index={index} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
+      
       />
 </View>
 
@@ -206,7 +207,8 @@ const Home = () => {
 <View>
       <FlatList
         data={carData}
-        renderItem={renderItem}
+                renderItem={({ item, index }) => <CarItem car={item} index={index} />}
+
         keyExtractor={(item) => item.id}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal

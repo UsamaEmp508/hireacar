@@ -10,41 +10,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 25,
   },
-  header: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  logo_image: {
-    width: 70,
-    height: 70,
-  },
-  logo_Text: {
-    fontSize: FONTSIZE.size_30,
-    fontFamily: FONTFAMILY.Jost_SemiBold,
-    marginLeft: 3,
-  },
-  logo_subText: {
-    fontSize: FONTSIZE.size_11,
-    fontFamily: FONTFAMILY.Poppins_SemiBold,
-    textTransform: 'uppercase',
-    marginTop: -8,
-  },
-  started_heading: {
-    fontFamily: FONTFAMILY.Jost_SemiBold,
-    fontSize: FONTSIZE.size_24,
-    marginTop: SPACING.space_20,
-  },
-  started_SubHeading: {
-    fontFamily: FONTFAMILY.Mulish_Bold,
-    fontSize: FONTSIZE.size_14,
-    marginTop: SPACING.space_8,
-  },
-  form_container: {
-    marginTop: SPACING.space_16,
-  },
+ 
   input_container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -66,102 +32,93 @@ export const styles = StyleSheet.create({
       },
     }),
   },
-  input_image: {
-    width: 19,
-    height: 15,
-  },
-  Password_input_image: {
-    width: 15,
-    height: 20,
-  },
-  eye_Password_input_image:{
-width:20,
-height:20,
-  },
+ 
   input: {
     flex: 1,
     fontFamily: FONTFAMILY.Mulish_Bold,
     fontSize: FONTSIZE.size_14,
   },
-  errorText:{
-    color:'red',
-    fontFamily: FONTFAMILY.Mulish_Bold,
-    fontSize: FONTSIZE.size_14,
-    marginTop:SPACING.space_4
-  },
-  Button:{
-    marginTop:SPACING.space_20,
-    width:'100%',
-    paddingHorizontal: SPACING.space_8,
-    paddingVertical: SPACING.space_4,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    
-    borderRadius:BORDERRADIUS.radius_33,
-    backgroundColor:'#0961F5',
-    shadowColor: '#000',
-  shadowOffset: {
-    width: 1,
-    height: 2,
-  },
-  shadowOpacity: 0.8,
-  shadowRadius: 8,
-  elevation: 2
-  },
-  Button_inner_left:{
-    width:48,
-    height:48,
-    borderRadius:50,
-    backgroundColor:"#FFF",
-    justifyContent:'center',
-    alignItems:'center',
+  stepContainer: {
+    flexDirection: 'row',
    
+    borderBottomWidth: 1,
+    borderBottomColor: '#BDBDBD',
+    paddingBottom: 8,
   },
-  button_icon:{
-    width:21,
-    height:17
-  },
-  button_text:{
-    fontFamily: FONTFAMILY.Jost_SemiBold,
-    fontSize: FONTSIZE.size_18,
-    color:'#FFF',
-    textAlign:'center',
-    flex:1,
-  },
-  policy_check:{
-    flexDirection:'row',
-justifyContent:'space-between',
-    alignItems:"center",
-    marginTop:SPACING.space_15
-  },
-  Policy_text:{
-    fontFamily: FONTFAMILY.Mulish_Bold,
-    fontSize: FONTSIZE.size_14,
-  },
-  sign_link:{
-flexDirection:'row',
-justifyContent:'center',
-alignItems:'center',
-gap:3,
-marginTop:SPACING.space_10
+  stepNumber: {
+    fontSize: 16,
+  
+    fontFamily:FONTFAMILY.Poppins_Bold,
+    marginRight: 8,
+marginTop:5,
 
   },
-  already_account:{
-    fontFamily: FONTFAMILY.Mulish_Bold,
-    fontSize: FONTSIZE.size_14,
+  stepContent: {
+    flex: 1,
   },
-  Sign_in:{
-    fontFamily: FONTFAMILY.Mulish_Bold,
-    fontSize: FONTSIZE.size_14,
-    color:'#0961F5',
-   
-    textDecorationStyle: 'solid', // This is required for borderBottomWidth to work
-    borderBottomWidth: 2, 
-    borderColor:'#0961F5'
+  stepTitle: {
+    fontSize: 16,
+marginTop:5,
+    fontFamily:FONTFAMILY.Poppins_Bold,
 
+  },
+  stepDescription: {
+    fontSize: 14,
+    fontFamily:FONTFAMILY.Poppins_Medium,
+
+    width: 230,
+  },
+
+  label:{
+    fontSize: 18,
+    marginVertical:5,
+        fontFamily:FONTFAMILY.Poppins_Bold,
   },
   SLider_container:{
     marginVertical:30
-  }
+  },
+  progressContainer: {
+    borderWidth: 1,
+    borderColor: '#BDBDBD',
+    borderRadius: 6,
+    marginVertical: 16,
+  },
+  progressBar: {
+    borderRadius: 6,
+    height: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 16,
+  },
+  button: {
+    backgroundColor: '#D9D9D9',
+    borderRadius: 5,
+    padding: 12,
+    marginBottom: 6,
+    paddingHorizontal: 25,
+    paddingVertical: 8,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontFamily:FONTFAMILY.Poppins_Medium,
+
+    color: 'gray', // Default color for "Previous" button
+  },
+  note: {
+    fontSize: 14,
+    color: 'red',
+    marginBottom: 10,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 10,
+  },
 });

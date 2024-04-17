@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, View, Text, Image, Pressable, ScrollView, FlatList } from 'react-native';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
@@ -6,8 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { FONTSIZE } from '../../Theme/FontSize';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Animated, {FadeInDown} from 'react-native-reanimated';
-import Carousel from 'react-native-snap-carousel';
-const CarItem = ({ car ,index}) => {
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+
+const CarItem = ({ car,index}) => {
+  const [activeIndex, setActiveIndex] = useState(0);
  
     const themeContext = useContext(ThemeContext);
 
@@ -18,14 +20,21 @@ const CarItem = ({ car ,index}) => {
       // Navigate to CarDetails screen with the car id as parameter
       navigation.navigate('CarDetails', { id: car.id });
     };
+;
+  
    
     return (
 
       <Animated.View entering={FadeInDown.delay(200 * index)}>
     <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
 
-    <Animated.Image source={car.image[0]} style={styles.image}  />  
   
+    <Animated.Image
+            source={car.image[0]}
+            style={styles.image}
+            sharedTransitionTag={car?.name}
+          />
+   
 
 
   

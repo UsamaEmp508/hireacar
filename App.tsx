@@ -8,6 +8,8 @@ import { ApolloProvider } from "@apollo/client";
 import client from "./Src/Client/Client";
 import { Theme } from "./Src/Theme/ThemeContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message'
+
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -30,6 +32,10 @@ export default function App() {
    </Theme>  
    </ApolloProvider>
       </ThemeProvider>
+      <Toast
+position='top'
+bottomOffset={20}
+/>
       </GestureHandlerRootView>
   );
 }
