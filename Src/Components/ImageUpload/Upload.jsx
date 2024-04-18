@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { FONTFAMILY } from '../../Theme/FontFamily';
+import { Theme, ThemeContext } from '../../Theme/ThemeContext';
+import { darkTheme, lightTheme } from '../../Theme/Color';
 const containerName = 'carpictures';
 const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
 const sasToken =
@@ -36,6 +38,11 @@ const uploadImageToBlobStorage = async file => {
   }
 };
 const ImageUpload = ({onImageUrlsChange}) => {
+
+  const themeContext = useContext(ThemeContext);
+
+  const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+
   const [selectedImages, setSelectedImages] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
@@ -92,7 +99,7 @@ const ImageUpload = ({onImageUrlsChange}) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#EEECEC',
+          backgroundColor:theme.BackgroundSecondary,
           width: '100%',
           height: 228,
         }}>
@@ -100,7 +107,7 @@ const ImageUpload = ({onImageUrlsChange}) => {
           onPress={() => {
             openMediaPicker('photo');
           }}>
-          <Text style={{fontSize:14,fontFamily:FONTFAMILY.Poppins_Medium}}>Choose  photos</Text>
+          <Text style={{fontSize:14,fontFamily:FONTFAMILY.Poppins_Medium,color:theme.PrimarylightText}}>Choose  photos</Text>
         </TouchableOpacity>
       </View>
 

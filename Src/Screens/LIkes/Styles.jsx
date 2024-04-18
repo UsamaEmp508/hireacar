@@ -75,7 +75,7 @@ marginTop:5,
         fontFamily:FONTFAMILY.Poppins_Bold,
   },
   SLider_container:{
-    marginVertical:30
+    marginVertical:10,
   },
   progressContainer: {
     borderWidth: 1,
@@ -109,7 +109,8 @@ marginTop:5,
   },
   note: {
     fontSize: 14,
-    color: 'red',
+    fontFamily:FONTFAMILY.Poppins_Medium,
+
     marginBottom: 10,
   },
   inputContainer: {
@@ -121,4 +122,8 @@ marginTop:5,
     borderRadius: 5,
     padding: 10,
   },
+  dropdown:{
+    padding:10,
+borderRadius:10
+  }
 });

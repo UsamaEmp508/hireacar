@@ -6,20 +6,26 @@ import { darkTheme, lightTheme } from '../../Theme/Color'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { FONTFAMILY } from '../../Theme/FontFamily'
 import Animated, { FadeIn, FadeInDown, FadeInUp, useSharedValue } from 'react-native-reanimated';
-import { Slider } from 'react-native-awesome-slider';
+import  Slider  from 'react-native-slider';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
 import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
+import { CheckBox } from '@rneui/base'
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
-  const [dailyPrice, setDailyPrice] = useState(0);
-  const [monthlyPrice, setMonthlyPrice] = useState(0);
-  const [hourlyPrice, setHourlyPrice] = useState(0);
+  const progress = useSharedValue(100);
+
+  const [dailyPrice, setDailyPrice] = useState(100); // Initial daily price
+const [monthlyPrice, setMonthlyPrice] = useState(100); // Initial monthly price
+const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
+
   const [Gas, setGas] = useState(null);
   const [gearType, setGearType] = useState(null);
-  const [modelYear, setModelYear] = useState('');
+  const [modelYear, setModelYear] = useState([]);
+  const [City, setCity] = useState([]);
+
   const [transmission, setTransmission] = useState('');
   const [carType, setCarType] = useState('');
   const [Color, setColor] = useState(null);
@@ -35,12 +41,8 @@ const Likes = () => {
   const totalSteps = 4; // Total number of steps
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-  const [open, setOpen] = useState(false);
-  const [role, setrole] = useState();
-  const progress = useSharedValue(30);
-  const min = useSharedValue(0);
-  const max = useSharedValue(100);
-const [adminRef,SetadminRef] = useState()
+  const min = 100;
+  const max = 100000;
   const [items, setItems] = useState([
     { label: 'Karachi', value: 'Karachi' },
     { label: 'Lahore', value: 'Lahore' },
@@ -156,7 +158,7 @@ const [adminRef,SetadminRef] = useState()
   );
     
   return (
-    <KeyboardAwareScrollView  style={styles.container}>
+    <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 
@@ -194,44 +196,29 @@ const [adminRef,SetadminRef] = useState()
 {currentStep === 1 && (
 
 
-<Animated.View  entering={FadeInUp.delay(800)} style={{marginTop:20}}>
 
-<DropDownPicker
-open={open}
-value={role}
-items={items}
+<Animated.View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
+  <Picker
+    selectedValue={City}
+    onValueChange={(value) => setCity(value)}
+    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10,color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}]}
+    itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,color:theme.PrimarylightText}}
+    selectionColor={theme.primaryText}
+    mode='dropdown'
+    dropdownIconColor='#21408E'
+  >
+    {items.map((item, index) => (
+      <Picker.Item label={item.label} value={item.value} key={index} />
+    ))}
+  </Picker>
+</Animated.View>
 
-setOpen={setOpen}
-setValue={setrole}
-setItems={setItems}
-stickyHeader={true}
-style={{
-  backgroundColor: theme.input_Background,
-  borderRadius:12,
-  paddingHorizontal:18,
-  paddingVertical:2,
-borderWidth:1,
-  marginVertical:12,
-  borderColor: '#000',
-marginBottom:100
-}}
-labelStyle={{
-    fontFamily: FONTFAMILY.Poppins_Medium,
 
-}}
-textStyle={{
-  fontSize: 14,
-  fontFamily: FONTFAMILY.Poppins_Medium,
-
-}}
-
-/>
-  </Animated.View>
 )}
 
 {currentStep === 2 && (
 <Animated.View  entering={FadeInUp.delay(800)} style={{marginTop:20}} >  
-<Text style={styles.label}> Add some photos of your car   </Text>
+<Text style={[styles.label,{color:theme.primaryText}]}> Add some photos of your car   </Text>
 
 
 
@@ -245,15 +232,16 @@ textStyle={{
 
 
 <Animated.View entering={FadeInUp.delay(800)} style={{marginTop:20}}>
-      <Text style={styles.label}>Select Your Car's Information</Text>
+      <Text style={[styles.label,{color:theme.primaryText}]}>Select Your Car's Information</Text>
 
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Car Brand</Text>
-        <Text style={styles.note}>Note: If the car brand is not available, please enter your custom brand name.</Text>
+        <Text style={[styles.label,{color:theme.primaryText}]}>Car Brand</Text>
+        <Text style={[styles.note,{color:theme.PrimarylightText}]}>Note: If the car brand is not available, please enter your custom brand name.</Text>
         <Picker
-        style={styles.input}
+       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
+       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
         selectedValue={CarBrand}
-       mode='dialog'
+       mode='dropdown'
        onValueChange={value => setCarBrand(value)}>
         
         {carBrandOptions.map((brand, index) => (
@@ -262,25 +250,27 @@ textStyle={{
       </Picker>
       </View>
 
-      {CarBrand && (
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Model Year</Text>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Model Year</Text>
           <Picker
-        style={styles.input}
+       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
+       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
         selectedValue={modelYear}
+       mode='dropdown'
+
         onValueChange={value => setModelYear(value)}>
-        {modelYear.map((brand, index) => (
+          
+        {yearOptions.map((brand, index) => (
           <Picker.Item key={index} label={brand.label} value={brand.value} />
         ))}
       </Picker>
         </View>
-      )}
 
-      {modelYear && (
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Runs On</Text>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Runs On</Text>
           <Picker
-        style={styles.input}
+    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
+    itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
         selectedValue={Gas}
         onValueChange={value => setGas(value)}>
         {gasOptions.map((brand, index) => (
@@ -288,13 +278,13 @@ textStyle={{
         ))}
       </Picker>
         </View>
-      )}
 
-      {Gas && (
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Transmission</Text>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Transmission</Text>
           <Picker
-        style={styles.input}
+      style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
+      itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
+      mode='dropdown'
         selectedValue={transmission}
         onValueChange={value => setTransmission(value)}>
         {transmissionOptions.map((brand, index) => (
@@ -302,11 +292,10 @@ textStyle={{
         ))}
       </Picker>
         </View>
-      )}
 
-      {transmission && (
+      
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Car Type</Text>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Car Type</Text>
           {carTypeOptions.map((option) => (
         <CheckBox
           key={option.value}
@@ -315,16 +304,142 @@ textStyle={{
           onPress={() => setCarType(option.value)}
           checkedIcon="dot-circle-o"
           uncheckedIcon="circle-o"
+          checkedColor='#21408E'
+          uncheckedColor={theme.PrimarylightText}
+          textStyle={{color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Regular}}
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
         />
       ))}
         </View>
-      )}
     </Animated.View>
 
     )}
 
 
+{currentStep === 4 && (
 
+
+<Animated.View entering={FadeInUp.delay(800)} style={{marginTop:20}}>
+      <Text style={[styles.label,{color:theme.primaryText}]}>Select Your cars Price</Text>
+
+      <View style={styles.inputContainer}>
+        <Text style={[styles.label,{color:theme.primaryText}]}>Car Color</Text>
+        <Picker
+       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
+       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
+        selectedValue={Color}
+       mode='dropdown'
+       onValueChange={value => setColor(value)}>
+        
+        {carColorOptions.map((brand, index) => (
+          <Picker.Item key={index} label={brand.label} value={brand.value} />
+        ))}
+      </Picker>
+      </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Driver Option</Text>
+          {driverOptions.map((option) => (
+          <CheckBox
+          key={option.value}
+          title={option.label}
+          checked={Driver === option.value}
+          onPress={() => setDriver(option.value)}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
+          checkedColor='#21408E'
+          uncheckedColor={theme.PrimarylightText}
+          textStyle={{color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Regular}}
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+        />
+          ))}
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Hourly Price</Text>
+          <Slider
+  style={styles.slider}
+  minimumValue={min}
+  step={100}
+  maximumValue={max}
+  value={hourlyPrice}
+  onValueChange={(value) => setHourlyPrice(value)}
+  minimumTrackTintColor="#21408E"
+  maximumTrackTintColor="#fff"
+  thumbTintColor="#21408E"
+/>
+<Text style={[styles.note,{color:theme.PrimarylightText}]}>  {hourlyPrice}/pkr </Text>
+
+        </View>
+
+       
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Daily Price</Text>
+          <Slider
+  style={styles.slider}
+  minimumValue={min}
+  step={100}
+  maximumValue={max}
+  value={dailyPrice}
+  onValueChange={(value) => setDailyPrice(value)}
+  minimumTrackTintColor="#21408E"
+  maximumTrackTintColor="#fff"
+  thumbTintColor="#21408E"
+/>
+<Text style={[styles.note,{color:theme.PrimarylightText}]}>  {dailyPrice}/pkr </Text>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.label,{color:theme.PrimarylightText}]}>Monthly Price</Text>
+          <Slider
+  style={styles.slider}
+  minimumValue={min}
+  step={100}
+  maximumValue={max}
+  value={monthlyPrice}
+  onValueChange={(value) => setMonthlyPrice(value)}
+  minimumTrackTintColor="#21408E"
+  maximumTrackTintColor="#fff"
+  thumbTintColor="#21408E"
+/>
+<Text style={[styles.note,{color:theme.PrimarylightText}]}>  {monthlyPrice}/pkr </Text>
+
+        </View>
+      
+
+        <Text style={[styles.label,{color:theme.PrimarylightText}]}>Description</Text>
+        <View style={[styles.input_container, { backgroundColor: theme.BackgroundSecondary, marginVertical: 10,  borderColor: '#000',
+            borderWidth:1 }]}>
+          
+              <TextInput
+                style={ { color: theme.PrimarylightText,flex:1 }}
+               
+                placeholderTextColor={theme.PrimarylightText}
+              multiline={true}
+              numberOfLines={6}
+              />
+             
+            </View>
+
+
+
+        <TouchableOpacity
+      
+        style={{
+          backgroundColor: '#21408E',
+          borderRadius: 5,
+        
+          border: 'transpaernt',
+          paddingVertical: 8,
+          paddingHorizontal: 8,
+marginVertical:15,
+          fontSize: 16,
+        }}>
+        <Text style={{color: 'white',fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,textAlign:"center"}}>Submit</Text>
+      </TouchableOpacity>
+    
+    </Animated.View>
+
+    )}
     <View style={styles.progressContainer}>
       <View style={[styles.progressBar, { width: `${progressPercentage}%`, backgroundColor: currentStep === totalSteps && monthlyPrice ? 'green' : '#21408E' }]} />
     </View>
@@ -332,7 +447,7 @@ textStyle={{
       {/* Show the "Previous" button if the current step is greater than 0 */}
       {currentStep > 0 && (
         <TouchableOpacity onPress={handlePrevious} style={styles.button}>
-          <Text style={styles.buttonText}>Previous</Text>
+          <Text style={[styles.buttonText,{color:'#000'}]}>Previous</Text>
         </TouchableOpacity>
       )}
       {/* Show the "Next" button if the current step is not the last step */}

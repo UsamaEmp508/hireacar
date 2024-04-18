@@ -10,7 +10,7 @@ import { darkTheme, lightTheme } from '../../Theme/Color';
 import MapView from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // Import FontAwesome as an example
-import { Avatar, ListItem } from '@rneui/base';
+import { Avatar, Icon, ListItem } from '@rneui/base';
 import { BORDERRADIUS } from '../../Theme/BorderRadius';
 import { SPACING } from '../../Theme/Spacing';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // Import FontAwesome as an example
@@ -54,7 +54,7 @@ const Details = ({ data }) => {
       // Scroll back to the first item after a delay
       setTimeout(() => {
         carouselRef.current.snapToItem(0);
-      }, 2000); // Adjust the delay as needed
+      }, 1000); // Adjust the delay as needed
     }
   };
   return (
@@ -111,59 +111,59 @@ const Details = ({ data }) => {
       <Text style={[styles.carName,{color:theme.primaryText,marginVertical:10}]}> Features and Classifications  </Text>  
 
       <View style={styles.infoRow}>
-      <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+      <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-        <Text style={styles.priceHeading}>Year: 2023</Text>
+        <Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Year: 2023</Text>
 </View>
 
 
 <View style={styles.infoRow}>
 
-<Ionicons name={'color-palette-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<Ionicons name={'color-palette-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Color: Black</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Color: Black</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<Ionicons name={'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<Ionicons name={'car-sport-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Car Type: 4WD</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Car Type: 4WD</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Transmission: Automatic</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Transmission: Automatic</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<FontAwesome6 name={'person'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<FontAwesome6 name={'person'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Driver: Available</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Driver: Available</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<MaterialCommunityIcons name={'gas-station-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<MaterialCommunityIcons name={'gas-station-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Gas: Diesel</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Gas: Diesel</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<MaterialCommunityIcons name={'city'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<MaterialCommunityIcons name={'city'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>City: Lahore</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>City: Lahore</Text>
 </View>
 
 <View style={styles.infoRow}>
 
-<MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+<MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={styles.priceHeading}>Availability: Available</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Availability: Available</Text>
 </View>
 
 
@@ -212,18 +212,22 @@ longitudeDelta: 0.0421,
 
 <ListItem.Accordion
   content={
-    <ListItem.Content>
-      <ListItem.Title style={styles.priceHeading}>How can I rent a car?</ListItem.Title>
+
+    <ListItem.Content  style={{backgroundColor:theme.BackgroundSecondary}}>
+      <ListItem.Title style={[styles.priceHeading,{color:theme.primaryText}]}>How can I rent a car?</ListItem.Title>
     </ListItem.Content>
   }
   isExpanded={expanded}
   onPress={() => {
     setExpanded(!expanded);
   }}
+  expandIcon={{color:theme.primaryText}}
+  
+  containerStyle={{backgroundColor:theme.BackgroundSecondary,color:theme.PrimarylightText}}
 >
-  <ListItem>
-    <ListItem.Content>
-      <ListItem.Title style={styles.priceSubHeading}>To rent a car, you can simply browse our available cars, select the one you like, and proceed with the booking process. Make sure to provide all necessary details and complete the payment to confirm your reservation.</ListItem.Title>
+  <ListItem  containerStyle={{backgroundColor:theme.BackgroundSecondary}}>
+    <ListItem.Content  style={{backgroundColor:theme.BackgroundSecondary}}>
+      <ListItem.Title style={[styles.priceSubHeading,,{color:theme.PrimarylightText}]}>To rent a car, you can simply browse our available cars, select the one you like, and proceed with the booking process. Make sure to provide all necessary details and complete the payment to confirm your reservation.</ListItem.Title>
     </ListItem.Content>
   </ListItem>
 </ListItem.Accordion>
@@ -231,17 +235,19 @@ longitudeDelta: 0.0421,
 <ListItem.Accordion
   content={
     <ListItem.Content>
-      <ListItem.Title style={styles.priceHeading}>What documents do I need to rent a car?</ListItem.Title>
+      <ListItem.Title style={[styles.priceHeading,{color:theme.primaryText}]}>What documents do I need to rent a car?</ListItem.Title>
     </ListItem.Content>
   }
   isExpanded={expanded1}
   onPress={() => {
     setExpanded1(!expanded1);
   }}
+  containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+
 >
-  <ListItem>
+  <ListItem containerStyle={{backgroundColor:theme.BackgroundSecondary}}>
     <ListItem.Content>
-      <ListItem.Title style={styles.priceSubHeading}>Typically, you'll need a valid driver's license, a credit card for payment, and sometimes additional identification documents. Make sure to check our specific requirements or contact our customer support for more details.</ListItem.Title>
+      <ListItem.Title style={[styles.priceSubHeading,,{color:theme.PrimarylightText}]}>Typically, you'll need a valid driver's license, a credit card for payment, and sometimes additional identification documents. Make sure to check our specific requirements or contact our customer support for more details.</ListItem.Title>
     </ListItem.Content>
   </ListItem>
 </ListItem.Accordion>
@@ -249,17 +255,19 @@ longitudeDelta: 0.0421,
 <ListItem.Accordion
   content={
     <ListItem.Content>
-      <ListItem.Title style={styles.priceHeading}>Can I modify or cancel my reservation?</ListItem.Title>
+      <ListItem.Title style={[styles.priceHeading,{color:theme.primaryText}]}>Can I modify or cancel my reservation?</ListItem.Title>
     </ListItem.Content>
   }
   isExpanded={expanded2}
   onPress={() => {
     setExpanded2(!expanded2);
   }}
+  containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+
 >
-  <ListItem>
+  <ListItem containerStyle={{backgroundColor:theme.BackgroundSecondary}}>
     <ListItem.Content>
-      <ListItem.Title style={styles.priceSubHeading}>Yes, you can modify or cancel your reservation, depending on our policies. Please check the terms and conditions at the time of booking. Some reservations may be subject to cancellation fees.</ListItem.Title>
+      <ListItem.Title style={[styles.priceSubHeading,,{color:theme.PrimarylightText}]}>Yes, you can modify or cancel your reservation, depending on our policies. Please check the terms and conditions at the time of booking. Some reservations may be subject to cancellation fees.</ListItem.Title>
     </ListItem.Content>
   </ListItem>
 </ListItem.Accordion>
@@ -267,17 +275,19 @@ longitudeDelta: 0.0421,
 <ListItem.Accordion
   content={
     <ListItem.Content>
-      <ListItem.Title style={styles.priceHeading}>What if I return the car late?</ListItem.Title>
+      <ListItem.Title style={[styles.priceHeading,{color:theme.primaryText}]}>What if I return the car late?</ListItem.Title>
     </ListItem.Content>
   }
   isExpanded={expanded3}
   onPress={() => {
     setExpanded3(!expanded3);
   }}
+  containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+
 >
-  <ListItem>
+  <ListItem containerStyle={{backgroundColor:theme.BackgroundSecondary}}>
     <ListItem.Content>
-      <ListItem.Title style={styles.priceSubHeading}>If you return the car late, you may incur additional charges. We recommend returning the car on time to avoid any extra fees. However, if you foresee a delay, please contact our support team to discuss your options.</ListItem.Title>
+      <ListItem.Title style={[styles.priceSubHeading,,{color:theme.PrimarylightText}]}>If you return the car late, you may incur additional charges. We recommend returning the car on time to avoid any extra fees. However, if you foresee a delay, please contact our support team to discuss your options.</ListItem.Title>
     </ListItem.Content>
   </ListItem>
 </ListItem.Accordion>
@@ -298,9 +308,9 @@ longitudeDelta: 0.0421,
             }}
           />
         <View style={styles.sectionContent}>
-          <Text style={styles.priceSubHeading}>Offroad Arcade</Text>
-          <Text style={styles.priceSubHeading}>anunegyal@gmail.com</Text>
-          <Text style={styles.priceSubHeading}>17374749</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>Offroad Arcade</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>anunegyal@gmail.com</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>17374749</Text>
         </View>
         <View style={styles.iconContainer}>
           <TouchableOpacity >
