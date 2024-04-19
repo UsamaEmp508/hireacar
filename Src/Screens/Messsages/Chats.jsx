@@ -1,16 +1,17 @@
-import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
 import { styles } from './Styles'
 import { lightTheme, darkTheme } from '../../Theme/Color';
 import { ThemeContext } from '../../Theme/ThemeContext';
 import {Skeleton} from '@rneui/themed';
-const Messages = () => {
+import { useNavigation } from '@react-navigation/native';
+const Chats = () => {
 
   const themeContext = useContext(ThemeContext);
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const isLoading = false;
-
+const  navigation = useNavigation()
 
   const dummyChatData = [
     {
@@ -40,7 +41,7 @@ const Messages = () => {
   
   
   const renderItem = ({ item }) => (
-    <View style={styles.messageContainer}>
+    <Pressable style={styles.messageContainer} onPress={()=> navigation.navigate('Messages')}>
 <View style={styles.left_message}>   
   <Image source={item.image} style={styles.image} />
       <View>   
@@ -59,7 +60,7 @@ const Messages = () => {
 
    </View>
      
-    </View>
+    </Pressable>
   );
   return (
     <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
@@ -136,5 +137,5 @@ const Messages = () => {
   )
 }
 
-export default Messages
+export default Chats
 

@@ -11,11 +11,11 @@ import { darkTheme, lightTheme } from '../../../Theme/Color';
 import { SPACING } from '../../../Theme/Spacing';
 import { FONTSIZE } from '../../../Theme/FontSize';
 import { FONTFAMILY } from '../../../Theme/FontFamily';
-
+import { useNavigation } from '@react-navigation/native';
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-
+const navigation = useNavigation()
  
   const handletoggletheme = themeContext?.toggleTheme
 console.log('toggle theme',handletoggletheme)
@@ -47,6 +47,26 @@ console.log('toggle theme',handletoggletheme)
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
+
+
+
+        <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('PrivacyPolicy') }>
+          <View style={styles.inner_tile_left}>  
+          <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Privacy Policy</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
+
+
+        <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('TermsCondition')}>
+          <View style={styles.inner_tile_left}>  
+          <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Terms and Condition</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
+
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>
           <View style={styles.inner_tile_left}>  

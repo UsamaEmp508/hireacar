@@ -4,6 +4,11 @@ export default {
    Car:"Car",
    Brand:"Brand",
    location:"location",
+   PrivacyPolicy:"PrivacyPolicy",
+   TermsCondition:"TermsCondition",
+   Messages:"Messages",
+
+
 
 
 }

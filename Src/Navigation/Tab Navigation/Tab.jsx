@@ -7,7 +7,8 @@ import Profile from '../../Screens/Dashboard/Profile/Profile';
 import Likes from '../../Screens/LIkes/Likes';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import Home from '../../Screens/Dashboard/Home/Home';
-import Messages from '../../Screens/Messsages/Messages';
+import Chats from '../../Screens/Messsages/Chats';
+
 import Icon from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -27,7 +28,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     let icon;
     if (route.name === 'Home') {
       icon = <Icon name="home" size={20} color={focused ? '#21408E' : theme.primaryText} />;
-    } else if (route.name === 'Message') {
+    } else if (route.name === 'Chats') {
       icon = <Entypo name="chat" size={20} color={focused ? '#21408E' : theme.primaryText} />;
 
     } else if (route.name === 'Add Car') {
@@ -110,7 +111,7 @@ export default Navigator = () => {
     >
       <Tab.Screen name="Home" component={Home}    options={{ headerShown: false }} />
       <Tab.Screen name="Add Car" component={Likes}   options={{ headerShown: false }}  />
-      <Tab.Screen name="Message" component={Messages}   options={{ headerShown: false }}  />
+      <Tab.Screen name="Chats" component={Chats}   options={{ headerShown: false }}  />
 
       <Tab.Screen name="Profile" component={Profile}    options={{ headerShown: false }} />
     </Tab.Navigator>

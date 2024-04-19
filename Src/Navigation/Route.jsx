@@ -5,6 +5,9 @@ import navgiationStrings from '../Constant/navgiationStrings';
 import { Brand, CarDetails, Slider } from '../Screens';
 import Navigator from './Tab Navigation/Tab'
 import LocationCars from '../Screens/Dashboard/Home/Location/Location';
+import Policy from '../Screens/Dashboard/Profile/PrivacyPolicy/Policy';
+import Terms from '../Screens/Dashboard/Profile/Terms and Condition/Terms';
+import Messages from '../Screens/Messsages/Mesages/Messages';
 const Route = () => {
 
     const Stack = createNativeStackNavigator();
@@ -18,6 +21,11 @@ const Route = () => {
           <Stack.Screen name={navgiationStrings.CarDetails} component={CarDetails} options={{ animation: 'slide_from_right'}} />
           <Stack.Screen name={navgiationStrings.Brand} component={Brand} options={{ animation: 'fade_from_bottom'}} />
           <Stack.Screen name={navgiationStrings.location} component={LocationCars} options={{ animation: 'fade_from_bottom'}} />
+
+          <Stack.Screen name={navgiationStrings.PrivacyPolicy} component={Policy} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={navgiationStrings.TermsCondition} component={Terms} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={navgiationStrings.Messages} component={Messages} options={{ animation: 'fade_from_bottom'}} />
+
 
  
     </Stack.Navigator>
