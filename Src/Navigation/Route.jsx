@@ -8,6 +8,8 @@ import LocationCars from '../Screens/Dashboard/Home/Location/Location';
 import Policy from '../Screens/Dashboard/Profile/PrivacyPolicy/Policy';
 import Terms from '../Screens/Dashboard/Profile/Terms and Condition/Terms';
 import Messages from '../Screens/Messsages/Mesages/Messages';
+import MyCar from '../Screens/Dashboard/Profile/MyCar/MyCar';
+import EditProfile from '../Screens/Dashboard/Profile/EditProfile/EditProfile';
 const Route = () => {
 
     const Stack = createNativeStackNavigator();
@@ -26,7 +28,10 @@ const Route = () => {
           <Stack.Screen name={navgiationStrings.TermsCondition} component={Terms} options={{ animation: 'fade_from_bottom'}} />
           <Stack.Screen name={navgiationStrings.Messages} component={Messages} options={{ animation: 'fade_from_bottom'}} />
 
+          <Stack.Screen name={navgiationStrings.MyCar} component={MyCar} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={navgiationStrings.EditProfile} component={EditProfile} options={{ animation: 'fade_from_bottom'}} />
 
+          
  
     </Stack.Navigator>
     </NavigationContainer>

@@ -7,6 +7,10 @@ export default {
    PrivacyPolicy:"PrivacyPolicy",
    TermsCondition:"TermsCondition",
    Messages:"Messages",
+   MyCar:"MyCar",
+   EditProfile:"EditProfile",
+
+
 
 
 

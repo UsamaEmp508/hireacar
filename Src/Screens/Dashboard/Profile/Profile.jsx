@@ -32,7 +32,7 @@ console.log('toggle theme',handletoggletheme)
         </Text>
 
    
-        <TouchableOpacity style={styles.tile} onPress={() => console.log('Edit Profile')}>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('EditProfile')}>
           <View style={styles.inner_tile_left}>  
           <Feather name={themeContext?.isDarkTheme ? 'user' : 'user'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Edit Profile</Text>
@@ -40,7 +40,7 @@ console.log('toggle theme',handletoggletheme)
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tile} onPress={() => console.log('My Cars')}>
+        <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('MyCar')}>
           <View style={styles.inner_tile_left}>  
           <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>My Cars</Text>

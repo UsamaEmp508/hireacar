@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   header:{
     flexDirection:'row',
     alignItems:'center',
-    gap:SPACING.space_36,
+    gap:60,
     marginTop:SPACING.space_4,
   },
   heading:{

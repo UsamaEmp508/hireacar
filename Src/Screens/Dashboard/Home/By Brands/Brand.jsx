@@ -4,6 +4,7 @@ import CarItem from '../../../../Components/Car Card/Card';
 import { styles } from './Style';
 import { lightTheme, darkTheme } from '../../../../Theme/Color';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
+import Header from '../../../../Components/Header/Header';
 const Brand = ({route}) => {
   const { name } = route.params;
   const themeContext = useContext(ThemeContext);
@@ -133,14 +134,15 @@ const Brand = ({route}) => {
    
 const selectedbrands = carData.filter((data)=> data.brand === name)
 
-console.log('brands data ',selectedbrands)
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
 
   return (
     <View style={styles.container}>
 
-<Text style={[styles.screen_title,{color:theme.primaryText}]}>Cars By Brands</Text>
+
+<Header text={'Cars By Brands'}  />
+
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 

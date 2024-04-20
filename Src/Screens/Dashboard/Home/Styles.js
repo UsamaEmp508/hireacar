@@ -10,6 +10,45 @@ export const styles = StyleSheet.create({
     paddingHorizontal:SPACING.space_20
       
     },
+
+    Header_Profile:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    paddingVertical:10
+  
+
+
+      },
+      image_profile:{
+        width:50,
+        height:50,
+        borderRadius:50,
+        borderColor:'#21408E',
+        borderWidth:4,
+      },
+      image:{
+        width:35,
+        height:35,
+       
+      },
+      header_text:{
+
+        
+        fontFamily:'Inter_600SemiBold',
+        display: 'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        textAlign:'center',
+    fontStyle:"normal",
+    fontSize:18,
+    lineHeight:22,
+    fontWeight:"700",
+    textAlign:"center",
+    color:"#212325;"
+      },
+    
+
     header: {
      
     marginTop:SPACING.space_20,

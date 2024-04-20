@@ -7,13 +7,14 @@ import Brands from '../../../Components/BrandByCars/Brand';
 
 import CarItem from '../../../Components/Car Card/Card';
 import Location from '../../../Components/Location/Location';
-
+import { useNavigation } from '@react-navigation/native';
 const Home = () => {
 
     const themeContext = useContext(ThemeContext);
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
+  const navigation = useNavigation()
 
 
   const carData = [
@@ -122,7 +123,16 @@ const Home = () => {
   return (
     <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 {/* header */}
+<View style={styles.Header_Profile}>
+<View >
+          <Image source={require('../../../Assets/Images/Message/image1.jpg')} style={styles.image_profile} />
+        </View>
 
+<TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+  <Image source={require('../../../Assets/Images/notifiaction.png')} style={[styles.image,{tintColor:'#1F4590'}]} />
+</TouchableOpacity>
+
+   </View>
 
 
 <Text style={[styles.Header_heading,{color:theme.primaryText}]}>Hello Johnson</Text>

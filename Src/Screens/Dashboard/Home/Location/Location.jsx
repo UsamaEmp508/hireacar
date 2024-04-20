@@ -4,6 +4,7 @@ import CarItem from '../../../../Components/Car Card/Card';
 import { styles } from './Style';
 import { lightTheme, darkTheme } from '../../../../Theme/Color';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
+import Header from '../../../../Components/Header/Header';
 const LocationCars = ({route}) => {
   const { name } = route.params;
   const themeContext = useContext(ThemeContext);
@@ -152,12 +153,14 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
   return (
     <View style={styles.container}>
 
-<Text style={[styles.screen_title,{color:theme.primaryText}]}>Cars By Location</Text>
+
+<Header text={'Cars By Location'} />
+
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
 <Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
-<TextInput inputMode='text' style={styles.left_input} placeholder='Search chat here.....' placeholderTextColor={theme.PrimarylightText} />
+<TextInput inputMode='text' style={styles.left_input} placeholder='Search Car here.....' placeholderTextColor={theme.PrimarylightText} />
 
 </View>
 
