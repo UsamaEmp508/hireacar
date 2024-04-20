@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "react-native";
 import { ThemeProvider, createTheme } from '@rneui/themed';
 import { FONTFAMILY } from "./Src/Theme/FontFamily";
@@ -20,6 +20,9 @@ export default function App() {
     },
     mode: 'light',
   });
+
+
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>   

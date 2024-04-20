@@ -10,12 +10,14 @@ import Terms from '../Screens/Dashboard/Profile/Terms and Condition/Terms';
 import Messages from '../Screens/Messsages/Mesages/Messages';
 import MyCar from '../Screens/Dashboard/Profile/MyCar/MyCar';
 import EditProfile from '../Screens/Dashboard/Profile/EditProfile/EditProfile';
+import Login from '../Screens/Auth/Login/Login';
 const Route = () => {
 
     const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>   
     <Stack.Navigator screenOptions={{ headerShown: false }} >
+    <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
     
           <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
           <Stack.Screen name={navgiationStrings.Slider} component={Slider}   options={{ animation: 'slide_from_right'}} />
