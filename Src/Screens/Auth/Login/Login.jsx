@@ -4,8 +4,11 @@ import { styles } from './Style'
 import { ThemeContext } from '../../../Theme/ThemeContext'
 import { lightTheme,darkTheme } from '../../../Theme/Color'
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-const Login = () => {
+import { ChatState } from '../../../Context/ChatProvider'
 
+const Login = ({navigation}) => {
+
+const { selectedChat, setSelectedChat, user, notification, setNotification,chats,setChats,LoginUserId,setUser} = ChatState();
     
     const themeContext = useContext(ThemeContext);
 
@@ -24,7 +27,21 @@ const googleLogin = async () => {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
         console.log("userinfo", userInfo);
+       
+          if(userInfo)
 
+          {
+            const newUser = {
+                googleId: userInfo.user.id,
+                displayName: userInfo.user.name,
+                email: userInfo.user.email,
+                photoLink: userInfo.user.photo,
+                
+            
+              };
+              setUser(newUser);
+              navigation.navigate('dashboard')
+          }
     } catch (error) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             console.log(error)

@@ -11,6 +11,8 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 const CarItem = ({ car,index}) => {
   const [activeIndex, setActiveIndex] = useState(0);
  
+
+
     const themeContext = useContext(ThemeContext);
 
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
@@ -30,7 +32,7 @@ const CarItem = ({ car,index}) => {
 
   
     <Animated.Image
-            source={car.image[0]}
+            source={{uri:car.photos[1]}}
             style={styles.image}
             sharedTransitionTag={car?.name}
           />
@@ -44,12 +46,21 @@ const CarItem = ({ car,index}) => {
 
         <View style={styles.row}>   
         <Text style={[styles.carName,{color:theme.primaryText}]}>{car.name}</Text>
-        <Text style={[styles.rating,{color:theme.PrimarylightText}]}>{car.rating}</Text>
+        <Text style={[styles.rating,{color:theme.PrimarylightText}]}>4.5</Text>
         </View>
         <View style={styles.priceContainer}>
-          <Text style={[styles.price,{color:theme.PrimarylightText}]}>{car.price}</Text>
-          <Text style={[styles.carType,{color:theme.PrimarylightText}]}>{car.type}</Text>
+          <Text style={[styles.price,{color:theme.PrimarylightText}]}>{car.hourlyPrice}</Text>
+          <Text style={[styles.carType,{color:theme.PrimarylightText}]}>{car.carType}</Text>
+          <Text style={[styles.carType,{color:theme.PrimarylightText}]}>{car.gearType}</Text>
+    
+
+
         </View>
+        <View style={styles.priceContainer}>
+
+          <Text style={[styles.carType,{color:theme.PrimarylightText}]}>{car.gas}</Text>
+
+          </View>
       </View>
     </Pressable>
 
@@ -60,7 +71,7 @@ const CarItem = ({ car,index}) => {
 const styles = StyleSheet.create({
   container: {
   
- 
+width:200,
 borderRadius:10,
 overflow:'hidden',
 

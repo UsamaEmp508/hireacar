@@ -1,4 +1,4 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './Styles';
 import { ThemeContext } from '../../../Theme/ThemeContext';
@@ -8,14 +8,18 @@ import Brands from '../../../Components/BrandByCars/Brand';
 import CarItem from '../../../Components/Car Card/Card';
 import Location from '../../../Components/Location/Location';
 import { useNavigation } from '@react-navigation/native';
-const Home = () => {
+import { GET_ALL_CARS } from '../../../Service/Queries';
+import { useQuery } from '@apollo/client';
 
+const Home = () => {
+  const { loading, error, data } = useQuery(GET_ALL_CARS);
     const themeContext = useContext(ThemeContext);
 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
   const navigation = useNavigation()
-
+  if (loading) return <ActivityIndicator />;
+  if (error) return <Text>Error fetching data</Text>;
 
   const carData = [
     {
@@ -119,7 +123,6 @@ const Home = () => {
   
 
 
-
   return (
     <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 {/* header */}
@@ -195,7 +198,7 @@ const Home = () => {
 </View>
 <View>
       <FlatList
-        data={carData}
+        data={data.cars}
         renderItem={({ item, index }) => <CarItem car={item} index={index} />}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{gap:10,marginVertical:10}}
@@ -216,7 +219,8 @@ const Home = () => {
 
 <View>
       <FlatList
-        data={carData}
+               data={data.cars}
+
                 renderItem={({ item, index }) => <CarItem car={item} index={index} />}
 
         keyExtractor={(item) => item.id}

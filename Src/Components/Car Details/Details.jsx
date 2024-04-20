@@ -7,7 +7,7 @@ import Header from '../DetailsHeader/Header';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; // Import FontAwesome as an example
 import { Avatar, Icon, ListItem } from '@rneui/base';
@@ -36,7 +36,7 @@ const Details = ({ data }) => {
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const renderPagination = () => (
     <Pagination
-      dotsLength={data?.image.length}
+      dotsLength={data?.photos.length}
       activeDotIndex={activeIndex}
       containerStyle={styles.paginationContainer}
       dotStyle={styles.paginationDot}
@@ -50,7 +50,7 @@ const Details = ({ data }) => {
   const handleSnapToItem = (index) => {
     setActiveIndex(index);
     // Check if it's the last item
-    if (index === data.image.length - 1) {
+    if (index === data.photos.length - 1) {
       // Scroll back to the first item after a delay
       setTimeout(() => {
         carouselRef.current.snapToItem(0);
@@ -61,11 +61,11 @@ const Details = ({ data }) => {
     <ScrollView>
       <Header />
       <Carousel
-        data={data?.image}
+        data={data?.photos}
         ref={carouselRef}
         renderItem={({ item }) => (
           <Animated.Image
-            source={item}
+            source={{uri:item}}
             style={styles.image}
             sharedTransitionTag={data?.name}
           />
@@ -83,7 +83,7 @@ const Details = ({ data }) => {
       <View style={{paddingHorizontal:20}}>  
       <Animated.View entering={FadeIn.delay(600)} style={{marginTop:60,}}>
       <Text style={[styles.carName,{color:theme.primaryText}]}>{data.name}</Text>
-      <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>Lahore, Pakistan</Text>
+      <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data.City} Pakistan</Text>
       </Animated.View>
       <Animated.View entering={FadeInDown.delay(800)} style={{marginTop:10}}>
     
@@ -91,19 +91,19 @@ const Details = ({ data }) => {
       <View style={styles.row_car_info}>   
 <MaterialIcons name={'hourglass-full'} size={24} color={theme.primaryText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.primaryText}]}>HOURLY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR 0  </Text> </Text>
+<Text style={[styles.priceHeading,{color:theme.primaryText}]}>HOURLY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR {data?.hourlyPrice}  </Text> </Text>
 
 </View>
 
 <View style={styles.row_car_info}>   
 <MaterialCommunityIcons name={'hours-24'} size={24} color={theme.primaryText} style={styles.leftIcon} />
-<Text style={[styles.priceHeading,{color:theme.primaryText}]}>DAILY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR 73,500/-  </Text> </Text>
+<Text style={[styles.priceHeading,{color:theme.primaryText}]}>DAILY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR {data?.dailyPrice}/-  </Text> </Text>
 
 
 </View>
 <View style={styles.row_car_info}>   
 <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.primaryText} style={styles.leftIcon} />
-<Text style={[styles.priceHeading,{color:theme.primaryText}]}>MONTHLY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR 6,63,700/- </Text> </Text>
+<Text style={[styles.priceHeading,{color:theme.primaryText}]}>MONTHLY PRICE:<Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}> PKR {data?.monthlyPrice}/- </Text> </Text>
 
 
 </View>
@@ -113,7 +113,7 @@ const Details = ({ data }) => {
       <View style={styles.infoRow}>
       <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-        <Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Year: 2023</Text>
+        <Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Year: {data?.year}</Text>
 </View>
 
 
@@ -121,21 +121,21 @@ const Details = ({ data }) => {
 
 <Ionicons name={'color-palette-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Color: Black</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Color: {data?.color}</Text>
 </View>
 
 <View style={styles.infoRow}>
 
 <Ionicons name={'car-sport-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Car Type: 4WD</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Car Type: {data?.carType}</Text>
 </View>
 
 <View style={styles.infoRow}>
 
 <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Transmission: Automatic</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Transmission: {data?.gearType}</Text>
 </View>
 
 <View style={styles.infoRow}>
@@ -149,21 +149,21 @@ const Details = ({ data }) => {
 
 <MaterialCommunityIcons name={'gas-station-outline'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Gas: Diesel</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Gas: {data?.gas}</Text>
 </View>
 
 <View style={styles.infoRow}>
 
 <MaterialCommunityIcons name={'city'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>City: Lahore</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>City: {data?.City}</Text>
 </View>
 
 <View style={styles.infoRow}>
 
 <MaterialCommunityIcons name={'calendar-month'} size={24} color={theme.PrimarylightText} style={styles.leftIcon} />
 
-<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Availability: Available</Text>
+<Text style={[styles.priceHeading,{color:theme.PrimarylightText}]}>Availability: {data?.isAvailable}</Text>
 </View>
 
 
@@ -177,11 +177,13 @@ const Details = ({ data }) => {
             borderWidth:1 }]}>
           
               <TextInput
-                style={[styles.input, { color: theme.PrimarylightText }]}
+                style={[styles.input, { color: theme.PrimarylightText,verticalAlign:"top" }]}
                
                 placeholderTextColor={theme.PrimarylightText}
               multiline={true}
               numberOfLines={6}
+              editable={false} // Make the TextInput read-only
+              value={data?.features} // Set the initial value to the features data
               />
              
             </View>
@@ -194,16 +196,24 @@ const Details = ({ data }) => {
 <MapView
  style={styles.map}
 initialRegion={{
-latitude: 37.78825,
-longitude: -122.4324,
+latitude: data?.location?.latitude,
+longitude:data?.location?.longitude,
 latitudeDelta: 0.0922,
 longitudeDelta: 0.0421,
 }}
-/>
+zoomControlEnabled={true}
+>
+<Marker
+          coordinate={{
+            latitude: data?.location?.latitude,
+            longitude:data?.location?.longitude,
+          }}
+          title={data?.location?.city}
+          description="This is where the car is located"
+        />
 
 
-
-
+</MapView>
 
 
 
@@ -304,13 +314,13 @@ longitudeDelta: 0.0421,
       <Avatar
             rounded
             source={{
-              uri: "https://randomuser.me/api/portraits/men/32.jpg",
+              uri: data?.owner?.photoLink,
             }}
           />
         <View style={styles.sectionContent}>
-          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>Offroad Arcade</Text>
-          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>anunegyal@gmail.com</Text>
-          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>17374749</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data?.owner?.displayName}</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data?.owner?.email}</Text>
+          <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data?.owner?.contactNumber}</Text>
         </View>
         <View style={styles.iconContainer}>
           <TouchableOpacity >
