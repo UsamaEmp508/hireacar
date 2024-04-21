@@ -13,14 +13,16 @@ import EditProfile from '../Screens/Dashboard/Profile/EditProfile/EditProfile';
 import Login from '../Screens/Auth/Login/Login';
 import AllBrands from '../Screens/Dashboard/Home/AllBrands/AllBrands';
 import AllLocation from '../Screens/Dashboard/Home/All Location/AllLocation';
+import AllcarPrice from '../Screens/Dashboard/Home/AllCarPrice/AllcarPrice';
+import AllPopularCar from '../Screens/Dashboard/Home/AllPopularCars/AllPopularCar';
 const Route = () => {
 
     const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>   
     <Stack.Navigator screenOptions={{ headerShown: false }} >
-          <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
     <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
     <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />
     
     <Stack.Screen name={navgiationStrings.AllLocation} component={AllLocation} options={{ animation: 'fade_from_bottom'}} />
@@ -39,6 +41,10 @@ const Route = () => {
 
           <Stack.Screen name={navgiationStrings.MyCar} component={MyCar} options={{ animation: 'fade_from_bottom'}} />
           <Stack.Screen name={navgiationStrings.EditProfile} component={EditProfile} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={navgiationStrings.AllCarPopular} component={AllPopularCar} options={{ animation: 'fade_from_bottom'}} />
+          <Stack.Screen name={navgiationStrings.AllCarPrice} component={AllcarPrice} options={{ animation: 'fade_from_bottom'}} />
+
+
 
           
  

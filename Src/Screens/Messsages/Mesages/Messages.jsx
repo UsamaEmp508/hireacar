@@ -37,7 +37,7 @@ const Messages = () => {
   const renderItem = ({ item }) => (
     <View style={[styles.messageContainer, { alignSelf: item.sender === sender ? 'flex-end' : 'flex-start' }]}>
       <View style={[styles.messageBubble, { backgroundColor: item.sender === sender ? theme.primaryColor : theme.secondaryColor }]}>
-        <Text style={[styles.content, { color: item.sender === sender ? theme.primaryText : theme.secondaryText }]}>
+        <Text style={[styles.content, { color: item.sender === sender ? theme.primaryText : theme.primaryText }]}>
           {item.content}
         </Text>
       </View>

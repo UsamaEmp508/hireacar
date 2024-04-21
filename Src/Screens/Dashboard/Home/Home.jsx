@@ -18,7 +18,7 @@ const Home = () => {
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
   const navigation = useNavigation()
-  if (error) return <Text>Error fetching data</Text>;
+
 
   
   
@@ -104,11 +104,20 @@ const Home = () => {
 
 <View style={styles.row}>
 <Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Popular Cars</Text>
-<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
+<Pressable onPress={()=> navigation.navigate('AllCarPopular')} >
+  <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>   
+  View All
+  </Text>
+  
+  </Pressable>
 
 
 </View>
 <View>
+
+{  error &&   <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>Error fetching data</Text>}
+
+
       <FlatList
          data={data?.cars?.slice(0, 20)}
         renderItem={({ item, index }) => <CarItem car={item} index={index} fullscreen={false} />}
@@ -120,7 +129,7 @@ const Home = () => {
         horizontal
         ListEmptyComponent={() => {
           if (loading) {
-            return <ActivityIndicator size="large" color="#1F4590" />;
+            return <ActivityIndicator size="large" color="#1F4590" style={{alignSelf:"center"}} />;
           } else {
             return null;
           }
@@ -133,13 +142,22 @@ const Home = () => {
 
     <View style={styles.row}>
 <Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Cars By Price </Text>
-<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
+<Pressable onPress={()=> navigation.navigate('AllCarPrice')} >
+  <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>   
+  View All
+  </Text>
+  
+  </Pressable>
+
 
 
 </View>
     
 
 <View>
+
+{  error &&   <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>Error fetching data</Text>}
+
       <FlatList
                        data={data?.cars?.slice(0, 20)}
 

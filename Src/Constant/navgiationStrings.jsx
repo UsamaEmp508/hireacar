@@ -12,6 +12,10 @@ export default {
    Login:"Login",
    AllBrands:"AllBrands",
    AllLocation:"AllLocation",
+   AllCarPrice:"AllCarPrice",
+   AllCarPopular:"AllCarPopular",
+
+
 
 
 

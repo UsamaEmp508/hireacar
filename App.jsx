@@ -1,17 +1,15 @@
 import React, { useEffect } from "react";
-import { Text, View } from "react-native";
 import { ThemeProvider, createTheme } from '@rneui/themed';
-import { FONTFAMILY } from "./Src/Theme/FontFamily";
-import { FONTSIZE } from "./Src/Theme/FontSize";
 import Route from "./Src/Navigation/Route";
 import { ApolloProvider } from "@apollo/client";
-import client from "./Src/Client/Client";
 import { Theme } from "./Src/Theme/ThemeContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message'
 import messaging from '@react-native-firebase/messaging';
 import ChatProvider from "./Src/Context/ChatProvider";
 import { apolloClient } from "./Src/Service/graphql";
+
+
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -23,6 +21,9 @@ export default function App() {
     mode: 'light',
   });
 
+  // Notifee.init({});
+
+
   useEffect(() => {
     const getFcmToken = async () => {
       const fcmToken = await messaging().getToken();
@@ -32,6 +33,13 @@ export default function App() {
           console.log("Failed", "No Token Received");
       }
     };
+
+
+
+
+
+
+
 
     const requestPermission = async () => {
       const authStatus = await messaging().requestPermission();
@@ -47,6 +55,8 @@ export default function App() {
     requestPermission();
   }, []);
 
+
+ 
 
 
   return (
