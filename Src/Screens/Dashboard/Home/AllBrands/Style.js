@@ -45,5 +45,9 @@ export const styles = StyleSheet.create({
   padding:10,
   borderRadius:10
   },
-  
+  heading: {
+    fontSize:FONTSIZE.size_16,
+    fontFamily:FONTFAMILY.Poppins_SemiBold,
+    marginBottom: 5,
+  },
 })

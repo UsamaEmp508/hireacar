@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './Styles';
 import { ThemeContext } from '../../../Theme/ThemeContext';
@@ -18,108 +18,9 @@ const Home = () => {
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
   const navigation = useNavigation()
-  if (loading) return <ActivityIndicator />;
   if (error) return <Text>Error fetching data</Text>;
 
-  const carData = [
-    {
-      id: '1',
-      image: [
-        
-        require('../../../Assets/Images/Home/car1-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Toyota Camry',
-      rating: 4.5,
-      price: '$25,000',
-      type: 'Sedan',
-    },
-    {
-      id: '2',
-      image: [
-        
-        require('../../../Assets/Images/Home/car11-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Honda Civic',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '3',
-      image: [
-        
-        require('../../../Assets/Images/Home/car3-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Toyota Camry',
-      rating: 4.5,
-      price: '$25,000',
-      type: 'Sedan',
-    },
-    {
-      id: '4',
-      image: [
-        
-        require('../../../Assets/Images/Home/car5-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Honda Civic',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '5',
-      image: [
-        require('../../../Assets/Images/Home/car8-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Honda Civic',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '6',
-        image: [
-        
-        require('../../../Assets/Images/Home/car1-660x440.jpg'), 
-        require('../../../Assets/Images/Home/car5-660x440.jpg'),
-        require('../../../Assets/Images/Home/car6-660x440.jpg'),
-        require('../../../Assets/Images/Home/car8-660x440.jpg'),
-        require('../../../Assets/Images/Home/car11-660x440.jpg'),
-
-      ],
-      name: 'Honda Civic',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
   
-  ];
-
   
 
 
@@ -127,9 +28,9 @@ const Home = () => {
     <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 {/* header */}
 <View style={styles.Header_Profile}>
-<View >
+<TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Image source={require('../../../Assets/Images/Message/image1.jpg')} style={styles.image_profile} />
-        </View>
+        </TouchableOpacity>
 
 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
   <Image source={require('../../../Assets/Images/notifiaction.png')} style={[styles.image,{tintColor:'#1F4590'}]} />
@@ -171,7 +72,12 @@ const Home = () => {
 <View>   
 <View style={styles.row}>
 <Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Trending Brands</Text>
-<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
+<Pressable onPress={()=> navigation.navigate('AllBrands')} >
+  <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>   
+  View All
+  </Text>
+  
+  </Pressable>
 
 
 </View>
@@ -181,7 +87,13 @@ const Home = () => {
 <View>   
 <View style={styles.row}>
 <Text style={[styles.row_heading_left,{color:theme.primaryText}]}>Location</Text>
-<Text style={[styles.row_heading_right,{color:theme.primaryText}]}>View All</Text>
+<Pressable onPress={()=> navigation.navigate('AllLocation')} >
+  <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>   
+  View All
+  </Text>
+  
+  </Pressable>
+
 
 
 </View>
@@ -198,11 +110,21 @@ const Home = () => {
 </View>
 <View>
       <FlatList
-        data={data.cars}
-        renderItem={({ item, index }) => <CarItem car={item} index={index} />}
-        keyExtractor={(item) => item.id}
+         data={data?.cars?.slice(0, 20)}
+        renderItem={({ item, index }) => <CarItem car={item} index={index} fullscreen={false} />}
+        keyExtractor={(item) => {
+       
+          return item.id;
+        }}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
+        ListEmptyComponent={() => {
+          if (loading) {
+            return <ActivityIndicator size="large" color="#1F4590" />;
+          } else {
+            return null;
+          }
+        }}
       
       />
 </View>
@@ -219,13 +141,24 @@ const Home = () => {
 
 <View>
       <FlatList
-               data={data.cars}
+                       data={data?.cars?.slice(0, 20)}
 
-                renderItem={({ item, index }) => <CarItem car={item} index={index} />}
 
-        keyExtractor={(item) => item.id}
+                renderItem={({ item, index }) => <CarItem car={item} index={index} fullscreen={false} />}
+
+                keyExtractor={(item) => {
+       
+                  return item.id;
+                }}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
+        ListEmptyComponent={() => {
+          if (loading) {
+            return <ActivityIndicator size="large" color="#1F4590" />;
+          } else {
+            return null;
+          }
+        }}
       />
     </View>
 

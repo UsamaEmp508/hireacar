@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome as an example
 import Feather from 'react-native-vector-icons/Feather'; // Import FontAwesome as an example
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Import FontAwesome as an example
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import FontAwesome as an example
+
+// Import FontAwesome as an example
 
 
 
@@ -52,7 +55,7 @@ console.log('toggle theme',handletoggletheme)
 
         <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('PrivacyPolicy') }>
           <View style={styles.inner_tile_left}>  
-          <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <MaterialIcons name={themeContext?.isDarkTheme ? 'privacy-tip' : 'privacy-tip'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Privacy Policy</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />

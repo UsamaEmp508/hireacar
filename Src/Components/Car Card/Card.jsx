@@ -8,7 +8,7 @@ import { FONTFAMILY } from '../../Theme/FontFamily';
 import Animated, {FadeInDown} from 'react-native-reanimated';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-const CarItem = ({ car,index}) => {
+const CarItem = ({ car,index,fullscreen}) => {
   const [activeIndex, setActiveIndex] = useState(0);
  
 
@@ -28,12 +28,12 @@ const CarItem = ({ car,index}) => {
     return (
 
       <Animated.View entering={FadeInDown.delay(200 * index)}>
-    <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary}]} activeOpacity={0.7}>
+    <Pressable onPress={goToCarDetails} style={[styles.container,{backgroundColor:theme.BackgroundSecondary,width:fullscreen?300:200}]} activeOpacity={0.7}>
 
   
     <Animated.Image
             source={{uri:car.photos[1]}}
-            style={styles.image}
+            style={[styles.image,{height:fullscreen?200:100,marginRight:fullscreen?0:10}]}
             sharedTransitionTag={car?.name}
           />
    
@@ -71,16 +71,16 @@ const CarItem = ({ car,index}) => {
 const styles = StyleSheet.create({
   container: {
   
-width:200,
-borderRadius:10,
+alignSelf:'center',
+
 overflow:'hidden',
 
   },
   image: {
     width: '100%',
-    height: 100,
-    borderRadius: 10,
-    marginRight: 10,
+
+   
+  
     backgroundColor:"transparent"
   },
 

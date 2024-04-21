@@ -1,144 +1,27 @@
-import { FlatList, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext } from 'react'
 import CarItem from '../../../../Components/Car Card/Card';
-import { styles } from './Style';
+import { styles } from '../AllBrands/Style';
 import { lightTheme, darkTheme } from '../../../../Theme/Color';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
 import Header from '../../../../Components/Header/Header';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_CARS } from '../../../../Service/Queries';
 const Brand = ({route}) => {
   const { name } = route.params;
   const themeContext = useContext(ThemeContext);
-
+  const { loading, error, data } = useQuery(GET_ALL_CARS);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-  const carData = [
-    {
-      id: '1',
-      image: require('../../../../Assets/Images/Home/car1-660x440.jpg'), 
-      name: 'Toyota Camry',
-      brand: 'Ford',
-      rating: 4.5,
-      price: '$25,000',
-      type: 'Sedan',
-    },
-    {
-      id: '2',
-      image: require('../../../../Assets/Images/Home/car3-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '3',
-      image: require('../../../../Assets/Images/Home/car5-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.5,
-      price: '$25,000',
-      type: 'Sedan',
-    },
-    {
-      id: '4',
-      image: require('../../../../Assets/Images/Home/car6-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '5',
-      image: require('../../../../Assets/Images/Home/car8-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '6',
-      image: require('../../../../Assets/Images/Home/car9-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.3,
-      price: '$22,000',
-      type: 'Sedan',
-    },
-    {
-      id: '7',
-      image: require('../../../../Assets/Images/Home/car11-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.4,
-      price: '$20,000',
-      type: 'Sedan',
-    },
-    {
-      id: '8',
-      image: require('../../../../Assets/Images/Home/car12-660x440.jpg'),
-      name: 'Ford Mustang',
-      brand: 'Ford',
-      rating: 4.7,
-      price: '$30,000',
-      type: 'Coupe',
-    },
-    {
-      id: '9',
-      image: require('../../../../Assets/Images/Home/car13-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.6,
-      price: '$28,000',
-      type: 'Coupe',
-    },
-    {
-      id: '10',
-      image: require('../../../../Assets/Images/Home/car14-660x440.jpg'),
-      name: 'BMW 3 Series',
-      brand: 'BMW',
-      rating: 4.8,
-      price: '$35,000',
-      type: 'Sedan',
-    },
-    {
-      id: '11',
-      image: require('../../../../Assets/Images/Home/car17-660x440.jpg'),
-      name: 'Audi A4',
-      brand: 'Audi',
-      rating: 4.7,
-      price: '$32,000',
-      type: 'Sedan',
-    },
-    {
-      id: '12',
-      image: require('../../../../Assets/Images/Home/car19-660x440.jpg'),
-      name: 'Ford',
-      brand: 'Ford',
-      rating: 4.8,
-      price: '$38,000',
-      type: 'Sedan',
-    },
-    
-    {
-      id: '13',
-      image: require('../../../../Assets/Images/Home/car20-660x440.jpg'),
-      name: 'Nissan Altima',
-      brand: 'Nissan',
-      rating: 4.5,
-      price: '$24,000',
-      type: 'Sedan',
-    },
-    
-  ];
+  
    
-const selectedbrands = carData.filter((data)=> data.brand === name)
+const selectedbrands = data?.cars?.filter((data)=> data.name === name)
+
+const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
 
 
-const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 <Header text={'Cars By Brands'}  />
@@ -156,14 +39,26 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} />;
 
 
 </View>
-
-
+{
+selectedbrands.length < 1    ?
+ 
+      <Text style={[styles.heading,{color:theme.primaryText,marginTop:20,textAlign:"center"}]}>No data available</Text>
+:
       <FlatList
         data={selectedbrands}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{gap:25,marginTop:10,paddingBottom:30}}
+        contentContainerStyle={{gap:25,marginTop:20,paddingBottom:30}}
+        ListEmptyComponent={() => {
+          if (loading) {
+            return <ActivityIndicator size="large" color="#1F4590" />;
+          } else {
+            return null;
+          }
+        }}
       />
+
+}
     </View>
   )
 }

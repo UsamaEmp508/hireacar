@@ -49,14 +49,20 @@ const Details = ({ data }) => {
 
   const handleSnapToItem = (index) => {
     setActiveIndex(index);
-    // Check if it's the last item
-    if (index === data.photos.length - 1) {
-      // Scroll back to the first item after a delay
-      setTimeout(() => {
-        carouselRef.current.snapToItem(0);
-      }, 1000); // Adjust the delay as needed
+    // Check if carouselRef.current exists
+    if (carouselRef.current) {
+      // Access the snapToItem method
+      carouselRef.current.snapToItem(index);
+      // Check if it's the last item
+      if (index === data.photos.length - 1) {
+        // Scroll back to the first item after a delay
+        setTimeout(() => {
+          carouselRef.current.snapToItem(0);
+        }, 1000); // Adjust the delay as needed
+      }
     }
   };
+  
   return (
     <ScrollView>
       <Header />

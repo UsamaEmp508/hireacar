@@ -10,6 +10,9 @@ export default {
    MyCar:"MyCar",
    EditProfile:"EditProfile",
    Login:"Login",
+   AllBrands:"AllBrands",
+   AllLocation:"AllLocation",
+
 
 
 
