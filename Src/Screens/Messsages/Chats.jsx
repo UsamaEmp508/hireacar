@@ -1,10 +1,14 @@
 import { FlatList, Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { styles } from './Styles'
 import { lightTheme, darkTheme } from '../../Theme/Color';
 import { ThemeContext } from '../../Theme/ThemeContext';
 import {Skeleton} from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
+import { ChatState } from '../../Context/ChatProvider';
+import { useQuery } from '@apollo/client';
+import { FETCH_CHATS } from '../../Service/Queries';
+import { getSender, getsenderimage } from '../../config/ChatLogics';
 const Chats = () => {
 
   const themeContext = useContext(ThemeContext);
@@ -39,19 +43,62 @@ const  navigation = useNavigation()
     },
   ];
   
+
+
+  // const { selectedChat, setSelectedChat, user, notification, setNotification, chats, setChats,  } = ChatState();
+
+  // const { loading, error, data, refetch } = useQuery(FETCH_CHATS, {
+  //   variables: { userId: 'fdfdsfsd' },
+   
+  // });
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setChats(data?.FetchChats);
+  //     refetch();
+  //   }
+  // }, [data]); // Trigger useEffect when data changes
+
+
+
+const setSelectedChat = (item)  => {
+  console.log(item)
+  navigation.navigate('Messages')
+  //  setSelectedChat(chat)
+}
+
+// selectedChat === chat ? "#38B2AC" : "#E8E8E8",color:selectedChat === chat ? "white" : "black"
   
   const renderItem = ({ item }) => (
-    <Pressable style={styles.messageContainer} onPress={()=> navigation.navigate('Messages')}>
+  <Pressable style={[styles.messageContainer]} onPress={() => setSelectedChat(item)}>
 <View style={styles.left_message}>   
+
+{/* src={getsenderimage(LoginUserId,chat.users)} */}
   <Image source={item.image} style={styles.image} />
       <View>   
+      {/* {getSender(LoginUserId, chat.users)} */}
+        
       <Text style={[styles.sender,{color:theme.primaryText}]}>{item.sender}</Text>
+     
+
+
+{/* {chat.latestMessage && (
+                <StyledMessageText>     <b>{chat.latestMessage.sender.displayName} : </b>
+                    {chat.latestMessage.content.length > 50
+                      ? chat.latestMessage.content.substring(0, 51) + "..."
+                      : chat.latestMessage.content}</StyledMessageText>
+                )} */}
+
+
       <Text style={[styles.message,{color:theme.primaryText}]}>{item.message}</Text>
+
+
       </View>
       </View>
 
 <View style={{justifyContent:"flex-end",alignItems:'flex-end'}}>  
-
+ {/* chat.latestMessage && (
+    <StyledTimestamp>{new Date(parseInt(chat.latestMessage.createdAt)).toString()}</StyledTimestamp> */}
 <Text style={[styles.timestamp,{color:theme.primaryText}]}>{item.timestamp}</Text>
 <View style={[styles.message_count,{color:theme.primaryText}]}>
 <Text style={styles.count_Text}>4</Text>
@@ -131,6 +178,9 @@ const  navigation = useNavigation()
 
             )}
     </View>
+
+
+
 
    
   </View>

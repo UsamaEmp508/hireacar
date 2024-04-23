@@ -5,54 +5,166 @@ import { ThemeContext } from '../../../Theme/ThemeContext';
 import { lightTheme, darkTheme } from '../../../Theme/Color';
 import { SPACING } from '../../../Theme/Spacing';
 import { FONTFAMILY } from '../../../Theme/FontFamily';
-
+import Scroll from '../../../Components/Scollbarchat/Scroll';
+var socket, selectedChatCompare;
+const ENDPOINT = 'http://localhost:81'
 const Messages = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const [messageText, setMessageText] = useState('');
-  const sender = "You"; // Static sender
-  const receiver = "Friend"; // Static receiver
+ 
+//   const [messages, setMessages] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [newMessage, setNewMessage] = useState("");
+//   const [socketConnected, setSocketConnected] = useState(false);
+//   const [typing, setTyping] = useState(false);
+//   const [istyping, setIsTyping] = useState(false);
+//   const { selectedChat, setSelectedChat, user, notification, setNotification,LoginUserId } =
+//   ChatState();
 
-  const dummyMessages = [
-    {
-      id: 1,
-      sender: sender,
-      content: 'Hey, how are you?',
-      timestamp: new Date().getTime(),
-    },
-    {
-      id: 2,
-      sender: receiver,
-      content: 'I am good, thanks for asking!',
-      timestamp: new Date().getTime() + 1000,
-    },
-    {
-      id: 3,
-      sender: sender,
-      content: 'Do you have any plans for the weekend?',
-      timestamp: new Date().getTime() + 2000,
-    },
-  ];
+//   const { loading:mesageLoading, error, data } = useQuery(ALL_MESSAGES, {
+//     variables: { chatId:selectedChat?.id },
+//   });
+//   const [sendMessage] = useMutation(SEND_MESSAGE)
+//   const [senderInfo, setSenderInfo] = useState(null); // State variable to hold sender information
 
-  const renderItem = ({ item }) => (
-    <View style={[styles.messageContainer, { alignSelf: item.sender === sender ? 'flex-end' : 'flex-start' }]}>
-      <View style={[styles.messageBubble, { backgroundColor: item.sender === sender ? theme.primaryColor : theme.secondaryColor }]}>
-        <Text style={[styles.content, { color: item.sender === sender ? theme.primaryText : theme.primaryText }]}>
-          {item.content}
-        </Text>
-      </View>
-    </View>
-  );
+// useEffect(() => {
+//   if (selectedChat) {
+//     // Fetch sender information using getSenderFull function
+//     const sender = getSenderFull(LoginUserId, selectedChat?.users);
+//     // Update state with sender information
+//     setSenderInfo(sender);
+//   }
+// }, [selectedChat]);
+
+
+
+// const handleSendMessage = async (event) => {
+//   if (event.key === "Enter" && newMessage) {
+//     event.preventDefault();
+
+//     socket.emit("stoptyping", selectedChat.id);
+
+//     setNewMessage("");
+
+//     try {
+//       const result = await sendMessage({
+//         variables: {
+//           content: newMessage,
+//           chatId: selectedChat.id,
+//           userId: LoginUserId
+//         },
+//       });
+
+
+//       socket.emit("new message", result.data.sendMessage);
+//       setMessages([...messages, result.data.sendMessage]);
+//     } catch (error) {
+//       console.error("Error sending message:", error);
+//     }
+//   }
+// };
+
+
+
+ 
+
+  
+
+//   useEffect(() => {
+//     socket = io(ENDPOINT);
+   
+
+//     socket.emit("setup", LoginUserId);
+    
+//     socket.on("connected", () =>  setSocketConnected(true)
+    
+//     );
+//     socket.on("typing", () => setIsTyping(true));
+//     socket.on("stoptyping", () => setIsTyping(false));
+
+   
+//   }, []);
+
+//   useEffect(() => {
+//     if(data)
+//     {
+
+//       setMessages(data?.allMessages)
+//     }
+// socket.emit("join chat", selectedChat.id);
+
+//     selectedChatCompare = selectedChat;
+//     // eslint-disable-next-line
+//   }, [selectedChat,data]);
+
+//   useEffect(() => {
+
+//  socket.on("new message", (newMessageRecieved) => {
+//       console.log('message received',newMessageRecieved)
+      
+//       if (
+//         !selectedChatCompare || // if chat is not selected or doesn't match current chat
+//         selectedChatCompare.id !== newMessageRecieved.chat.id
+//       ) {
+//         if (!notification.includes(newMessageRecieved)) {
+//           setNotification([newMessageRecieved, ...notification]);
+//           // setFetchAgain(!fetchAgain);
+//         }
+//       } else {
+//         setMessages([...messages, newMessageRecieved]);
+//       }
+// console.log('notification',notification)
+
+//     });
+
+
+//   });
+
+
+
+
+
+
+
+
+
+
+  
+ 
+//   const typingHandler = (e) => {
+//     setNewMessage(e.target.value);
+
+//     if (!socketConnected) return;
+
+//     if (!typing) {
+//       setTyping(true);
+//       socket.emit("typing", selectedChat.id);
+//     }
+//     let lastTypingTime = new Date().getTime();
+//     var timerLength = 3000;
+//     setTimeout(() => {
+//       var timeNow = new Date().getTime();
+//       var timeDiff = timeNow - lastTypingTime;
+//       if (timeDiff >= timerLength && typing) {
+//         socket.emit("stoptyping", selectedChat.id);
+//         setTyping(false);
+//       }
+//     }, timerLength);
+//   };
+ 
 
   return (
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       <Header text={'Messages'} />
-      <FlatList
-        data={dummyMessages}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingHorizontal: SPACING.space_20,marginTop:20 }}
-      />
+     
+
+
+
+
+<Scroll/>
+
+
 
 <View style={styles.inputContainer}>
         <TextInput
@@ -79,20 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal:SPACING.space_20
 
   },
-  messageContainer: {
-    flexDirection: 'row',
-    
-    marginBottom: 10,
-  },
-  messageBubble: {
-    padding: 10,
-    borderRadius: 10,
-    maxWidth: '100%', // Adjust as needed
-  },
-  content: {
-    fontSize: 14,
-    fontFamily:FONTFAMILY.Poppins_Medium
-  },
+ 
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',

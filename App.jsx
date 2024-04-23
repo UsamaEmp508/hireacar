@@ -17,7 +17,7 @@ export default function App() {
     },
     darkColors: {
       primary: '#000',
-    },
+    }, 
     mode: 'light',
   });
 

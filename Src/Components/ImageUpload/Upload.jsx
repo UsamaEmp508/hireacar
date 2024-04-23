@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Alert, ScrollView} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
@@ -46,6 +46,8 @@ const ImageUpload = ({onImageUrlsChange}) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
+console.log('data',selectedImages)
+
   const handleImageUpload = async () => {
     if (selectedImages.length === 0) {
       Alert.alert('Error', 'Please select an image to upload.');
@@ -85,9 +87,10 @@ const ImageUpload = ({onImageUrlsChange}) => {
       } else if (response.error) {
         console.log('Image picker error: ', response.error);
       } else {
-        let imageUri =
-          response.uri || (response.assets && response.assets[0]?.uri);
-        setSelectedImages(imageUri);
+        console.log('response',response)
+        let imageUri = response.assets && response.assets[0]?.uri;
+        console.log('image uri',imageUri)
+        setSelectedImages([...selectedImages,  imageUri]);
       }
     });
   };
@@ -111,22 +114,22 @@ const ImageUpload = ({onImageUrlsChange}) => {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <ScrollView horizontal contentContainerStyle={{marginRight:20,marginVertical:10,marginTop:10}}>
         {/* Display thumbnails of selected images */}
-        {selectedImages.map((image, index) => (
+        {selectedImages?.map((image, index) => (
           <View
             key={index}
-            style={{position: 'relative', display: 'inline-block'}}>
+            style={{ display: 'inline-block'}}>
             <Image
-              source={{uri: image}}
-              style={{width: 200, height: 200, marginRight: 5}}
+              source={{uri:`${image}` }}
+              style={{width: 100, height: 100, marginRight: 5,position: 'relative',}}
             />
             <TouchableOpacity
               onPress={() => handleRemoveImage(index)}
               style={{
                 position: 'absolute',
-                top: 5,
-                right: 5,
+                top: 0,
+                left: 1,
                 backgroundColor: 'gray',
                 padding: 5,
               }}>
@@ -134,7 +137,7 @@ const ImageUpload = ({onImageUrlsChange}) => {
             </TouchableOpacity>
           </View>
         ))}
-      </View>
+      </ScrollView>
 
       <TouchableOpacity
         onPress={handleImageUpload}

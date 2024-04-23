@@ -87,3 +87,75 @@ export const GET_NEAREST_CARS = gql`
     }
   }
 `;
+
+
+
+
+export const FETCH_CHATS = gql`
+query FetchChats($userId: String!) {
+  FetchChats(userId: $userId) {
+    id
+    chatName
+    users {
+      id
+      displayName
+      email
+      photoLink
+      
+    }
+    latestMessage
+    {
+    content
+    sender
+    {
+    id
+    displayName
+    } 
+
+    }
+
+    createdAt
+  }
+}
+`;
+
+
+
+
+export const ALL_MESSAGES = gql`
+  query AllMessages($chatId: String!) {
+    allMessages(chatId: $chatId) {
+      content
+      id
+
+    
+    
+      chat
+      {
+        id
+  chatName
+
+     
+
+      }
+      createdAt
+
+      sender
+      {
+  id
+  displayName
+  photoLink
+      }
+
+
+
+    }
+
+
+
+
+  }
+`;
+
+
+

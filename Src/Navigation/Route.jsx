@@ -21,8 +21,8 @@ const Route = () => {
   return (
     <NavigationContainer>   
     <Stack.Navigator screenOptions={{ headerShown: false }} >
-    <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
           <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
+    <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
     <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />
     
     <Stack.Screen name={navgiationStrings.AllLocation} component={AllLocation} options={{ animation: 'fade_from_bottom'}} />
