@@ -170,7 +170,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
         <Text style={[styles.stepNumber,{color:theme.primaryText}]}>1</Text>
         <View style={styles.stepContent}>
           <Text style={[styles.stepTitle,{color:theme.primaryText}]}>Tell us about your car</Text>
-          <Text style={[styles.stepDescription,{color:theme.primaryText}]}>Share some basic information such as where it is and how many people can sit in it.</Text>
+          <Text style={[styles.stepDescription,{color:theme.PrimarylightText}]}>Share some basic information such as where it is and how many people can sit in it.</Text>
         </View>
       </View>
 
@@ -178,7 +178,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
         <Text style={[styles.stepNumber,{color:theme.primaryText}]}>2</Text>
         <View style={styles.stepContent}>
           <Text style={[styles.stepTitle,{color:theme.primaryText}]}>Make it stand out</Text>
-          <Text style={[styles.stepDescription,{color:theme.primaryText}]}>Add 5 or more photos plus a title and description - we’ll help you out.</Text>
+          <Text style={[styles.stepDescription,{color:theme.PrimarylightText}]}>Add 5 or more photos plus a title and description - we’ll help you out.</Text>
         </View>
       </View>
 
@@ -186,7 +186,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
         <Text style={[styles.stepNumber,{color:theme.primaryText}]}>3</Text>
         <View style={styles.stepContent}>
           <Text style={[styles.stepTitle,{color:theme.primaryText}]}>Finish up and publish</Text>
-          <Text style={[styles.stepDescription,{color:theme.primaryText}]}>Choose if you’d like to start, set a daily price and publish.</Text>
+          <Text style={[styles.stepDescription,{color:theme.PrimarylightText}]}>Choose if you’d like to start, set a daily price and publish.</Text>
         </View>
       </View>
     </Animated.View>

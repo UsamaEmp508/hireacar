@@ -31,7 +31,7 @@ const Slider = ({ navigation }) => {
   const themeContext = useContext(ThemeContext);
   const appIntroSliderRef = React.useRef();
 
-  const [token, setToken] = useState('');
+ 
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
   const renderItem = ({ item, index }) => {
