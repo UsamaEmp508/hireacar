@@ -53,8 +53,10 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
 
  
-  const handlePlaceSelect = (data, details ) => {
-    // 'details' is provided when fetchDetails = true
+  const handlePlaceSelect = (data, details) => {
+    
+
+    
     
     if (details) {
       const { geometry, formatted_address } = details;
@@ -205,15 +207,19 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 <Text style={[styles.label,{color:theme.primaryText}]}>Pick Your cars Location</Text>
 
 <GooglePlacesAutocomplete
-fetchDetails
+fetchDetails={true}
       placeholder='Search'
       
-      onPress={handlePlaceSelect}
+      onPress={(data, details = null) =>handlePlaceSelect(data, details)}
       query={{
         key: 'AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A',
         language: 'en',
       }}
-      
+      listEmptyComponent={() => (
+        <View >
+          <Text>No results were found</Text>
+        </View>
+      )}
       
       textInputProps={{
         InputComp: Input,
@@ -241,6 +247,8 @@ fetchDetails
         },
         
       }}
+
+     
     />
 
 
