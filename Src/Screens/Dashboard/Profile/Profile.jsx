@@ -15,23 +15,27 @@ import { SPACING } from '../../../Theme/Spacing';
 import { FONTSIZE } from '../../../Theme/FontSize';
 import { FONTFAMILY } from '../../../Theme/FontFamily';
 import { useNavigation } from '@react-navigation/native';
+
+
+import { ChatState } from '../../../Context/ChatProvider';
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const navigation = useNavigation()
- 
+const { user} = ChatState();
+
   const handletoggletheme = themeContext?.toggleTheme
-console.log('toggle theme',handletoggletheme)
+
 
   return (
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       <View style={[styles.body, { backgroundColor: theme.input_Background }]}>
         <View style={styles.profile_image}>
-          <Image source={require('../../../Assets/Images/Message/image1.jpg')} style={styles.image} />
+          <Image source={{uri:user?.userByGoogleId?.photoLink}} style={styles.image} />
         </View>
-        <Text style={[styles.profile_name, { color: theme.primaryText }]}>James S. Hernandez</Text>
+        <Text style={[styles.profile_name, { color: theme.primaryText }]}>{user?.userByGoogleId?.displayName}</Text>
         <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>
-          hernandex.redial@gmail.ac.in
+          {user?.userByGoogleId?.email}
         </Text>
 
    
@@ -116,8 +120,7 @@ const styles = StyleSheet.create({
     width:100,
     height:100,
     borderRadius:100,
-    borderColor:'#21408E',
-    borderWidth:4,
+ 
   },
   profile_name:{
     fontSize:FONTSIZE.size_24,

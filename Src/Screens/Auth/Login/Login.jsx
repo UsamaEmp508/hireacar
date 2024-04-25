@@ -1,5 +1,5 @@
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './Style'
 import { ThemeContext } from '../../../Theme/ThemeContext'
 import { lightTheme,darkTheme } from '../../../Theme/Color'
@@ -8,14 +8,23 @@ import { ChatState } from '../../../Context/ChatProvider'
 import { Button } from '@rneui/base'
 import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
+import { CREATE_USER_MUTATION } from '../../../Service/Mutation'
+import { GET_USER_QUERY_BY_GOOGLE_ID } from '../../../Service/Queries'
+import { useMutation } from '@apollo/client'
+import { apolloClient as client } from '../../../Service/graphql';
+import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal'
 const Login = ({navigation}) => {
 
-const { selectedChat, setSelectedChat, user, notification, setNotification,chats,setChats,LoginUserId,setUser} = ChatState();
-    
+const { setUser} = ChatState();
+const [userdata, setUserdata] = useState(null);
+const [createUser] = useMutation(CREATE_USER_MUTATION);
+const [systemUserId, setSystemUserId] = useState(null); 
     const themeContext = useContext(ThemeContext);
-
+    const [loading, setLoading] = useState(false);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const webClientId = "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com"; 
+
+console.log('loading',loading)
 
   useEffect(()=>{
       GoogleSignin.configure({
@@ -26,25 +35,16 @@ const { selectedChat, setSelectedChat, user, notification, setNotification,chats
 
 const googleLogin = async () => {
     try {
+      setLoading(true);
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
         console.log("userinfo", userInfo);
+        setUserdata(userInfo);
        
-          if(userInfo)
-
-          {
-            const newUser = {
-                googleId: userInfo.user.id,
-                displayName: userInfo.user.name,
-                email: userInfo.user.email,
-                photoLink: userInfo.user.photo,
-                
-            
-              };
-              setUser(newUser);
-              navigation.navigate('dashboard')
-          }
+          
     } catch (error) {
+     // Stop loading indicator
+
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             console.log(error)
         } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -53,8 +53,14 @@ const googleLogin = async () => {
             console.log(error)
         } else {
         }
-    }
-  };
+      }
+        finally{
+          setLoading(false); 
+        }
+      }
+        
+    
+  
 
 
   const sendNotification = async () => {
@@ -89,10 +95,13 @@ const googleLogin = async () => {
     }
   };
   
+
+
+
   
 
   
-//   // Example usage
+
   
 
 
@@ -151,9 +160,75 @@ const googleLogin = async () => {
   }
 
 
+
+
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+     
+       
+        
+          const { data } = await client.query({
+            query: GET_USER_QUERY_BY_GOOGLE_ID,
+            variables: {
+              id: userdata.user.id,
+            },
+          });
+          const userByGoogleId = data.userByGoogleId;
+setUser(data)
+          if (userByGoogleId === null) {
+
+            const newUser = {
+              googleId: userdata.user.id,
+                  displayName: userdata.user.name,
+                  email: userdata.user.email,
+                  photoLink: userdata.user.photo,
+           
+            };
+
+            try {
+              const { data } = await createUser({
+                variables: {
+                  newUserData: newUser,
+                },
+              });
+              console.log(data);
+         setUser(data)
+            } catch (error) {
+              console.log(error);
+              // Handle error during user creation
+            }
+          } else {
+            // User found, handle accordingly
+            console.log(userByGoogleId);
+            console.log(userByGoogleId.id)
+            setSystemUserId(userByGoogleId.id); // Save the system ID
+
+            // You can perform any additional actions or set the user state as needed
+          
+        } 
+      } catch (error) {
+        console.error(error);
+      }
+      
+    };
+
+    getUser();
+  }, [userdata]);
+
+
+
+
+
+
   return (
     <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
-<TouchableOpacity style={[styles.logim_google,{borderColor:"#F1F1F0",borderWidth:1,marginVertical:30}]}   onPress={googleLogin}>
+
+{loading && <ActivityIndicatorModal loaderIndicator={loading} />}
+
+
+<TouchableOpacity style={[styles.logim_google,{borderColor:"#F1F1F0",borderWidth:1,marginVertical:30}]}   onPress={ googleLogin}>
 <Image source={require('../../../Assets/Images/Login/flat-color-icons_google.png')} />
       <Text style={[styles.title,{color:theme.primaryText}]}>Login with Google</Text>
 

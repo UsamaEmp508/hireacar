@@ -4,8 +4,8 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 const ActivityIndicatorModal = ({ loaderIndicator }) => {
   return (
     <View style={styles.container}>
-      {loaderIndicator === true ? (
-        <ActivityIndicator size="large" color="#0184A0" />
+      {loaderIndicator  ? (
+        <ActivityIndicator size="large" color="#fff" />
       ) : (
         ""
       )}

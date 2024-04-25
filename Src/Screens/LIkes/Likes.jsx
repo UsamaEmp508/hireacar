@@ -11,7 +11,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Toast from 'react-native-toast-message'
 import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
-import { CheckBox } from '@rneui/base'
+import { CheckBox, color } from '@rneui/base'
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { Input } from '@rneui/themed'
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
@@ -50,20 +52,22 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   ]);
 
 
-  const handleMapPress = (event) => {
-    const { coordinate } = event.nativeEvent;
-    const selectedLocation = {
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude,
-    };
-    setLocation(selectedLocation);
-    updateFormData({ Location: selectedLocation });
+ 
+  const handlePlaceSelect = (data, details ) => {
+    // 'details' is provided when fetchDetails = true
+    
+    if (details) {
+      const { geometry, formatted_address } = details;
+      const { location } = geometry;
+      const { lat, lng } = location;
 
-    // Extract latitude and longitude and print to console
-    const latitude = selectedLocation.latitude;
-    const longitude = selectedLocation.longitude;
-    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      console.log('Latitude:', lat);
+      console.log('Longitude:', lng);
+      console.log('Formatted Address:', formatted_address);
+    }
   };
+
+
   const years = Array.from({ length: 22 }, (_, i) => new Date().getFullYear() - i); // last 22 years
   const yearOptions = years.map((year) => ({ label: String(year), value: year }));
   const gas = ['Petrol', 'Diesel', 'Electric'];
@@ -198,6 +202,49 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
 
 <Animated.View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
+<Text style={[styles.label,{color:theme.primaryText}]}>Pick Your cars Location</Text>
+
+<GooglePlacesAutocomplete
+fetchDetails
+      placeholder='Search'
+      
+      onPress={handlePlaceSelect}
+      query={{
+        key: 'AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A',
+        language: 'en',
+      }}
+      
+      
+      textInputProps={{
+        InputComp: Input,
+        leftIcon: { type: 'Feather', name: 'search',color:theme.PrimarylightText },
+        errorStyle: { color: 'red' },
+      }}
+      styles={{
+        container: {
+          
+          backgroundColor: theme.BackgroundSecondary,
+          fontFamily: FONTFAMILY.Poppins_Medium,
+       
+          marginBottom:40
+        },
+        textInput:{
+          backgroundColor: theme.BackgroundSecondary,
+          borderRadius: 10,
+          color: theme.PrimarylightText,
+          fontFamily: FONTFAMILY.Poppins_Medium,
+          fontSize: 14,
+        },
+      
+        poweredContainer: {
+          display: 'none', // Hide the "Powered by Google" attribution
+        },
+        
+      }}
+    />
+
+
+
   <Picker
     selectedValue={City}
     onValueChange={(value) => setCity(value)}

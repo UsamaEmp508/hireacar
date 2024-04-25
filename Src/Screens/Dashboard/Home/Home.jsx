@@ -10,6 +10,7 @@ import Location from '../../../Components/Location/Location';
 import { useNavigation } from '@react-navigation/native';
 import { GET_ALL_CARS } from '../../../Service/Queries';
 import { useQuery } from '@apollo/client';
+import { ChatState } from '../../../Context/ChatProvider';
 
 const Home = () => {
   const { loading, error, data } = useQuery(GET_ALL_CARS);
@@ -20,6 +21,7 @@ const Home = () => {
   const navigation = useNavigation()
 
 
+const { user} = ChatState();
   
   
 
@@ -29,7 +31,7 @@ const Home = () => {
 {/* header */}
 <View style={styles.Header_Profile}>
 <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Image source={require('../../../Assets/Images/Message/image1.jpg')} style={styles.image_profile} />
+          <Image source={{uri:user?.userByGoogleId?.photoLink}} style={styles.image_profile} />
         </TouchableOpacity>
 
 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
@@ -39,7 +41,7 @@ const Home = () => {
    </View>
 
 
-<Text style={[styles.Header_heading,{color:theme.primaryText}]}>Hello Johnson</Text>
+<Text style={[styles.Header_heading,{color:theme.primaryText}]}>Hello {user?.userByGoogleId?.displayName}</Text>
 <Text style={[styles.Header_Subheading,{color:theme.PrimarylightText}]}>Lets Find Your Favourite car here </Text>
 
 

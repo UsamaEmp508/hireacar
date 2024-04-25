@@ -15,35 +15,51 @@ import AllBrands from '../Screens/Dashboard/Home/AllBrands/AllBrands';
 import AllLocation from '../Screens/Dashboard/Home/All Location/AllLocation';
 import AllcarPrice from '../Screens/Dashboard/Home/AllCarPrice/AllcarPrice';
 import AllPopularCar from '../Screens/Dashboard/Home/AllPopularCars/AllPopularCar';
+import { ChatState } from '../Context/ChatProvider';
 const Route = () => {
-
+  const {  user} = ChatState();
+console.log('login user data',user)
     const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>   
     <Stack.Navigator screenOptions={{ headerShown: false }} >
-          <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
+      {
+
+        user ?
+
+        <Stack.Group>   
+        <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
+        <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />
+        
+        <Stack.Screen name={navgiationStrings.AllLocation} component={AllLocation} options={{ animation: 'fade_from_bottom'}} />
+    
+        
+        
+              <Stack.Screen name={navgiationStrings.Slider} component={Slider}   options={{ animation: 'slide_from_right'}} />
+    
+              <Stack.Screen name={navgiationStrings.CarDetails} component={CarDetails} options={{ animation: 'slide_from_right'}} />
+              <Stack.Screen name={navgiationStrings.Brand} component={Brand} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.location} component={LocationCars} options={{ animation: 'fade_from_bottom'}} />
+    
+              <Stack.Screen name={navgiationStrings.PrivacyPolicy} component={Policy} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.TermsCondition} component={Terms} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.Messages} component={Messages} options={{ animation: 'fade_from_bottom'}} />
+    
+              <Stack.Screen name={navgiationStrings.MyCar} component={MyCar} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.EditProfile} component={EditProfile} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.AllCarPopular} component={AllPopularCar} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.AllCarPrice} component={AllcarPrice} options={{ animation: 'fade_from_bottom'}} />
+              </Stack.Group>
+              :
     <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
-    <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />
-    
-    <Stack.Screen name={navgiationStrings.AllLocation} component={AllLocation} options={{ animation: 'fade_from_bottom'}} />
 
-    
-    
-          <Stack.Screen name={navgiationStrings.Slider} component={Slider}   options={{ animation: 'slide_from_right'}} />
+      }
+      
+ 
 
-          <Stack.Screen name={navgiationStrings.CarDetails} component={CarDetails} options={{ animation: 'slide_from_right'}} />
-          <Stack.Screen name={navgiationStrings.Brand} component={Brand} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.location} component={LocationCars} options={{ animation: 'fade_from_bottom'}} />
 
-          <Stack.Screen name={navgiationStrings.PrivacyPolicy} component={Policy} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.TermsCondition} component={Terms} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.Messages} component={Messages} options={{ animation: 'fade_from_bottom'}} />
 
-          <Stack.Screen name={navgiationStrings.MyCar} component={MyCar} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.EditProfile} component={EditProfile} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.AllCarPopular} component={AllPopularCar} options={{ animation: 'fade_from_bottom'}} />
-          <Stack.Screen name={navgiationStrings.AllCarPrice} component={AllcarPrice} options={{ animation: 'fade_from_bottom'}} />
-
+     
 
 
           

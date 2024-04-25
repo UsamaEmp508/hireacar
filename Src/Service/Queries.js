@@ -158,4 +158,47 @@ export const ALL_MESSAGES = gql`
 `;
 
 
+export const GET_USER_PROFILE = gql`
+  query GetUserProfile($id: String!) {
+    user(id: $id) { 
+      id
+      googleId
+      displayName
+      email
+      cnic
+      contactNumber
+      isVerified
+      photoLink
+      cars {
+        id
+      }
+      bookings {
+        id
+      }
+      reviews {
+        id
+      }
+    }
+  }
+`;
+
+
+
+export const GET_USER_QUERY_BY_GOOGLE_ID = gql`
+query userByGoogleId($id: String!) {
+  userByGoogleId(googleId: $id) {
+      id
+      googleId
+      photoLink
+      isVerified
+      displayName
+      email
+      contactNumber
+      cnic
+    }
+  }
+`;
+
+
+
 

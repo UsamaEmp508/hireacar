@@ -24,8 +24,7 @@ export const styles = StyleSheet.create({
         width:50,
         height:50,
         borderRadius:50,
-        borderColor:'#21408E',
-        borderWidth:4,
+       
       },
       image:{
         width:35,
@@ -58,7 +57,7 @@ alignItems:"center"
     },
 
     Header_heading:{
-fontSize:FONTSIZE.size_24,
+fontSize:22,
 fontFamily:FONTFAMILY.Poppins_Bold
     },
 

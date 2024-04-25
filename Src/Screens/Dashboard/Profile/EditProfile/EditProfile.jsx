@@ -10,6 +10,10 @@ import { darkTheme, lightTheme } from '../../../../Theme/Color';
 import { FONTFAMILY } from '../../../../Theme/FontFamily';
 import Entypo from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useMutation, useQuery } from '@apollo/client';
+import { CREATE_USER_MUTATION } from '../../../../Service/Mutation';
+import { GET_USER_PROFILE } from '../../../../Service/Queries';
+import { ChatState } from '../../../../Context/ChatProvider';
 
 
 const EditProfile = ({ navigation }) => {
@@ -23,6 +27,13 @@ const EditProfile = ({ navigation }) => {
   const [verified, setVerified] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [editMode, setEditMode] = useState(false); // State variable for edit mode
+const { user} = ChatState();
+
+  const { loading, error, data,refetch } = useQuery(GET_USER_PROFILE, {
+    variables: { id: user?.userByGoogleId?.id }
+  });
+console.log('data',data)
+
 
   useEffect(() => {
     // Set initial values when edit mode is enabled
@@ -61,17 +72,38 @@ const EditProfile = ({ navigation }) => {
     });
   };
 
-  const handleSubmit = () => {
-    // Perform submit action with the form data
-    const formData = {
-      username,
-      email,
-      cnic,
-      contactNumber,
-      verified,
-      selectedImage,
+  const myhandleSubmit = (event) => {
+    event.preventDefault();
+
+    const upUser = {
+      googleId: googleId,
+      photoLink: photoFile ? URL.createObjectURL(photoFile) : photo,
+      isVerified: isVerified,
+      displayName: displayName,
+      email: email,
+      cnic: cnic,
+      contactNumber: contactNumber,
     };
-    console.log(formData);
+
+    client
+      .mutate({
+        mutation: UPDATE_USER,
+        variables: {
+          id: User.id, // Use User.id instead of user.id
+          user: upUser,
+        },
+      })
+      .then((res) => {
+
+        setUser(res.data.updateUser);
+     toast.success('Profile updated successfully');
+    setEditPhoto(!editPhoto);
+
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(JSON.stringify(err, null, 2));
+      });
   };
 
   return (
