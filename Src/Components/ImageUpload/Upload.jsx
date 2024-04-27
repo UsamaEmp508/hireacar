@@ -9,34 +9,42 @@ const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
 const sasToken =
   '?sv=2022-11-02&ss=b&srt=sco&sp=rwtf&se=2024-04-26T06:15:31Z&st=2023-07-29T22:15:31Z&spr=https,http&sig=U64%2B0I7xhf9mJV3cHyrcNbGJEOEeIKZcRGThK%2FMEiC4%3D'; // Replace this with the SAS token generated on the server-side.
 
-const uploadImageToBlobStorage = async file => {
-  try {
-    const uniqueFileName = `${Date.now()}-${file.name}`;
-    const urlWithSasToken = `${blobEndpoint}${containerName}/${uniqueFileName}${sasToken}`;
-
-    // Manually determine the content type based on the file extension
-    let contentType = 'image/jpeg'; // Default to JPEG type
-    if (file.type === 'image/png' || file.name.endsWith('.png')) {
-      contentType = 'image/png';
+  const uploadImageToBlobStorage = async file => {
+    try {
+      const uniqueFileName = `${Date.now()}-${file.name}`;
+      const urlWithSasToken = `${blobEndpoint}${containerName}/${uniqueFileName}${sasToken}`;
+  
+      // Determine the content type based on the file extension
+      let contentType = 'image/jpeg'; // Default to JPEG type
+      if (file.type === 'image/png' || file.name.endsWith('.png')) {
+        contentType = 'image/png';
+      }
+  
+      const formData = new FormData();
+      formData.append('file', {
+        uri: file.uri,
+        name: file.name,
+        type: contentType,
+      });
+  
+      await fetch(urlWithSasToken, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-ms-blob-type': 'BlockBlob',
+        },
+      });
+  
+      // Return the actual image URL without SAS token
+      const url = `${blobEndpoint}${containerName}/${uniqueFileName}`;
+      return url;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
     }
-
-    await fetch(urlWithSasToken, {
-      method: 'PUT',
-      body: file,
-      headers: {
-        'Content-Type': contentType,
-        'x-ms-blob-type': 'BlockBlob', // Add this header
-      },
-    });
-
-    // Return the actual image URL without SAS token
-    const url = `${blobEndpoint}${containerName}/${uniqueFileName}`;
-    return url;
-  } catch (error) {
-    console.error('Error uploading image:', error);
-    return null;
-  }
-};
+  };
+  
 const ImageUpload = ({onImageUrlsChange}) => {
 
   const themeContext = useContext(ThemeContext);
@@ -46,36 +54,7 @@ const ImageUpload = ({onImageUrlsChange}) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [uploadedImageUrls, setUploadedImageUrls] = useState([]);
 
-console.log('data',selectedImages)
-
-  const handleImageUpload = async () => {
-    if (selectedImages.length === 0) {
-      Alert.alert('Error', 'Please select an image to upload.');
-      return;
-    }
-
-    const urls = [];
-
-    for (const imageUri of selectedImages) {
-      const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1); // Extract file name from URI
-      const file = {
-        uri: imageUri,
-        name: fileName,
-        type: 'image/jpeg', // Default to JPEG type
-      };
-  
-      const imageUrl = await uploadImageToBlobStorage(file);
-      if (imageUrl) {
-        urls.push(imageUrl);
-      }
-    }
-
-    setUploadedImageUrls(urls);
-
-    setSelectedImages([]); // Clear selected images after uploading
-    onImageUrlsChange(urls);
-  console.log('uploaded image',uploadedImageUrls)
-  };
+console.log('data from server',uploadedImageUrls)
 
   const handleRemoveImage = index => {
     setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
@@ -87,22 +66,53 @@ console.log('data',selectedImages)
       includeBase64: false,
       maxHeight: 2000,
       maxWidth: 2000,
-      saveToPhotos:true
+      saveToPhotos: true,
     };
-
+  
     launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('Image picker error: ', response.error);
       } else {
-        console.log('response',response)
+        console.log('response', response);
         let imageUri = response.assets && response.assets[0]?.uri;
-        console.log('image uri',imageUri)
-        setSelectedImages([...selectedImages,  imageUri]);
+        console.log('image uri', imageUri);
+        setSelectedImages([...selectedImages, imageUri]); // Update here
       }
     });
   };
+  
+  const handleImageUpload = async () => {
+    if (selectedImages.length === 0) {
+      Alert.alert('Error', 'Please select an image to upload.');
+      return;
+    }
+  
+    const urls = [];
+  
+    for (const imageUri of selectedImages) {
+      const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1); // Extract file name from URI
+      const file = {
+        uri: imageUri,
+        name: fileName,
+        type: 'image/jpeg', // Default to JPEG type
+      };
+      console.log('file name', file);
+      const imageUrl = await uploadImageToBlobStorage(file);
+      console.log('response from server',imageUrl)
+      if (imageUrl) {
+        urls.push(imageUrl);
+      }
+    }
+    console.log('uploaded image url', urls);
+    setUploadedImageUrls(urls);
+  
+    setSelectedImages([]); // Clear selected images after uploading
+    onImageUrlsChange(urls);
+   
+  };
+  
 
   return (
     <View>
@@ -165,13 +175,13 @@ marginVertical:15,
 
       <View>
         {/* Display uploaded images */}
-        {uploadedImageUrls.map((url, index) => (
+        {/* {uploadedImageUrls.map((url, index) => ( */}
           <Image
-            key={index}
-            source={{uri: url }}
+            // key={index}
+            source={{uri: 'https://hacblob.blob.core.windows.net/carpictures/1714228339669-rn_image_picker_lib_temp_8972ac00-928b-4867-8876-49b5ac23faff.jpg' }}
             style={{width: 100, height: 100, margin: 5}}
           />
-        ))}
+        {/* ))} */}
       </View>
     </View>
   );

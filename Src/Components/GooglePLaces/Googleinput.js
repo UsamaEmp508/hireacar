@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  PermissionsAndroid,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
@@ -16,6 +17,7 @@ import { heightPercentageToDP } from "react-native-responsive-screen";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { useLocation, useLocationActions } from "../../Theme/LocationContext";
+import Header from "../Header/Header";
 
 const apiKey = "AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A";
 
@@ -183,25 +185,72 @@ const Googleinput = ({navigation}) => {
     }
   };
 
-  const getCurrentLocation = () => {
-    setSearchText("");
-    Geolocation.getCurrentPosition(
-      (position) => {
-   
-        setAddLoc({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        getAddressFromCoordinates(
-          position.coords.latitude,
-          position.coords.longitude,
-          ""
+
+
+
+  const requestLocationPermission = async () => {
+    try {
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: "Geolocation Permission",
+            message: "Can we access your location?",
+            buttonNeutral: "Ask Me Later",
+            buttonNegative: "Cancel",
+            buttonPositive: "OK",
+          }
         );
-      },
-      (error) => {},
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-    );
+        if (granted === "granted") {
+          Geolocation.getCurrentPosition(
+            (position) => {
+           
+              setAddLoc({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              });
+              getAddressFromCoordinates(
+                position.coords.latitude,
+                position.coords.longitude,
+                ""
+              );
+            },
+            (error) => {
+              console.log('error',error)
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+          );
+        } else {
+          return false;
+        }
+      } else {
+        // On iOS, permission is not required beforehand
+        Geolocation.getCurrentPosition(
+          (position) => {
+         
+            setAddLoc({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            });
+            getAddressFromCoordinates(
+              position.coords.latitude,
+              position.coords.longitude,
+              ""
+            );
+          },
+          (error) => {
+            console.log('error',error)
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+      }
+    } catch (err) {
+      return false;
+    }
   };
+
+
+  
 
  
 
@@ -222,7 +271,11 @@ const Googleinput = ({navigation}) => {
   return (
     <View style={styles.container}>
 
+{/* <View style={{position:"absolute",bottom:20,left:10,right:10}}>
+<Header text={'Location'} />
 
+
+</View> */}
 
 <MapView
         ref={mapRef}
@@ -283,7 +336,7 @@ const Googleinput = ({navigation}) => {
       )}
       <TouchableOpacity
         style={styles.currentLocationContainer}
-        onPress={getCurrentLocation}
+        onPress={requestLocationPermission}
       >
          <Ionicons name="locate" size={24} color="#000" />
       </TouchableOpacity>
@@ -314,8 +367,8 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     alignItems:"center",
     backgroundColor: "#FFFFFF",
-    borderColor:"#2AB1B1",
-              borderWidth:1,
+    borderColor:"#21408E",
+              borderWidth:2,
               borderRadius: 5,
               paddingHorizontal: 10,
               gap:5
@@ -330,12 +383,12 @@ const styles = StyleSheet.create({
   chooseBtnContainer: {
     position: "absolute",
     bottom: 40,
-    right: 20,
-    left: 20,
+    right: 10,
+    left: 10,
   },
   button: {
-    marginHorizontal: 20,
-    backgroundColor: "#0184A0",
+   
+    backgroundColor: "#21408E",
     paddingVertical: 15,
     paddingHorizontal: 15,
 

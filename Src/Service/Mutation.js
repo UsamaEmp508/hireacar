@@ -48,20 +48,9 @@ export const UPDATE_USER = gql`
       email
       photoLink
       contactNumber
-      isVerified
+    
       cnic
-      # other car fields
-      # cars {
-      #   id
-      # }
-      # other booking fields
-      # bookings {
-      #   id
-      # }
-      # # other review fields
-      # reviews {
-      #   id
-      # }
+    
     }
   }
 `;

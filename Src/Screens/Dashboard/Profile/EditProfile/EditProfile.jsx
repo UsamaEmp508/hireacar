@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, Pressable, Alert } from 'react-native';
 import { styles } from './EditStyle';
-import { Picker } from '@react-native-picker/picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Header from '../../../../Components/Header/Header';
@@ -11,11 +10,11 @@ import { FONTFAMILY } from '../../../../Theme/FontFamily';
 import Entypo from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useMutation, useQuery } from '@apollo/client';
-import { CREATE_USER_MUTATION } from '../../../../Service/Mutation';
 import { GET_USER_PROFILE } from '../../../../Service/Queries';
 import { ChatState } from '../../../../Context/ChatProvider';
 
-
+import { apolloClient as client } from '../../../../Service/graphql';
+import { UPDATE_USER } from '../../../../Service/Mutation';
 const EditProfile = ({ navigation }) => {
   const [activeInput, setActiveInput] = useState('');
   const themeContext = useContext(ThemeContext);
@@ -24,11 +23,11 @@ const EditProfile = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [cnic, setCnic] = useState('');
   const [contactNumber, setContactNumber] = useState('');
-  const [verified, setVerified] = useState('');
+  const [googleId, setGoogleId] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [editMode, setEditMode] = useState(false); // State variable for edit mode
 const { user} = ChatState();
-
+const [photo, setPhoto] = useState("");
   const { loading, error, data,refetch } = useQuery(GET_USER_PROFILE, {
     variables: { id: user?.userByGoogleId?.id }
   });
@@ -37,12 +36,14 @@ console.log('data',data)
 
   useEffect(() => {
     // Set initial values when edit mode is enabled
-      setUsername('Initial Username');
-      setEmail('example@email.com');
-      setCnic('Initial CNIC');
-      setContactNumber('Initial Contact Number');
-      setVerified('Initial Verification');
-  }, []); // Run this effect whenever editMode changes
+    setGoogleId(data?.user.googleId)
+      setUsername(data?.user?.displayName);
+      setEmail(data?.user?.email);
+      setCnic(data?.user?.cnic);
+      setContactNumber(data?.user.contactNumber);
+      setPhoto(data?.user?.photoLink)
+   
+  }, [data]); // Run this effect whenever editMode changes
 
   const handleInputFocus = (inputName) => {
     setActiveInput(inputName);
@@ -72,32 +73,31 @@ console.log('data',data)
     });
   };
 
-  const myhandleSubmit = (event) => {
+  const myhandleSubmit = async (event) => {
     event.preventDefault();
 
     const upUser = {
-      googleId: googleId,
-      photoLink: photoFile ? URL.createObjectURL(photoFile) : photo,
-      isVerified: isVerified,
-      displayName: displayName,
+    
+      photoLink:photo,
+googleId:googleId,
+      displayName: username,
       email: email,
       cnic: cnic,
       contactNumber: contactNumber,
     };
 
-    client
-      .mutate({
+    client.mutate({
         mutation: UPDATE_USER,
         variables: {
-          id: User.id, // Use User.id instead of user.id
+          id: data?.user.id, // Use User.id instead of user.id
           user: upUser,
         },
       })
       .then((res) => {
 
-        setUser(res.data.updateUser);
-     toast.success('Profile updated successfully');
-    setEditPhoto(!editPhoto);
+        console.log('res',res)
+     Alert.alert('Profile updated successfully');
+    setEditMode(!editMode);
 
       })
       .catch((err) => {
@@ -239,7 +239,7 @@ marginTop:activeInput === 'cnic' ? 10 : 0
             marginVertical: 15,
             fontSize: 16,
           }}
-          onPress={handleSubmit}>
+          onPress={myhandleSubmit}>
           <Text style={{ color: 'white', fontFamily: FONTFAMILY.Poppins_Medium, fontSize: 14, textAlign: "center" }}>Submit</Text>
         </TouchableOpacity>
       )}

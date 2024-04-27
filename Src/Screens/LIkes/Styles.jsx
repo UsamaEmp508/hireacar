@@ -127,12 +127,10 @@ marginTop:5,
 borderRadius:10
   },
   dateAndTimeOpacities: {
+    flexDirection:"row",
+    gap:15,
     alignItems: "center",
-    justifyContent: "flex-start",
-    flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#0000001A",
-    height: 56,
+  
     borderRadius: 10,
     padding: 15,
     marginTop: 5,

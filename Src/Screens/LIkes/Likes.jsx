@@ -237,7 +237,7 @@ const handleSubmit = ()  =>
 <Text style={[styles.label,{color:theme.primaryText}]}>Pick Your cars Location</Text>
 
 <TouchableOpacity
-      style={[styles.dateAndTimeOpacities, { marginBottom: 10 }]}
+      style={[styles.dateAndTimeOpacities, { marginBottom: 10,backgroundColor:theme.BackgroundSecondary }]}
       onPress={() => navigation.navigate('MapLocation')}
     >
       <Icon name="map-marker" size={20} color={theme.primaryText} /> 
