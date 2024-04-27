@@ -125,5 +125,27 @@ marginTop:5,
   dropdown:{
     padding:10,
 borderRadius:10
-  }
+  },
+  dateAndTimeOpacities: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "#0000001A",
+    height: 56,
+    borderRadius: 10,
+    padding: 15,
+    marginTop: 5,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 20,
+  },
+  detailText: {
+    fontFamily: "Roboto",
+    fontWeight: "400",
+    fontSize: 15,
+    color: "#000000B2",
+  },
 });

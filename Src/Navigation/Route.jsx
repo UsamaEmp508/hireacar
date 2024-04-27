@@ -16,18 +16,17 @@ import AllLocation from '../Screens/Dashboard/Home/All Location/AllLocation';
 import AllcarPrice from '../Screens/Dashboard/Home/AllCarPrice/AllcarPrice';
 import AllPopularCar from '../Screens/Dashboard/Home/AllPopularCars/AllPopularCar';
 import { ChatState } from '../Context/ChatProvider';
+
+import Googleinput from '../Components/GooglePLaces/Googleinput';
 const Route = () => {
-  const {  user} = ChatState();
-console.log('login user data',user)
+  // const {  user} = ChatState();
+// console.log('login user data',user)
     const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>   
-    <Stack.Navigator screenOptions={{ headerShown: false }} >
-      {
-
-        user ?
-
-        <Stack.Group>   
+    <Stack.Navigator screenOptions={{ headerShown: false }}  >
+      
+        
         <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
         <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />
         
@@ -49,11 +48,13 @@ console.log('login user data',user)
               <Stack.Screen name={navgiationStrings.EditProfile} component={EditProfile} options={{ animation: 'fade_from_bottom'}} />
               <Stack.Screen name={navgiationStrings.AllCarPopular} component={AllPopularCar} options={{ animation: 'fade_from_bottom'}} />
               <Stack.Screen name={navgiationStrings.AllCarPrice} component={AllcarPrice} options={{ animation: 'fade_from_bottom'}} />
-              </Stack.Group>
-              :
+              <Stack.Screen name={navgiationStrings.MapLocation} component={Googleinput} options={{ animation: 'fade_from_bottom'}} />
+
+              
+              
     <Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
 
-      }
+      
       
  
 

@@ -86,3 +86,53 @@ mutation CreateUser($newUserData: NewUserInput!) {
   }
 }
 `;
+
+
+
+
+export const ADD_NEW_CAR = gql`
+mutation AddCars($newCarData: NewCarInput!) {
+  addNewCar(
+    newCarData: $newCarData
+  ) {
+    id
+    name
+    photos
+    carType
+    monthlyPrice
+    dailyPrice
+    hourlyPrice
+    City
+    year
+    thumbnailUrl
+    gearType
+    color
+   isAvailable
+   owner{id}
+   location{id}
+  }
+}
+`;
+
+
+export const UPDATE_CAR = gql`
+  mutation UpdateCar($id: String!, $updateCarData: updateCarInput!) {
+    updateCar(id: $id, updateCarData: $updateCarData) {
+      id
+      monthlyPrice
+      dailyPrice
+      hourlyPrice
+      photos
+      features
+      isAvailable
+    }
+  }
+`;
+
+export const deleteCar = gql`
+mutation deleteCar($id: String!) {
+  deleteCar(id: $id)
+}
+
+
+`

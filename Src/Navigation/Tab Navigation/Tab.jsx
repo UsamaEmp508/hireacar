@@ -11,6 +11,7 @@ import Chats from '../../Screens/Messsages/Chats';
 
 import Icon from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { ChatState } from '../../Context/ChatProvider';
 
 
 
@@ -18,6 +19,7 @@ const Tab = createBottomTabNavigator();
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
 
+  const {  user} = ChatState();
 
     const themeContext = useContext(ThemeContext);
 

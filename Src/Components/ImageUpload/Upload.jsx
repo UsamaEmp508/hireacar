@@ -56,16 +56,25 @@ console.log('data',selectedImages)
 
     const urls = [];
 
-    for (const image of selectedImages) {
-      const imageUrl = await uploadImageToBlobStorage(image);
+    for (const imageUri of selectedImages) {
+      const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1); // Extract file name from URI
+      const file = {
+        uri: imageUri,
+        name: fileName,
+        type: 'image/jpeg', // Default to JPEG type
+      };
+  
+      const imageUrl = await uploadImageToBlobStorage(file);
       if (imageUrl) {
         urls.push(imageUrl);
       }
     }
 
     setUploadedImageUrls(urls);
+
     setSelectedImages([]); // Clear selected images after uploading
     onImageUrlsChange(urls);
+  console.log('uploaded image',uploadedImageUrls)
   };
 
   const handleRemoveImage = index => {
@@ -159,7 +168,7 @@ marginVertical:15,
         {uploadedImageUrls.map((url, index) => (
           <Image
             key={index}
-            source={{uri: url}}
+            source={{uri: url }}
             style={{width: 100, height: 100, margin: 5}}
           />
         ))}

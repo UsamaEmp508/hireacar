@@ -11,14 +11,17 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Toast from 'react-native-toast-message'
 import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
-import { CheckBox, color } from '@rneui/base'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Input } from '@rneui/themed'
+import { CheckBox, Image, color } from '@rneui/base'
+import client from '../../Client/Client'
+import { ADD_NEW_CAR } from '../../Service/Mutation'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useLocation } from '../../Theme/LocationContext'
+import { useNavigation } from '@react-navigation/native'
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
   const progress = useSharedValue(100);
-
+const navigation = useNavigation()
   const [dailyPrice, setDailyPrice] = useState(100); // Initial daily price
 const [monthlyPrice, setMonthlyPrice] = useState(100); // Initial monthly price
 const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
@@ -39,9 +42,8 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const themeContext = useContext(ThemeContext);
   const [currentStep, setCurrentStep] = useState(0);
   const [Location, setLocation] = useState(null);
-  const [selectedIndex, setIndex] = useState(0);
   const totalSteps = 4; // Total number of steps
-
+  const { state } = useLocation();
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const min = 100;
   const max = 100000;
@@ -53,21 +55,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
 
  
-  const handlePlaceSelect = (data, details) => {
-    
 
-    
-    
-    if (details) {
-      const { geometry, formatted_address } = details;
-      const { location } = geometry;
-      const { lat, lng } = location;
-
-      console.log('Latitude:', lat);
-      console.log('Longitude:', lng);
-      console.log('Formatted Address:', formatted_address);
-    }
-  };
 
 
   const years = Array.from({ length: 22 }, (_, i) => new Date().getFullYear() - i); // last 22 years
@@ -162,9 +150,51 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
       </Link>
     </FadeInDownContainer>
   );
+
+
+const handleSubmit = ()  => 
+{
+  client
+  .mutate({
+    mutation: ADD_NEW_CAR,
+    variables: {
+      newCarData: {
+        name: CarBrand,
+        monthlyPrice: monthlyPrice,
+        dailyPrice: dailyPrice,
+        carType: carType,
+        hourlyPrice: hourlyPrice,
+        City: City,
+        gearType: gearType,
+        thumbnailUrl:
+          "https://img.indianautosblog.com/2015/10/2016-Honda-CIvic-white-front-quarter.jpg",
+        photos: imageUrls,
+        year: Year,
+        gas: Gas,
+        color: Color,
+        features: Misctext,
+        isAvailable: true,
+        owner:user.userByGoogleId.id, // Pass the owner ID as a string
+        location: Location, // Pass the location ID obtained from the first mutation
+      },
+    },
+  })
+  .then((res) => {
+    console.log(res);
+    // toast.success('car add successfully')
+    setIsSubmitted(true);
+    setIsLoading(false);
+  })
+  .catch((error) => {
+    console.error("Error in the add car:", error);
+    setIsLoading(false);
+  });
+
+}
+
     
   return (
-    <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <View  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 
@@ -203,60 +233,22 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
 
 
-<Animated.View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
+<View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
 <Text style={[styles.label,{color:theme.primaryText}]}>Pick Your cars Location</Text>
 
-<GooglePlacesAutocomplete
-fetchDetails={true}
-      placeholder='Search'
-      
-      onPress={(data, details = null) =>handlePlaceSelect(data, details)}
-      query={{
-        key: 'AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A',
-        language: 'en',
-      }}
-      listEmptyComponent={() => (
-        <View >
-          <Text>No results were found</Text>
-        </View>
-      )}
-      
-      textInputProps={{
-        InputComp: Input,
-        leftIcon: { type: 'Feather', name: 'search',color:theme.PrimarylightText },
-        errorStyle: { color: 'red' },
-      }}
-      styles={{
-        container: {
-          
-          backgroundColor: theme.BackgroundSecondary,
-          fontFamily: FONTFAMILY.Poppins_Medium,
-       
-          marginBottom:40
-        },
-        textInput:{
-          backgroundColor: theme.BackgroundSecondary,
-          borderRadius: 10,
-          color: theme.PrimarylightText,
-          fontFamily: FONTFAMILY.Poppins_Medium,
-          fontSize: 14,
-        },
-      
-        poweredContainer: {
-          display: 'none', // Hide the "Powered by Google" attribution
-        },
-        
-      }}
-
-     
-    />
-
+<TouchableOpacity
+      style={[styles.dateAndTimeOpacities, { marginBottom: 10 }]}
+      onPress={() => navigation.navigate('MapLocation')}
+    >
+      <Icon name="map-marker" size={20} color={theme.primaryText} /> 
+      <Text style={[styles.detailText,{color:theme.PrimarylightText}]}>{state?.completeAddress ? state?.completeAddress.line1 : "Select Your Location"}</Text>
+    </TouchableOpacity>
 
 
   <Picker
     selectedValue={City}
     onValueChange={(value) => setCity(value)}
-    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10,color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}]}
+    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10,color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,marginTop:30}]}
     itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,color:theme.PrimarylightText}}
     selectionColor={theme.primaryText}
     mode='dropdown'
@@ -266,7 +258,7 @@ fetchDetails={true}
       <Picker.Item label={item.label} value={item.value} key={index} />
     ))}
   </Picker>
-</Animated.View>
+</View>
 
 
 )}
@@ -516,7 +508,7 @@ marginVertical:15,
 
      
 
-    </KeyboardAwareScrollView>
+    </View>
   )
 }
 

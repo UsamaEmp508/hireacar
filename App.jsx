@@ -8,6 +8,8 @@ import Toast from 'react-native-toast-message'
 import messaging from '@react-native-firebase/messaging';
 import ChatProvider from "./Src/Context/ChatProvider";
 import { apolloClient } from "./Src/Service/graphql";
+import { LocationProvider } from "./Src/Theme/LocationContext";
+
 
 
 export default function App() {
@@ -65,8 +67,11 @@ export default function App() {
       <ApolloProvider client={apolloClient} >   
 
       <Theme>  
-       <ChatProvider >     
+       <ChatProvider >  
+        <LocationProvider>      
    <Route/>
+
+   </LocationProvider>
    </ChatProvider>
    </Theme>  
    </ApolloProvider>
