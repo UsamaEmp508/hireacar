@@ -145,14 +145,7 @@ const { user} = ChatState();
         }}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
-        ListEmptyComponent={() => {
-          if (loading) {
-            return <ActivityIndicator size="large" color="#1F4590" style={{alignSelf:"center"}} />;
-          } else {
-            return null;
-          }
-        }}
-      
+       
       />
         )}
 </View>
@@ -207,13 +200,7 @@ const { user} = ChatState();
                 }}
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
-        ListEmptyComponent={() => {
-          if (loading) {
-            return <ActivityIndicator size="large" color="#1F4590" />;
-          } else {
-            return null;
-          }
-        }}
+       
       />
         )}
     </View>
