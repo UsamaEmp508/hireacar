@@ -1,4 +1,4 @@
-import React, { useContext, useRef,useState } from 'react';
+import React, { useContext, useEffect, useRef,useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TextInput ,TouchableOpacity} from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import { FONTSIZE } from '../../Theme/FontSize';
@@ -15,8 +15,12 @@ import { BORDERRADIUS } from '../../Theme/BorderRadius';
 import { SPACING } from '../../Theme/Spacing';
 import Ionicons from 'react-native-vector-icons/Ionicons'; // Import FontAwesome as an example
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'; // Import FontAwesome as an example
+import { useMutation, useQuery } from '@apollo/client';
+import { FETCH_CHATS } from '../../Service/Queries';
+import { ACCESS_CHAT } from '../../Service/Mutation';
 
-
+import { useNavigation } from '@react-navigation/native';
+import { ChatState } from '../../Context/ChatProvider';
   
 
  // Import FontAwesome as an example
@@ -32,8 +36,28 @@ const Details = ({ data }) => {
 
   const carouselRef = useRef(null);
   const themeContext = useContext(ThemeContext);
-
+const navigation = useNavigation()
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+  const { selectedChat, setSelectedChat, user, setChats, chats } = ChatState();
+
+
+
+
+
+  const [accessChat,{loading:chatLoading}] = useMutation(ACCESS_CHAT);
+
+
+  
+const {  data:chatdataalready } = useQuery(FETCH_CHATS, {
+  variables: { userId:user?.userByGoogleId?.id },
+});
+
+
+useEffect(() => {
+
+  setChats(chatdataalready?.FetchChats)
+   }, [chatdataalready])
+
   const renderPagination = () => (
     <Pagination
       dotsLength={data?.photos.length}
@@ -45,6 +69,47 @@ const Details = ({ data }) => {
       inactiveDotScale={0.6}
     />
   );
+
+  const handleAccessChat = async () => {
+    try {
+      // Check if chat already exists between car owner and current user
+      const existingChat = chats?.find(
+        (chat) =>
+          chat.users.some((user) => user.id === data?.owner?.id) &&
+          chat.users.some((user) => user.id === user?.userByGoogleId?.id )
+      );
+      if (existingChat) {
+        // If chat already exists, show toast message
+        setSelectedChat(existingChat); // Set the selected chat
+  
+       navigation.navigate('dashboard', {
+        screen: 'Chats',
+ 
+      });
+        return; // Exit the function
+      }
+  
+      // If chat does not exist, proceed to access chat mutation
+      const result = await accessChat({
+        variables: { id: data?.owner?.id, currentUser: user?.userByGoogleId?.id  },
+      });
+  
+      const chatdata = result.data.accessChat;
+  
+      if (chatdata) {
+       setSelectedChat(chatdata)
+       navigation.navigate('dashboard', {
+        screen: 'Chats',
+ 
+      });
+  
+      }
+    } catch (error) {
+      console.error("Error accessing chat:", error);
+      // Handle error if necessary
+    }
+  };
+  
 
 
   const handleSnapToItem = (index) => {
@@ -329,7 +394,7 @@ zoomControlEnabled={true}
           <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data?.owner?.contactNumber}</Text>
         </View>
         <View style={styles.iconContainer}>
-          <TouchableOpacity >
+          <TouchableOpacity onPress={handleAccessChat}>
             <MaterialIcons name="message" size={24} color="#B1B3B4" style={styles.icon} />
           </TouchableOpacity>
           <MaterialIcons name="call" size={24} color="#B1B3B4" style={styles.icon} />
@@ -474,6 +539,7 @@ borderRadius:8
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:"center",
 gap:10   
   },
   icon: {

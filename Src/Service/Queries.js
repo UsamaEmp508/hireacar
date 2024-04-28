@@ -111,6 +111,7 @@ query FetchChats($userId: String!) {
     id
     displayName
     } 
+    createdAt
 
     }
 

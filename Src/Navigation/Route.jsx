@@ -18,10 +18,21 @@ import AllPopularCar from '../Screens/Dashboard/Home/AllPopularCars/AllPopularCa
 import { ChatState } from '../Context/ChatProvider';
 
 import Googleinput from '../Components/GooglePLaces/Googleinput';
+import { getData } from '../Utility/Storage/Storage';
 const Route = () => {
-  const {  user} = ChatState();
-console.log('login user data',user)
+  const {  user,setUser} = ChatState();
+ 
     const Stack = createNativeStackNavigator();
+
+    useEffect(() => {
+      const getDataFromStorage = async () => {
+        const data = await getData();
+        setUser(data);
+    
+      };
+  
+      getDataFromStorage();
+    }, []);
   return (
     <NavigationContainer>   
     <Stack.Navigator screenOptions={{ headerShown: false }}  >

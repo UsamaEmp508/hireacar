@@ -191,6 +191,7 @@ const Googleinput = ({navigation}) => {
   const requestLocationPermission = async () => {
     try {
       if (Platform.OS === 'android') {
+        // Request location permission for Android
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
           {
@@ -202,9 +203,10 @@ const Googleinput = ({navigation}) => {
           }
         );
         if (granted === "granted") {
+          // Permission granted, get current location
           Geolocation.getCurrentPosition(
             (position) => {
-           
+              // Successfully obtained current location
               setAddLoc({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
@@ -214,6 +216,9 @@ const Googleinput = ({navigation}) => {
                 position.coords.longitude,
                 ""
               );
+  
+              // Update complete address immediately after obtaining location
+              setCompleteAddress(completeLocation);
             },
             (error) => {
               console.log('error',error)
@@ -227,7 +232,7 @@ const Googleinput = ({navigation}) => {
         // On iOS, permission is not required beforehand
         Geolocation.getCurrentPosition(
           (position) => {
-         
+            // Successfully obtained current location
             setAddLoc({
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
@@ -235,8 +240,10 @@ const Googleinput = ({navigation}) => {
             getAddressFromCoordinates(
               position.coords.latitude,
               position.coords.longitude,
-              ""
             );
+  
+            // Update complete address immediately after obtaining location
+            setCompleteAddress(completeLocation);
           },
           (error) => {
             console.log('error',error)
@@ -248,6 +255,7 @@ const Googleinput = ({navigation}) => {
       return false;
     }
   };
+  
 
 
   

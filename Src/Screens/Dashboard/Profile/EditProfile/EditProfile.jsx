@@ -89,7 +89,7 @@ googleId:googleId,
     client.mutate({
         mutation: UPDATE_USER,
         variables: {
-          id: data?.user.id, // Use User.id instead of user.id
+          id: data?.user.id, 
           user: upUser,
         },
       })

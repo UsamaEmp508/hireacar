@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { GET_ALL_CARS } from '../../../Service/Queries';
 import { useQuery } from '@apollo/client';
 import { ChatState } from '../../../Context/ChatProvider';
+import { Skeleton } from '@rneui/base';
 
 const Home = () => {
   const { loading, error, data } = useQuery(GET_ALL_CARS);
@@ -22,7 +23,7 @@ const Home = () => {
 
 
 const { user} = ChatState();
-  
+
   
 
 
@@ -118,7 +119,22 @@ const { user} = ChatState();
 <View>
 
 {  error &&   <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>Error fetching data</Text>}
+{loading ? (
+           <FlatList
+           data={Array.from({length: 8})}
+           showsHorizontalScrollIndicator={false}
+           horizontal
+           keyExtractor={(item, index) => index.toString()}
+           renderItem={({index}) => (
+               <Skeleton  animation="wave"
+               width={200} height={200} style={{marginRight:10}} />
 
+        
+                                
+
+           )}
+         />
+        ) : (
 
       <FlatList
          data={data?.cars?.slice(0, 20)}
@@ -138,6 +154,7 @@ const { user} = ChatState();
         }}
       
       />
+        )}
 </View>
 
 
@@ -160,6 +177,24 @@ const { user} = ChatState();
 
 {  error &&   <Text style={[styles.row_heading_right,{color:theme.primaryText}]}>Error fetching data</Text>}
 
+
+{loading ? (
+           <FlatList
+           data={Array.from({length: 8})}
+           showsHorizontalScrollIndicator={false}
+           horizontal
+           keyExtractor={(item, index) => index.toString()}
+           renderItem={({index}) => (
+               <Skeleton  animation="pulse"
+               width={200} height={200} style={{marginRight:10}} />
+
+        
+                                
+
+           )}
+         />
+        ) : (
+
       <FlatList
                        data={data?.cars?.slice(0, 20)}
 
@@ -180,6 +215,7 @@ const { user} = ChatState();
           }
         }}
       />
+        )}
     </View>
 
 

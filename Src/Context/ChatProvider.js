@@ -9,6 +9,7 @@ const ChatProvider = ({ children  }) => {
   const [user, setUser] = useState();
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState([]);
+  const [istyping, setIsTyping] = useState(false);
 
   
   return (
@@ -22,7 +23,8 @@ const ChatProvider = ({ children  }) => {
         setNotification,
         chats,
         setChats,
-      
+      istyping,
+      setIsTyping
       }}
     >
       {children}

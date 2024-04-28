@@ -13,6 +13,7 @@ import { GET_USER_QUERY_BY_GOOGLE_ID } from '../../../Service/Queries'
 import { useMutation } from '@apollo/client'
 import { apolloClient as client } from '../../../Service/graphql';
 import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal'
+import { storeData } from '../../../Utility/Storage/Storage'
 const Login = ({navigation}) => {
 
 const { setUser} = ChatState();
@@ -24,7 +25,7 @@ const [systemUserId, setSystemUserId] = useState(null);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const webClientId = "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com"; 
 
-console.log('loading',loading)
+
 
   useEffect(()=>{
       GoogleSignin.configure({
@@ -177,6 +178,7 @@ const googleLogin = async () => {
           });
           const userByGoogleId = data.userByGoogleId;
 setUser(data)
+storeData(data)
           if (userByGoogleId === null) {
 
             const newUser = {
@@ -193,19 +195,17 @@ setUser(data)
                   newUserData: newUser,
                 },
               });
-              console.log(data);
+          
          setUser(data)
+         storeData(data)
             } catch (error) {
               console.log(error);
               // Handle error during user creation
             }
           } else {
-            // User found, handle accordingly
-            console.log(userByGoogleId);
-            console.log(userByGoogleId.id)
-            setSystemUserId(userByGoogleId.id); // Save the system ID
+         
+            setSystemUserId(userByGoogleId.id); 
 
-            // You can perform any additional actions or set the user state as needed
           
         } 
       } catch (error) {

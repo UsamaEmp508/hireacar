@@ -108,7 +108,7 @@ console.log('data from server',uploadedImageUrls)
     console.log('uploaded image url', urls);
     setUploadedImageUrls(urls);
   
-    setSelectedImages([]); // Clear selected images after uploading
+    setSelectedImages([]); 
     onImageUrlsChange(urls);
    
   };

@@ -22,7 +22,7 @@ const AllPopularCar = () => {
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
     <Header text={'Popular Cars'} />
@@ -42,7 +42,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     </View>
     
     {
-   data.length < 1    ?
+   data?.length < 1    ?
      
           <Text style={[styles.heading,{color:theme.primaryText,marginTop:20,textAlign:"center"}]}>No data available</Text>
     :

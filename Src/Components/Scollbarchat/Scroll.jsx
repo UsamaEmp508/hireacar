@@ -1,97 +1,74 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View ,Image} from 'react-native'
 import React, { useContext } from 'react'
 import { ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import { FlatList } from 'react-native-gesture-handler';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import { SPACING } from '../../Theme/Spacing';
+import { ChatState } from '../../Context/ChatProvider';
+import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from '../../config/ChatLogics';
 
-const Scroll = () => {
+const Scroll = ({messages}) => {
 
     const themeContext = useContext(ThemeContext);
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+const { setUser,user} = ChatState();
 
-    const sender = "You"; // Static sender
-    const receiver = "Friend"; // Static receiver
+console.log('user login data',user)
+
+
+
+
+
+
   
-    const dummyMessages = [
-      {
-        id: 1,
-        sender: sender,
-        content: 'Hey, how are you?',
-        timestamp: new Date().getTime(),
-      },
-      {
-        id: 2,
-        sender: receiver,
-        content: 'I am good, thanks for asking!',
-        timestamp: new Date().getTime() + 1000,
-      },
-      {
-        id: 3,
-        sender: sender,
-        content: 'Do you have any plans for the weekend?',
-        timestamp: new Date().getTime() + 2000,
-      },
-    ];
 
-    const renderItem = ({ item }) => (
+    const renderItem = ({ item,index }) => {
+
+console.log('item data',item)
+      return(
 
 
 
-        // {messages &&
-        //   messages?.map((m, i) => (
-        //     <div style={{ display: "flex",alignItems:"center",gap:'.6rem' }} key={m.id}>
-        //       {(isSameSender(messages, m, i, LoginUserId) ||
-        //         isLastMessage(messages, i, LoginUserId)) && (
-               
-        //           <Tooltip title={m.sender.displayName} placement="bottom-start" arrow>
-        //           <Avatar
-        //             mt="7px"
-        //             mr={1}
-        //             size="sm"
-        //             cursor="pointer"
-        //             name={m.sender.displayName}
-        //             src={m.sender.photoLink}
-        //           />
-        //         </Tooltip>
-        //       )}
-        //       <span
-        //         style={{
-        //           backgroundColor: `${
-        //             m.sender.id === LoginUserId ? "#BEE3F8" : "#B9F5D0"
-        //           }`,
-        //           marginLeft: isSameSenderMargin(messages, m, i, LoginUserId),
-        //           marginTop: isSameUser(messages, m, i, LoginUserId) ? 3 : 30,
-        //           borderRadius: "20px",
-        //           padding: "5px 15px",
-        //           maxWidth: "75%",
-        //         }}
-        //       >
-        //         {m.content}
-        //       </span>
-        //     </div>
-        //   ))}
     
-    
-        <View style={[styles.messageContainer, { alignSelf: item.sender === sender ? 'flex-end' : 'flex-start' }]}>
-          <View style={[styles.messageBubble, { backgroundColor: item.sender === sender ? theme.primaryColor : theme.secondaryColor }]}>
-            <Text style={[styles.content, { color: item.sender === sender ? theme.primaryText : theme.primaryText }]}>
-              {item.content}
-            </Text>
-          </View>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }} key={item.id}>
+        {(isSameSender(messages, item, index, user?.userByGoogleId?.id) ||
+          isLastMessage(messages, item, user?.userByGoogleId?.id)) && (
+            <Image
+            style={{ marginTop: 7, marginRight: 4, width: 40, height: 40, borderRadius: 20 }}
+            source={{ uri: item.sender.photoLink }}
+          />
+          // <Tooltip title={m.sender.displayName} placement="bottom-start" arrow>
+           
+          // </Tooltip>
+        )}
+        <View
+          style={{
+            backgroundColor: item.sender.id === user?.userByGoogleId?.id ? theme.BackgroundSecondary : theme.PrimarylightText,
+            marginLeft: isSameSenderMargin(messages, item, index, user?.userByGoogleId?.id),
+            marginTop: isSameUser(messages, item, index, user?.userByGoogleId?.id) ? 3 : 30,
+            borderRadius: 20,
+            paddingVertical: 5,
+            paddingHorizontal: 15,
+            maxWidth: '75%',
+          }}>
+          <Text style={[styles.content]}>{item.content}</Text>
         </View>
+      </View>
+      
     
     
     
     
-      );
+  )
+}
+
   return (
      <FlatList
-        data={dummyMessages}
+        data={messages}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingHorizontal: SPACING.space_20,marginTop:20 }}
+        contentContainerStyle={{ paddingHorizontal: SPACING.space_8,marginTop:20,paddingBottom:40 }}
       />
 
   )

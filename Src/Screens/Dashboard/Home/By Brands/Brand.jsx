@@ -40,7 +40,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
 
 </View>
 {
-selectedbrands.length < 1    ?
+selectedbrands?.length < 1    ?
  
       <Text style={[styles.heading,{color:theme.primaryText,marginTop:20,textAlign:"center"}]}>No data available</Text>
 :

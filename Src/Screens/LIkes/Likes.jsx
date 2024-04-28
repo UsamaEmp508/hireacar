@@ -1,9 +1,9 @@
-import { StyleSheet, Text, TextInput, View,TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TextInput, View,TouchableOpacity, Alert } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './Styles'
 import { ThemeContext } from '../../Theme/ThemeContext'
 import { darkTheme, lightTheme } from '../../Theme/Color'
-import DropDownPicker from 'react-native-dropdown-picker';
+
 import { FONTFAMILY } from '../../Theme/FontFamily'
 import Animated, { FadeIn, FadeInDown, FadeInUp, useSharedValue } from 'react-native-reanimated';
 import  Slider  from 'react-native-slider';
@@ -12,11 +12,12 @@ import Toast from 'react-native-toast-message'
 import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
 import { CheckBox, Image, color } from '@rneui/base'
-import client from '../../Client/Client'
+import { apolloClient as client } from '../../Service/graphql'
 import { ADD_NEW_CAR } from '../../Service/Mutation'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useLocation } from '../../Theme/LocationContext'
 import { useNavigation } from '@react-navigation/native'
+import { ChatState } from '../../Context/ChatProvider'
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
@@ -53,7 +54,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
     { label: 'Islamabad', value: 'Islamabad' },
   ]);
 
-
+  const { selectedChat, setSelectedChat, user, setChats, chats } = ChatState();
  
 
 
@@ -152,49 +153,51 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   );
 
 
-const handleSubmit = ()  => 
-{
-  client
-  .mutate({
-    mutation: ADD_NEW_CAR,
-    variables: {
-      newCarData: {
-        name: CarBrand,
-        monthlyPrice: monthlyPrice,
-        dailyPrice: dailyPrice,
-        carType: carType,
-        hourlyPrice: hourlyPrice,
-        City: City,
-        gearType: gearType,
-        thumbnailUrl:
-          "https://img.indianautosblog.com/2015/10/2016-Honda-CIvic-white-front-quarter.jpg",
-        photos: imageUrls,
-        year: Year,
-        gas: Gas,
-        color: Color,
-        features: Misctext,
-        isAvailable: true,
-        owner:user.userByGoogleId.id, // Pass the owner ID as a string
-        location: Location, // Pass the location ID obtained from the first mutation
-      },
-    },
-  })
-  .then((res) => {
-    console.log(res);
-    // toast.success('car add successfully')
-    setIsSubmitted(true);
-    setIsLoading(false);
-  })
-  .catch((error) => {
-    console.error("Error in the add car:", error);
-    setIsLoading(false);
-  });
-
-}
+  const handleSubmit = () => {
+    // Consolidate the payload data
+    const payload = {
+      name: CarBrand,
+      monthlyPrice: monthlyPrice,
+      dailyPrice: dailyPrice,
+      carType: carType,
+      hourlyPrice: hourlyPrice,
+      City: state?.completeAddress?.city,
+      gearType: gearType,
+      thumbnailUrl: "https://img.indianautosblog.com/2015/10/2016-Honda-CIvic-white-front-quarter.jpg",
+      photos: imageUrls,
+      year: Year,
+      gas: Gas,
+      color: Color,
+      features: Misctext,
+      isAvailable: true,
+      owner: user?.userByGoogleId?.id, // Pass the owner ID as a string
+      location: state?.completeAddress?.location, // Pass the location ID obtained from the first mutation
+    };
+  
+    // Log the payload data
+    console.log("Payload data:", payload);
+  
+    // Call the mutation to add the new car
+    client
+      .mutate({
+        mutation: ADD_NEW_CAR,
+        variables: {
+          newCarData: payload,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        Alert.alert('car add successfully');
+      })
+      .catch((error) => {
+        console.error("Error in the add car:", error);
+      });
+  };
+  
 
     
   return (
-    <View  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 
@@ -245,19 +248,7 @@ const handleSubmit = ()  =>
     </TouchableOpacity>
 
 
-  <Picker
-    selectedValue={City}
-    onValueChange={(value) => setCity(value)}
-    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10,color:theme.PrimarylightText,fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,marginTop:30}]}
-    itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,color:theme.PrimarylightText}}
-    selectionColor={theme.primaryText}
-    mode='dropdown'
-    dropdownIconColor='#21408E'
-  >
-    {items.map((item, index) => (
-      <Picker.Item label={item.label} value={item.value} key={index} />
-    ))}
-  </Picker>
+  
 </View>
 
 
@@ -348,7 +339,7 @@ const handleSubmit = ()  =>
           key={option.value}
           title={option.label}
           checked={carType === option.value}
-          onPress={() => setCarType(option.value)}
+          onPress={() => setCarType(option.label)}
           checkedIcon="dot-circle-o"
           uncheckedIcon="circle-o"
           checkedColor='#21408E'
@@ -480,7 +471,7 @@ const handleSubmit = ()  =>
           paddingHorizontal: 8,
 marginVertical:15,
           fontSize: 16,
-        }}>
+        }}  onPress={handleSubmit}>
         <Text style={{color: 'white',fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14,textAlign:"center"}}>Submit</Text>
       </TouchableOpacity>
     
@@ -508,7 +499,7 @@ marginVertical:15,
 
      
 
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
 

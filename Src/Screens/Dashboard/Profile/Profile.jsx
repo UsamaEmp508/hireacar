@@ -18,14 +18,19 @@ import { useNavigation } from '@react-navigation/native';
 
 
 import { ChatState } from '../../../Context/ChatProvider';
+import { removeData } from '../../../Utility/Storage/Storage';
+
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const navigation = useNavigation()
-const { user} = ChatState();
+const { user,setUser} = ChatState();
 
   const handletoggletheme = themeContext?.toggleTheme
-
+const Logout = async () => {
+  await removeData();
+  setUser(null)
+};
 
   return (
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
@@ -85,7 +90,7 @@ const { user} = ChatState();
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tile} onPress={() => console.log('Logout')}>
+        <TouchableOpacity style={styles.tile} onPress={Logout}>
           <View style={styles.inner_tile_left}>   
           <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>

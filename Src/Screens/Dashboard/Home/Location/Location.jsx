@@ -20,7 +20,7 @@ const LocationCars = ({route}) => {
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 <Header text={'Cars By Location'} />

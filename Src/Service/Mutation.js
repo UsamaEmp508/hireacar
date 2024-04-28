@@ -94,7 +94,7 @@ mutation AddCars($newCarData: NewCarInput!) {
     City
     year
     thumbnailUrl
-    gearType
+  gearType
     color
    isAvailable
    owner{id}
@@ -125,3 +125,24 @@ mutation deleteCar($id: String!) {
 
 
 `
+
+export const ACCESS_CHAT = gql`
+  mutation AccessChat($id: String!, $currentUser: String!) {
+    accessChat(id: $id, currentUser: $currentUser) {
+      id
+      chatName
+      users {
+        id
+        displayName
+      }
+
+      latestMessage
+      {
+      content
+      }
+    
+      
+      createdAt
+    }
+  }
+`;
