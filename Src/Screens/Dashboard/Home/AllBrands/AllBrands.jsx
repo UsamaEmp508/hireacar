@@ -7,6 +7,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { FONTSIZE } from '../../../../Theme/FontSize';
 import { FONTFAMILY } from '../../../../Theme/FontFamily';
 import { SPACING } from '../../../../Theme/Spacing';
+import FastImage from 'react-native-fast-image';
 const AllBrand = ({navigation}) => {
 
   const themeContext = useContext(ThemeContext);
@@ -70,7 +71,7 @@ const AllBrand = ({navigation}) => {
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-<Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
+<FastImage source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext?.isDarkTheme?"#fff" :"#181B0E"}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search Brand here.....' placeholderTextColor={theme.PrimarylightText} />
 
 </View>

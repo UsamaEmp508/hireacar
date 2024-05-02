@@ -63,8 +63,8 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>   
-      <ThemeProvider theme={theme}> 
       <ApolloProvider client={apolloClient} >   
+      <ThemeProvider theme={theme}> 
 
       <Theme>  
        <ChatProvider >  
@@ -74,8 +74,8 @@ export default function App() {
    </LocationProvider>
    </ChatProvider>
    </Theme>  
-   </ApolloProvider>
       </ThemeProvider>
+   </ApolloProvider>
       <Toast
 position='top'
 bottomOffset={20}

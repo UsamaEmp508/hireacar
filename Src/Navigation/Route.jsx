@@ -19,6 +19,8 @@ import { ChatState } from '../Context/ChatProvider';
 
 import Googleinput from '../Components/GooglePLaces/Googleinput';
 import { getData } from '../Utility/Storage/Storage';
+import Notifications from '../Screens/Dashboard/Notification/Notification';
+import EditCar from '../Screens/EditCar/EditCar';
 const Route = () => {
   const {  user,setUser} = ChatState();
  
@@ -61,7 +63,9 @@ const Route = () => {
               <Stack.Screen name={navgiationStrings.AllCarPopular} component={AllPopularCar} options={{ animation: 'fade_from_bottom'}} />
               <Stack.Screen name={navgiationStrings.AllCarPrice} component={AllcarPrice} options={{ animation: 'fade_from_bottom'}} />
               <Stack.Screen name={navgiationStrings.MapLocation} component={Googleinput} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.Notification} component={Notifications} options={{ animation: 'fade_from_bottom'}} />
 
+              <Stack.Screen name={navgiationStrings.Editcar} component={EditCar} options={{ animation: 'fade_from_bottom'}} />
 
 
         </Stack.Group>  :

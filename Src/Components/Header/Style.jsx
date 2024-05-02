@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     gap:60,
+    paddingHorizontal:10,
     marginTop:SPACING.space_4,
   },
   heading:{

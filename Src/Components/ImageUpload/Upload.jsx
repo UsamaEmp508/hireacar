@@ -4,11 +4,11 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import { FONTFAMILY } from '../../Theme/FontFamily';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
+import FastImage from 'react-native-fast-image';
+const accountName = 'hacblob';
 const containerName = 'carpictures';
 const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
-const sasToken =
-  '?sv=2022-11-02&ss=b&srt=sco&sp=rwtf&se=2024-04-26T06:15:31Z&st=2023-07-29T22:15:31Z&spr=https,http&sig=U64%2B0I7xhf9mJV3cHyrcNbGJEOEeIKZcRGThK%2FMEiC4%3D'; // Replace this with the SAS token generated on the server-side.
-
+const sasToken ='?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=2022-11-02&sr=c&sig=Gou1kUymMG%2Bq%2FudWWfVoDKoEdF%2FTNSbtYFGhBYJgAFo%3D';
   const uploadImageToBlobStorage = async file => {
     try {
       const uniqueFileName = `${Date.now()}-${file.name}`;
@@ -17,19 +17,13 @@ const sasToken =
       // Determine the content type based on the file extension
       let contentType = 'image/jpeg'; // Default to JPEG type
       if (file.type === 'image/png' || file.name.endsWith('.png')) {
-        contentType = 'image/png';
+          contentType = 'image/png';
       }
-  
-      const formData = new FormData();
-      formData.append('file', {
-        uri: file.uri,
-        name: file.name,
-        type: contentType,
-      });
+    
   
       await fetch(urlWithSasToken, {
         method: 'PUT',
-        body: formData,
+        body: file,
         headers: {
           'Content-Type': 'multipart/form-data',
           'x-ms-blob-type': 'BlockBlob',
@@ -98,7 +92,7 @@ console.log('data from server',uploadedImageUrls)
         name: fileName,
         type: 'image/jpeg', // Default to JPEG type
       };
-      console.log('file name', file);
+    
       const imageUrl = await uploadImageToBlobStorage(file);
       console.log('response from server',imageUrl)
       if (imageUrl) {
@@ -175,13 +169,13 @@ marginVertical:15,
 
       <View>
         {/* Display uploaded images */}
-        {/* {uploadedImageUrls.map((url, index) => ( */}
-          <Image
-            // key={index}
-            source={{uri: 'https://hacblob.blob.core.windows.net/carpictures/1714228339669-rn_image_picker_lib_temp_8972ac00-928b-4867-8876-49b5ac23faff.jpg' }}
+        {uploadedImageUrls.map((url, index) => (
+          <FastImage
+            key={index}
+            source={{uri: url }}
             style={{width: 100, height: 100, margin: 5}}
           />
-        {/* ))} */}
+       ))} 
       </View>
     </View>
   );

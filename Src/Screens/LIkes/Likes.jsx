@@ -13,11 +13,12 @@ import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
 import { CheckBox, Image, color } from '@rneui/base'
 import { apolloClient as client } from '../../Service/graphql'
-import { ADD_NEW_CAR } from '../../Service/Mutation'
+import { ADD_NEW_CAR, ADD_NEW_LOCATION_MUTATION } from '../../Service/Mutation'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useLocation } from '../../Theme/LocationContext'
 import { useNavigation } from '@react-navigation/native'
 import { ChatState } from '../../Context/ChatProvider'
+import { useMutation } from '@apollo/client'
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
@@ -45,14 +46,11 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const [Location, setLocation] = useState(null);
   const totalSteps = 4; // Total number of steps
   const { state } = useLocation();
+  const { location, completeAddress } = state;
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const min = 100;
   const max = 100000;
-  const [items, setItems] = useState([
-    { label: 'Karachi', value: 'Karachi' },
-    { label: 'Lahore', value: 'Lahore' },
-    { label: 'Islamabad', value: 'Islamabad' },
-  ]);
+
 
   const { selectedChat, setSelectedChat, user, setChats, chats } = ChatState();
  
@@ -63,6 +61,9 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const yearOptions = years.map((year) => ({ label: String(year), value: year }));
   const gas = ['Petrol', 'Diesel', 'Electric'];
   const gasOptions = gas.map((gas) => ({ label: gas, value: gas }));
+
+
+  const [addCar, { loading, error }] = useMutation(ADD_NEW_CAR);
 
   const handleImageUrlsChange = (urls) => {
     setImageUrls(urls);
@@ -77,6 +78,10 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
     { label: 'Coupe', value: 4 },
     { label: 'Sports', value: 5 },
   ];
+
+
+console.log('car options',carType)
+
 
   const carColorOptions = [
     { label: 'Black', value: 'Black' },
@@ -154,44 +159,68 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
 
   const handleSubmit = () => {
-    // Consolidate the payload data
-    const payload = {
-      name: CarBrand,
-      monthlyPrice: monthlyPrice,
-      dailyPrice: dailyPrice,
-      carType: carType,
-      hourlyPrice: hourlyPrice,
-      City: state?.completeAddress?.city,
-      gearType: gearType,
-      thumbnailUrl: "https://img.indianautosblog.com/2015/10/2016-Honda-CIvic-white-front-quarter.jpg",
-      photos: imageUrls,
-      year: Year,
-      gas: Gas,
-      color: Color,
-      features: Misctext,
-      isAvailable: true,
-      owner: user?.userByGoogleId?.id, // Pass the owner ID as a string
-      location: state?.completeAddress?.location, // Pass the location ID obtained from the first mutation
-    };
+    
   
-    // Log the payload data
-    console.log("Payload data:", payload);
   
-    // Call the mutation to add the new car
+
     client
-      .mutate({
-        mutation: ADD_NEW_CAR,
-        variables: {
-          newCarData: payload,
+    .mutate({
+      mutation: ADD_NEW_LOCATION_MUTATION,
+      variables: {
+        newLocationData: {
+          city: state?.completeAddress?.city,
+          latitude: completeAddress?.location?.lat || 0, 
+          longitude: completeAddress?.location?.lng || 0,
         },
-      })
+      },
+    })
+    .then((res) => {
+      const locationId = res.data.addNewLocation.id;
+      console.log("Location ID generated:", locationId);
+      const carData = {
+        name: CarBrand,
+        monthlyPrice: monthlyPrice,
+        dailyPrice: dailyPrice,
+        hourlyPrice: hourlyPrice,
+        carType: carType,
+        gearType: transmission,
+        City: state?.completeAddress?.city,
+        photos: imageUrls, // Assuming imageUrls contains the URLs of uploaded photos
+        year: modelYear,
+        color: Color,
+        features: Misctext,
+        isAvailable: true,
+        gas: Gas,
+        thumbnailUrl: '', // Assuming you have a thumbnail URL
+        owner: "c0bd5c43-fa2d-4901-93d4-fa91f1193dd7",
+        location: locationId
+      };
+
+
+      console.log('payload data',carData)
+      addCar({
+        variables: {
+          newCarData: carData,
+      },
+    })
       .then((res) => {
-        console.log(res);
-        Alert.alert('car add successfully');
+        // Handle success
+        console.log('Car added successfully:', res.data);
+        Alert.alert('Car added successfully');
       })
       .catch((error) => {
-        console.error("Error in the add car:", error);
+        // Handle error
+        console.error('Error adding car:', error);
+        Alert.alert('Error adding car. Please try again.');
       });
+
+
+
+    })
+    .catch((error) => {
+      console.error("Error in the first mutation:", error);
+    });
+
   };
   
 
@@ -283,7 +312,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
        onValueChange={value => setCarBrand(value)}>
         
         {carBrandOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.value} />
+          <Picker.Item key={index} label={brand.label} value={brand.label} />
         ))}
       </Picker>
       </View>
@@ -312,7 +341,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
         selectedValue={Gas}
         onValueChange={value => setGas(value)}>
         {gasOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.value} />
+          <Picker.Item key={index} label={brand.label} value={brand.label} />
         ))}
       </Picker>
         </View>
@@ -326,7 +355,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
         selectedValue={transmission}
         onValueChange={value => setTransmission(value)}>
         {transmissionOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.value} />
+          <Picker.Item key={index} label={brand.label} value={brand.label} />
         ))}
       </Picker>
         </View>
@@ -336,9 +365,9 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Car Type</Text>
           {carTypeOptions.map((option) => (
         <CheckBox
-          key={option.value}
+          key={option.label}
           title={option.label}
-          checked={carType === option.value}
+          checked={carType === option.label}
           onPress={() => setCarType(option.label)}
           checkedIcon="dot-circle-o"
           uncheckedIcon="circle-o"
@@ -370,7 +399,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
        onValueChange={value => setColor(value)}>
         
         {carColorOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.value} />
+          <Picker.Item key={index} label={brand.label} value={brand.label} />
         ))}
       </Picker>
       </View>
@@ -381,8 +410,8 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
           <CheckBox
           key={option.value}
           title={option.label}
-          checked={Driver === option.value}
-          onPress={() => setDriver(option.value)}
+          checked={Driver === option.label}
+          onPress={() => setDriver(option.label)}
           checkedIcon="dot-circle-o"
           uncheckedIcon="circle-o"
           checkedColor='#21408E'
@@ -450,7 +479,8 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
           
               <TextInput
                 style={ { color: theme.PrimarylightText,flex:1 }}
-               
+               value={Misctext}
+              onChangeText={text => setMisctext(text)}
                 placeholderTextColor={theme.PrimarylightText}
               multiline={true}
               numberOfLines={6}

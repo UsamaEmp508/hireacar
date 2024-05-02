@@ -10,6 +10,7 @@ import { FONTSIZE } from '../../../../Theme/FontSize';
 import { FONTFAMILY } from '../../../../Theme/FontFamily';
 import { darkTheme, lightTheme } from '../../../../Theme/Color';
 import Header from '../../../../Components/Header/Header';
+import { Skeleton } from '@rneui/base';
 
 const AllPopularCar = () => {
   const themeContext = useContext(ThemeContext);
@@ -17,7 +18,7 @@ const AllPopularCar = () => {
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
  
   
-
+const isloading  = true
 
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
@@ -30,7 +31,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     <View style={styles.search}>
     
     <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-    <Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
+    <Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext?.isDarkTheme?"#fff" :"#181B0E"}} />
     <TextInput inputMode='text' style={styles.left_input} placeholder='Search Car here.....' placeholderTextColor={theme.PrimarylightText} />
     
     </View>
@@ -46,6 +47,24 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
      
           <Text style={[styles.heading,{color:theme.primaryText,marginTop:20,textAlign:"center"}]}>No data available</Text>
     :
+
+
+    isloading ? (
+      <FlatList
+      data={Array.from({length: 8})}
+      showsVerticalScrollIndicator={false}
+    contentContainerStyle={{alignSelf:"center",marginTop:10,paddingBottom:20}}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({index}) => (
+          <Skeleton  animation="wave"
+          width={300} height={200} style={{marginBottom:10}} />
+    
+    
+                           
+    
+      )}
+    />
+    ) : (
           <FlatList
             data={data?.cars}
             renderItem={renderItem}
@@ -59,6 +78,8 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
               }
             }}
           />
+
+    )
     
     }
         </View>

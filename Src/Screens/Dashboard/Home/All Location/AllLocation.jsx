@@ -7,6 +7,7 @@ import Animated, { FadeInUp } from 'react-native-reanimated';
 import { FONTSIZE } from '../../../../Theme/FontSize';
 import { FONTFAMILY } from '../../../../Theme/FontFamily';
 import { SPACING } from '../../../../Theme/Spacing';
+import FastImage from 'react-native-fast-image';
 const AllLocation = ({navigation}) => {
 
   const themeContext = useContext(ThemeContext);
@@ -69,7 +70,7 @@ const AllLocation = ({navigation}) => {
     <Animated.View entering={FadeInUp.delay(200 * index)}>
     <Pressable onPress={()=>navigation.navigate('location',{name:item.title}) } style={{marginRight:80}}>  
     <View style={styles.image_container}>   
-        <Image source={{uri:item.image}} style={styles.image} />
+        <FastImage source={{uri:item.image}} style={styles.image} />
         
         </View>
       
@@ -85,7 +86,7 @@ const AllLocation = ({navigation}) => {
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-<Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:"#181B0E"}} />
+<Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext?.isDarkTheme?"#fff" :"#181B0E"}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search Location here.....' placeholderTextColor={theme.PrimarylightText} />
 
 </View>
@@ -99,7 +100,7 @@ const AllLocation = ({navigation}) => {
       data={DATA}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
-      numColumns={2}
+      numColumns={3}
       contentContainerStyle={{marginVertical:10,gap:20}}
 
     />

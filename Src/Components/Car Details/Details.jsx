@@ -21,6 +21,7 @@ import { ACCESS_CHAT } from '../../Service/Mutation';
 
 import { useNavigation } from '@react-navigation/native';
 import { ChatState } from '../../Context/ChatProvider';
+import FastImage from 'react-native-fast-image';
   
 
  // Import FontAwesome as an example
@@ -135,7 +136,7 @@ useEffect(() => {
         data={data?.photos}
         ref={carouselRef}
         renderItem={({ item }) => (
-          <Animated.Image
+          <FastImage
             source={{uri:item}}
             style={styles.image}
             sharedTransitionTag={data?.name}

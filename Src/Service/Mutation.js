@@ -146,3 +146,16 @@ export const ACCESS_CHAT = gql`
     }
   }
 `;
+
+
+export const ADD_NEW_LOCATION_MUTATION = gql`
+  mutation AddNewLocation($newLocationData: NewLocationInput!) {
+    addNewLocation(newLocationData: $newLocationData) {
+      id
+      city
+      longitude
+      latitude
+
+    }
+  }
+`;

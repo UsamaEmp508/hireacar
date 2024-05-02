@@ -263,17 +263,14 @@ const Googleinput = ({navigation}) => {
  
 
   const handleChoose = async () => {
-    if (addLoc && addLoc.latitude && addLoc.longitude) {
-      await getAddressFromCoordinates(location.latitude, location.longitude);
+   
+      await getAddressFromCoordinates(addLoc.latitude, addLoc.longitude);
     setLocation(addLoc);
 
     setCompleteAddress(completeLocation)
-      navigation.goBack()
+      navigation.navigate("Add Car")
 
-    } else {
-      console.error("Location coordinates are not available.");
-    }
-    setSearchText("");
+    
   };
 
   return (
