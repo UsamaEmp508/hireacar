@@ -125,11 +125,11 @@ const handleDelete = async (id) => {
 
     <BottomSheet modalProps={{ presentationStyle: "overFullScreen" }} isVisible={isVisible}   onBackdropPress={() => setIsVisible(false)}>
   <View style={[styles.bottomSheetContainer, { backgroundColor: theme.BackgroundSecondary }]}>
-    <Pressable onPress={() => handleDelete(car?.id)} style={{backgroundColor:"#1F4590",padding:10}}>
-      <Text style={styles.bottomSheetItem}>Delete</Text>
+    <Pressable onPress={() => handleDelete(car?.id)} style={{padding:10,}}>
+      <Text style={[styles.bottomSheetItem,{color:theme.PrimarylightText}]}>Delete</Text>
     </Pressable>
-    <Pressable onPress={goToCarEdit}  style={{backgroundColor:"#1F4590",padding:10,marginTop:20}} >
-      <Text style={styles.bottomSheetItem}>Edit</Text>
+    <Pressable onPress={goToCarEdit}  style={{padding:10,marginTop:20}} >
+      <Text style={[styles.bottomSheetItem,{color:theme.PrimarylightText}]}>Edit</Text>
     </Pressable>
   </View>
 </BottomSheet>

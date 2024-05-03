@@ -91,7 +91,7 @@ marginTop:5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 16,
+    marginTop: 30,
   },
   button: {
     backgroundColor: '#D9D9D9',
@@ -145,5 +145,15 @@ borderRadius:10
     fontWeight: "400",
     fontSize: 15,
     color: "#000000B2",
+  },
+  rowContainer: {
+  marginVertical:15,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  rectangular: {
+    borderRadius: 100,
+    height: 6,
+    width: '15%',
   },
 });

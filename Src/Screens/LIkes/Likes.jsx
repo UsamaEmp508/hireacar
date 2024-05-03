@@ -19,6 +19,8 @@ import { useLocation } from '../../Theme/LocationContext'
 import { useNavigation } from '@react-navigation/native'
 import { ChatState } from '../../Context/ChatProvider'
 import { useMutation } from '@apollo/client'
+
+
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
   const [Year, setYear] = useState(null);
@@ -43,7 +45,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const [imageUrls, setImageUrls] = useState([]);
   const themeContext = useContext(ThemeContext);
   const [currentStep, setCurrentStep] = useState(0);
-  const [Location, setLocation] = useState(null);
+
   const totalSteps = 4; // Total number of steps
   const { state } = useLocation();
   const { location, completeAddress } = state;
@@ -55,7 +57,7 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const { selectedChat, setSelectedChat, user, setChats, chats } = ChatState();
  
 
-
+console.log('location data',location)
 
   const years = Array.from({ length: 22 }, (_, i) => new Date().getFullYear() - i); // last 22 years
   const yearOptions = years.map((year) => ({ label: String(year), value: year }));
@@ -113,13 +115,15 @@ console.log('car options',carType)
       case 0:
         return true;
       case 1:
-        return  true ;
+        case 1:
+          return location && location.latitude !== undefined && location.longitude !== undefined;
+        
          case 2:
-        return  true;
+        return  imageUrls.length > 0;
       case 3:
-        return true;
+        return CarBrand !== null && Year !== null && Gas !== null && gearType !== null && carType !== null;
       case 4:
-        return true;
+        return Color !== null && Driver !== null && hourlyPrice !== 0 && dailyPrice !== 0 && monthlyPrice !== 0 && Misctext !== '';
       default:
         return false;
     }
@@ -133,6 +137,8 @@ console.log('car options',carType)
     if (isValidStep) {
       setCurrentStep((prevStep) => prevStep + 1);
     } else {
+  
+
       Toast.show({
         type: 'error',
         text1: 'Please fill in all required fields before proceeding.'
@@ -229,6 +235,66 @@ console.log('car options',carType)
     <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
+<View style={styles.rowContainer}>
+              <View
+                style={[
+                  styles.rectangular,
+                  {
+                    backgroundColor:
+                      currentStep === 0 ||
+                      currentStep === 1 ||
+                      currentStep === 2 ||
+                      currentStep === 3 ||
+                      currentStep === 4 
+                        ? '#21408E'
+                        : theme.primaryText,
+                  },
+                ]}></View>
+              <View
+                style={[
+                  styles.rectangular,
+                  {
+                    backgroundColor:
+                  
+                    currentStep === 1 ||
+                    currentStep === 2 ||
+                    currentStep === 3 ||
+                    currentStep === 4 
+                    ? '#21408E'
+                    : theme.primaryText,
+                  },
+                ]}></View>
+              <View
+                style={[
+                  styles.rectangular,
+                  {
+                    backgroundColor:
+                      currentStep === 2 || currentStep === 3 || currentStep === 4 
+                      ? '#21408E'
+                      : theme.primaryText,
+                  },
+                ]}></View>
+              <View
+                style={[
+                  styles.rectangular,
+                  {
+                    backgroundColor:
+                      currentStep === 3 || currentStep === 4 
+                      ? '#21408E'
+                        : theme.primaryText,
+                  },
+                ]}></View>
+              <View
+                style={[
+                  styles.rectangular,
+                  {
+                    backgroundColor:
+                      currentStep === 4  ?  '#21408E'
+                      : theme.primaryText,
+                  },
+                ]}></View>
+            
+            </View>
 
 {currentStep === 0 && (
 
@@ -508,9 +574,13 @@ marginVertical:15,
     </Animated.View>
 
     )}
-    <View style={styles.progressContainer}>
-      <View style={[styles.progressBar, { width: `${progressPercentage}%`, backgroundColor: currentStep === totalSteps && monthlyPrice ? 'green' : '#21408E' }]} />
-    </View>
+
+
+ 
+
+
+
+
     <View style={styles.buttonContainer}>
       {/* Show the "Previous" button if the current step is greater than 0 */}
       {currentStep > 0 && (

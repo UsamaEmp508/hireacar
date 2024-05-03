@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        marginVertical:20
     },
   
     left:{

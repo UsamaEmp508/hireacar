@@ -11,7 +11,6 @@ import { apolloClient } from "./Src/Service/graphql";
 import { LocationProvider } from "./Src/Theme/LocationContext";
 
 
-
 export default function App() {
   const theme = createTheme({
     lightColors: {
@@ -69,17 +68,19 @@ export default function App() {
       <Theme>  
        <ChatProvider >  
         <LocationProvider>      
+     
    <Route/>
-
    </LocationProvider>
    </ChatProvider>
    </Theme>  
       </ThemeProvider>
    </ApolloProvider>
-      <Toast
+    
+   <Toast
 position='top'
 bottomOffset={20}
 />
+
       </GestureHandlerRootView>
   );
 }
