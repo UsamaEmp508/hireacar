@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './Styles';
 import { ThemeContext } from '../../../Theme/ThemeContext';
@@ -12,6 +12,7 @@ import { GET_ALL_CARS } from '../../../Service/Queries';
 import { useQuery } from '@apollo/client';
 import { ChatState } from '../../../Context/ChatProvider';
 import { Skeleton } from '@rneui/base';
+import { FlatList } from 'react-native-gesture-handler';
 
 const Home = () => {
   const { loading, error, data } = useQuery(GET_ALL_CARS);
@@ -54,7 +55,7 @@ const { user} = ChatState();
 
 <View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
 <Image source={require('../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:20,height:18}} />
-<TextInput inputMode='text' style={styles.left_input} placeholder='Search your car' placeholderTextColor={theme.PrimarylightText} />
+<TextInput inputMode='text' style={styles.left_input} placeholder='Search By location' placeholderTextColor={theme.PrimarylightText} />
 
 </View>
 
@@ -143,6 +144,7 @@ const { user} = ChatState();
        
           return item.id;
         }}
+        pagingEnabled
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
        
@@ -198,6 +200,7 @@ const { user} = ChatState();
        
                   return item.id;
                 }}
+                pagingEnabled
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
        

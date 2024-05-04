@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { StyleSheet, View, Text, Image, Pressable, ScrollView, FlatList, Alert } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Text, Image, Pressable, Alert, useWindowDimensions } from 'react-native';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import { useNavigation } from '@react-navigation/native'; 
@@ -15,46 +15,88 @@ import { useMutation, useQuery } from '@apollo/client';
 import { deleteCar } from '../../Service/Mutation';
 import { GET_USER_PROFILE } from '../../Service/Queries';
 import { ChatState } from '../../Context/ChatProvider';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+
+import AntDesign from 'react-native-vector-icons/AntDesign'; // Import FontAwesome as an example
+
 const CarItem = ({ car,index,fullscreen,edit}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const navigation = useNavigation(); // Initialize navigation hook
   const [deleteMutation,{loading}] = useMutation(deleteCar);
   const { user} = ChatState();
-
-  const {  error, data,refetch } = useQuery(GET_USER_PROFILE, {
+  const scrollViewRef = useRef(null);
+  const {  refetch } = useQuery(GET_USER_PROFILE, {
     variables: { id: user?.userByGoogleId?.id }
   });
+
+  const windowWidth = useWindowDimensions().width;
+  const handleScroll = (pageIndex) => {
+    const pageWidth = windowWidth; // Assuming SCREEN_WIDTH is defined
+    const offsetX = pageIndex * pageWidth;
+    scrollViewRef.current.scrollTo({
+      animated: true,
+      x: offsetX,
+      y: 0,
+    });
+    setCurrentPage(pageIndex); // Update currentPage state
+  };
+  
+
+  useEffect(() => {
+    let autoplayInterval;
+  
+    const startAutoplay = () => {
+      autoplayInterval = setInterval(() => {
+        const nextIndex = (currentPage + 1) % car.photos.length;
+        handleScroll(nextIndex);
+      }, 3000); // Adjust autoplay interval as needed
+    };
+  
+    const stopAutoplay = () => clearInterval(autoplayInterval);
+  
+    if (scrollViewRef.current) {
+      startAutoplay();
+    }
+  
+    return () => stopAutoplay(); // Clear interval on component unmount
+  }, [currentPage, car.photos.length]);
+  
+
+
+
+
+
+
+
+
+
+
+
+
   const toggleBottomSheet = () => {
     setIsVisible(!isVisible);
-  };
-
-
-
+};
 
   
   const goToCarEdit = () => {
   
     navigation.navigate('Editcar',{ id: car.id });
-  };
-
-
-
+};
 
     const goToCarDetails = () => {
-      // Navigate to CarDetails screen with the car id as parameter
+    
       navigation.navigate('CarDetails', { id: car.id });
-    };
-;
+};
   
 const handleDelete = async (id) => {
   try {
     const data = await deleteMutation({ variables: { id: id } });
  
-    if(data )
+    if(data)
     {
       Alert.alert('Your Car Delete successfully')
       refetch();
@@ -62,9 +104,10 @@ const handleDelete = async (id) => {
     }
   } catch (error) {
     console.error('Error deleting car:', error);
-    // Handle error if necessary
+    
   }
 };
+
     return (
 <SafeAreaProvider>  
 
@@ -78,18 +121,45 @@ const handleDelete = async (id) => {
     
 <View onPress={goToCarDetails}>   
    { car?.photos?.length > 0  &&
-<FastImage
-            style={[styles.image,{height:fullscreen?200:100,marginRight:fullscreen?0:10}]}
-        source={{
-            uri:car?.photos[1],
-            priority: FastImage.priority.high,
-        }}
-        sharedTransitionTag={car?.name}
 
-        resizeMode={FastImage.resizeMode.cover}
-    />
-   
+<>  
+<ScrollView  horizontal
+        scrollEnabled
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+     
+        ref={scrollViewRef}
+        scrollEventThrottle={16}>
+                    {car?.photos?.map((photo, index) => (
+                        <FastImage
+                            key={index}
+                            style={[styles.image, { height: fullscreen ? 200 : 100, marginRight: fullscreen ? 0 : 10 }]}
+                            source={{
+                                uri: photo,
+                                priority: FastImage.priority.high,
+                            }}
+                            sharedTransitionTag={car?.name}
+                          
+                        />
+                    ))}
+                </ScrollView>
 
+                <View style={styles.navigationIcons}>
+  <AntDesign
+    name="arrowleft"
+    size={24}
+    color="white"
+    onPress={() => handleScroll(currentPage - 1)}
+  />
+  <AntDesign
+    name="arrowright"
+    size={24}
+    color="white"
+    onPress={() => handleScroll(currentPage + 1)}
+  />
+</View>
+
+      </>
       }
 
   
@@ -149,7 +219,7 @@ overflow:'hidden',
 
   },
   image: {
-    width: '100%',
+    width: 300,
 
    
   
@@ -207,6 +277,21 @@ row:{
     fontFamily: FONTFAMILY.Poppins_SemiBold,
     
   },
+  navigationIcons: {
+    position: 'absolute',
+    bottom:-25,
+    right: 70,
+ 
+
+    borderRadius: 10,
+    flexDirection:"row",
+    gap:10
+  },
+  paginationItem:{
+    height:5,
+    width:20,
+    marginRight:10
+  }
 });
 
 export default CarItem;
