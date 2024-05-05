@@ -83,7 +83,7 @@ fontFamily:FONTFAMILY.Poppins_Bold
     left:{
         flexDirection:"row",
     flex:1,
-       gap:15,
+       gap:5,
 
        paddingHorizontal:SPACING.space_16,
         alignItems:"center",

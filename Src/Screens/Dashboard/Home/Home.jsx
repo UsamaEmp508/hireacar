@@ -53,8 +53,8 @@ const { user} = ChatState();
 
 <View style={styles.search}>
 
-<View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
-<Image source={require('../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:20,height:18}} />
+<View style={[styles.left,{backgroundColor:theme.BackgroundSecondary,borderColor:theme.primaryBackground,borderWidth:1}]}> 
+<Image source={require('../../../Assets/Images/Home/Search_icon.png')}  style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:16,height:18}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search By location' placeholderTextColor={theme.PrimarylightText} />
 
 </View>

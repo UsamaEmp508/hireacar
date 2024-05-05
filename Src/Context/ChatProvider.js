@@ -10,6 +10,8 @@ const ChatProvider = ({ children  }) => {
   const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState([]);
   const [istyping, setIsTyping] = useState(false);
+  const [devicetoken, setdevicetoken] = useState();
+
 
   
   return (
@@ -24,7 +26,9 @@ const ChatProvider = ({ children  }) => {
         chats,
         setChats,
       istyping,
-      setIsTyping
+      setIsTyping,
+      setdevicetoken,
+      devicetoken
       }}
     >
       {children}

@@ -69,7 +69,7 @@ const navigation = useNavigation()
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       horizontal={true}
-      contentContainerStyle={{gap:40,marginVertical:10}}
+      contentContainerStyle={{gap:25,marginVertical:10}}
     />
   );
 };

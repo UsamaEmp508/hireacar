@@ -14,7 +14,7 @@ const Scroll = ({messages}) => {
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const { setUser,user} = ChatState();
 
-console.log('user login data',user)
+
 
 
 
@@ -25,7 +25,6 @@ console.log('user login data',user)
 
     const renderItem = ({ item,index }) => {
 
-console.log('item data',item)
       return(
 
 

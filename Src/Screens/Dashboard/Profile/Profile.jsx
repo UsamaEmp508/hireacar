@@ -70,14 +70,14 @@ const Logout = async () => {
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
-
+{/* 
         <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('TermsCondition')}>
           <View style={styles.inner_tile_left}>  
           <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Terms and Condition</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>

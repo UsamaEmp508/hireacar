@@ -1,4 +1,4 @@
-import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './Style'
 import { ThemeContext } from '../../../Theme/ThemeContext'
@@ -7,7 +7,6 @@ import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-goo
 import { ChatState } from '../../../Context/ChatProvider'
 import { Button } from '@rneui/base'
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
 import { CREATE_USER_MUTATION } from '../../../Service/Mutation'
 import { GET_USER_QUERY_BY_GOOGLE_ID } from '../../../Service/Queries'
 import { useMutation } from '@apollo/client'
@@ -16,7 +15,7 @@ import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal'
 import { storeData } from '../../../Utility/Storage/Storage'
 const Login = ({navigation}) => {
 
-const { setUser} = ChatState();
+const { setUser,  setdevicetoken,devicetoken} = ChatState();
 const [userdata, setUserdata] = useState(null);
 const [createUser] = useMutation(CREATE_USER_MUTATION);
 const [systemUserId, setSystemUserId] = useState(null); 
@@ -25,6 +24,7 @@ const [systemUserId, setSystemUserId] = useState(null);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const webClientId = "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com"; 
 
+  console.log("state value is ", devicetoken);
 
 
   useEffect(()=>{
@@ -39,7 +39,7 @@ const googleLogin = async () => {
       setLoading(true);
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        console.log("userinfo", userInfo);
+    
         setUserdata(userInfo);
        
           
@@ -61,104 +61,92 @@ const googleLogin = async () => {
       }
         
     
-  
+      useEffect(() => {
+        const getFcmToken = async () => {
+          const fcmToken = await messaging().getToken();
+          if (fcmToken) {
+              setdevicetoken(fcmToken)
+              console.log("Your Firebase state token is:", fcmToken);
+             
 
-
-  const sendNotification = async () => {
-    try {
-      const response = await fetch('https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC6baENAR/OuKaV\nLox5m8PfsI2Pch4f+oq2mL8lvoczU92h3uh9ZY4h2IpFicmTzaP5UIPNdb/SxIG3\n61agmG/nXJoRlYosf7wOcjJqUShcQPXmA7TUEMdJmqrhgdjM9wHAzR/efEpTXFRv\nRYSGRGsaKzLExTp+C565lIcIwvHOwb+d3P/LAWxifD60MJqBeAw1nGtK0htEMNXq\nC5PU2mlfjmlX4MGTjHijE4weNYqS5MSSW7t3lASYBnsOEwcGdmN2XUtQSn94ZsKi\n9qy4Jz+MkL63UXuRBpiT9sF7qcord6zHv31KVRS1mypmR0dlCIoUHfrUwDWiJ5SJ\nVq0kxn8FAgMBAAECggEAGp/Qecp4z+2IANMqha2MrjQJK3zJN5jw2X38Anhw15A5\nHUZ33nyz7Tp/GMpCSwT5z3/DqwKPeBrPScRm1T2f8aNEb5FzL8K4STne4Fch0/cF\nByntV8HjrCvWDqmcHD2EdxP0YrJObRRJDLEZaZF42D5mHDrsjRa8vtUq6cHphbTg\ncW134lOxjwlyAzBjT9LivyaZAKO69xV84JaBYMrlZX3Q4Sna2K+Mq7+vNwZZEHtt\nmTARZirBH+o53dCKXO3uv+SgXtCEVb/kGLB6vv/mf0FWlKQyIUqbKkTb9+E36NZ/\nvkEg31yjfefWGfHeVlEOAbHjWtqos86GtgPs57MkWwKBgQDcaDweMKf5aZwijt3p\nDG8CD2lKokMF1hkgVNDw1Hx2v2H5wS39c+zJYodgmpBDBKwJfS5ZCyTfDPGc3ZmD\n9uWCPgig0PtCQng4YCxnnQRMisXy7gS/fBsp56nM+Y0GwREY+z7fVVq869k5+6Ix\n9GiI8bEOetPCw4jkQs5/OvsCbwKBgQDYiK9UBX+RLRAOc9bfBQYf7xqFNg67a4lY\nApJJanUcER4NZVzeAs+36h6ZbA2K34n6NSyoQpvi6NINoU3B/BHTSf1hAR/qj0VD\ncdVSZkumIVjaQYt1daElUZZf8J9f1uv75KhbGHP3k56Eq3g7jLtm9W87rcU8/MFi\nS00WeCH/ywKBgQC5kaEcIgcq/PoSNosrzeYgq+0Qg3E+lrXs/Lw2KBDqwdOxvi4E\nePfhzm0AruHLK0HVc2n0WmeezH0Yf5LjAprVf3kwPQNvFBu4C3EXg6G8+BIVqMSi\nm9EbBQt3opxUFXVZvR+AVZLiAQiRwwUaXhctRaC2+j8UeiDlXkIR6QyxTQKBgHfU\nTJLG6C3DLluRJ5wL/7O0coy9ubFmdX9LDQGr9Fsv7d2j9py2GZXB7mUhMu1jf8wD\nmU8UbYhJJ9V7KrjrckHndF02bh80YjRMzqznB35Mfgtqsm6yRheM6xb05n33RmkD\nxVeEVMjx3Iu3CLaLzznPIVt5cumpRqvK2EJTAR25AoGACcHmJprTrlod1lMdA1DD\nVs70WxzU3l0AhL9dyPblphcsu6sNxCUOC7kS1i3Vu9s+2Qei6BUccubmLmfBkG82\ngUjJLtI/G/8DmGrpLkqKsR63Pb9BZhW7oK1XVrrjtUfmwmm50hPW3nGfkzOCnmT2\nkynVT+lege3d6MgXiomN7Fc'
-        },
-        body: JSON.stringify({
-          message: {
-            token: 'ezlI_I84Re6PqXGasZuxkN:APA91bHrB1y0iSLYlUd6UqPAhsew6KSXkUikNR0gru7LoPuK2yj88hnBuyaYG7qCD-1QVCRhBspyZ120LWYaj-nPo1E_4jG2eZN8GcFhAKlHJcyAFjdKMe8RLf0bjTYZr4cVBYjoZMUH',
-            notification: {
-              title: 'New Message',
-              body: 'You have a new message!',
-            },
-            data: {
-              score: '5x1',
-            },
-            android: {
-              direct_boot_ok: true,
-            },
+    
+          } else {
+              console.log("Failed", "No Token Received");
           }
-        }),
-      });
-      
-      const data = await response.json();
-      console.log('Notification sent successfully:', data);
-    } catch (error) {
-      console.error('Error sending notification:', error);
-    }
-  };
-  
+        };
+    
+    
+    
+    
+    
+    
+    
+    
+        const requestPermission = async () => {
+          const authStatus = await messaging().requestPermission();
+          const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+          if (enabled) {
+            getFcmToken();
+            console.log('Authorization status:', authStatus);
+          }
+        };
+    
+        requestPermission();
+      }, []);
 
 
 
   
 
+
+
   
 
   
-
-
-
-
-  messaging().onMessage(async remoteMessage => {
-    const { title, body } = remoteMessage.data;
+      const sendNotification = async () => {
+        try {
+          const response = await fetch('https://fcm.googleapis.com/v1/projects/hireacar-5d299/messages:send', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCgXA1+1Gv/p1T8\nBHoxid99bJLkznb2T3ETbAKZTZiZl89uXmrMvxDBbCdkBXe8SMU2ZCWR0yrg9hyD\n7KQooVO1Iaez3fO50jNexw+soKcyDzIYpEqcKHVpuEbeeNwqvY4AgtzBC1srl3+J\nDDsvmF2i8jwoVW6r1seIv+a1Qmjlqmpnx/nZvsZCPEFYOXryaA+k/GCdqg4o6bNf\ny/B7W/G9C7ZEon8KJyVJFxY7LEyMW1crlfSfJJvU7wQCOB3KqSYl0wUG7P6JNIF8\nYwYOqQx6E/rR9HsSwVKDBQ27xqM53k9pu6p+EZB0NKIqrpZSHjr43QKgrZCnHIC0\nen227xabAgMBAAECggEASKBYRlxLi25MGZWnh98jFomBX9o4W6awFjVBWhAgMFPm\nkNx3L0LLgmaK0ox9ZYtpshAaSdijH16nnIIk+PfT0wGqk9ZOh5axSFgMe8kI4C2s\nqSdjWSUjxB0/D4waXssZ0JZ0B4QupugGzVl6RryRj/Z4k2XZ6T6tgPw0r1wj6PuU\nk046Vx5xf7Li8/9KzdZ9Pw9upboxzdxGlYs4oY/ehXJRzai1HCf85I3IYZW2PdFY\n3d9WvvwsTKCFaj7fgJYF0rWC0+XX6vH6SK5oik6Q0Bc9aWsI2JAX5gD5Fm5rbBLi\nqn46u8Kf8ULiJWTgACZdp4shHTGDLKEKsgXA54FjKQKBgQDgnOxvG9LRpcG9I6Hf\nyAapq67Apc8GHdx5GpOY7aXmWskQE9g2S+VjSARMghmD3xr/M9ffORosbkge2LRo\nZkxSBfSKrwV9YFShIiRQUaZ1XXx5Ohh1pa7Ise3JUANb3BoWBToyWCkCe41RWM0N\n3h4SQ12A1lvAIoDx82Ub3mdbeQKBgQC2xJfh9mda8uNdHTQkIvBfYk0dPTs5g992\n4Q51PgngtrZic2eNdpiVk7QtfQI+Kjd+LbCC45BfhAEHgi9CkJUPN0u0Dan8FWVl\ngJtbUCDiW7ipCslm7gLKI/OQTtbR2zrz16qT9YumUx8lhTxR07z5BLPQzxIhIAbI\nrs2xUnHpswKBgQDPcF3zp3Cmaj1pXrUrJWLx5Dr6dKej8IQj3GWgASsMeZ/jl1BB\npQpvDJ3bwvOplK0sMEcYQ3ZmvlshEeZb3M5zmkhkpIufZQ4D2rJK832WOwawNvVM\nAf5QH/OJzrmrZrU4zQ8YW89UGaNEE40dV5vSJiD+0fnekn8f9TfV6yrtkQKBgDSz\nx+A+v1r4gxuMmkZ5VLsMi5QM3hEdt8h96T9hnlOQHFOTV57xPdqT9vbO/2CRp+LY\npfd4S19fnzRdE+er7W+v0EKhVgz81npIdYQFPRZIwJzuIVlu9Jr5dvh743IsN3mt\nDOERgy149phJLTWjSvC7rGZf76hhpdMkpOenEHYFAoGBAKAiqLpLs072qJSd/qjZ\nBCa/j77ErJI/NZikPTa+kf/YKP1MODxwdjxFA7O+E9wzEWtC7YqOsws8bu8ihdiD\ngruLSTsV/cgxG8q7HNo8I89HQe3DjGoaH/qJHYeUGwtM4RK9QfEuKwJyMHXG1vz5\n8WOWPzZYcADJcWtUiDUEdV++'
+            },
+            body: JSON.stringify({
+              message: {
+                token: 'eIwKu37rR9WeVI59a3VnG0:APA91bEcH8RsOdMZTvsZSuii26YllkHUlRtmFhLgzFE6KVnITXwUUX2ZVi51zyAqxwp3rTTLwPShHOgr8Sxr9R4SRzRVoAGCNyozQ-2MdxbU-AfC9Rf2kR93316BXcdq9ASNdg_tZzGQ',
+                notification: {
+                  title: 'New Message',
+                  body: 'You have a new message!',
+                },
+                data: {
+                  score: '5x1',
+                },
+                android: {
+                  direct_boot_ok: true,
+                },
+              }
+            }),
+          });
+          
+          const data = await response.json();
+          console.log('Notification sent successfully:', data);
+        } catch (error) {
+          console.error('Error sending notification:', error);
+        }
+      };
   
-    try {
-      // Display the notification using Notifee
-      const channelId = await notifee.createChannel({
-        id: 'default',
-        name: 'Default Channel',
-      });
-  
-      await notifee.displayNotification({
-        title,
-        body,
-        android: {
-          channelId,
-          smallIcon: 'ic_launcher', // Replace with your app's small icon
-        },
-      });
-    } catch (error) {
-      console.error('Error displaying notification:', error);
-    }
-  });
 
 
 
 
 
-  async function onDisplayNotification() {
-    // Request permissions (required for iOS)
-    await notifee.requestPermission()
 
-    // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
 
-    // Display a notification
-    await notifee.displayNotification({
-      title: 'Notification Title',
-      body: 'Main body content of the notification',
-      android: {
-        channelId,
-      
-        // pressAction is needed if you want the notification to open the app when pressed
-        pressAction: {
-          id: 'default',
-        },
-      },
-    });
-  }
+
+
+
 
 
 
@@ -186,6 +174,7 @@ storeData(data)
                   displayName: userdata.user.name,
                   email: userdata.user.email,
                   photoLink: userdata.user.photo,
+                  deviceToken:devicetoken
            
             };
 
@@ -236,15 +225,11 @@ storeData(data)
 
 
 
+
 <TouchableOpacity style={[styles.logim_google,{borderColor:"#F1F1F0",borderWidth:1,marginVertical:30}]}   onPress={sendNotification}>
       <Text style={[styles.title,{color:theme.primaryText}]}>Send Notification</Text>
 
 </TouchableOpacity>
-
-
-
-
-<Button title="Display Notification" onPress={() => onDisplayNotification()} />
 
     </View>
   )

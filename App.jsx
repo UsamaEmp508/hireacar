@@ -6,12 +6,17 @@ import { Theme } from "./Src/Theme/ThemeContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Toast from 'react-native-toast-message'
 import messaging from '@react-native-firebase/messaging';
-import ChatProvider from "./Src/Context/ChatProvider";
+import ChatProvider, { ChatState } from "./Src/Context/ChatProvider";
 import { apolloClient } from "./Src/Service/graphql";
 import { LocationProvider } from "./Src/Theme/LocationContext";
 
+import notifee from '@notifee/react-native';
 
 export default function App() {
+
+ 
+
+
   const theme = createTheme({
     lightColors: {
       primary: '#e7e7e8',
@@ -22,39 +27,35 @@ export default function App() {
     mode: 'light',
   });
 
-  // Notifee.init({});
-
-
-  useEffect(() => {
-    const getFcmToken = async () => {
-      const fcmToken = await messaging().getToken();
-      if (fcmToken) {
-          console.log("Your Firebase Token is:", fcmToken);
-      } else {
-          console.log("Failed", "No Token Received");
-      }
-    };
 
 
 
+  messaging().onMessage(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
 
+    const { title, body } = remoteMessage.notification;
+  
+    try {
+      // Display the notification using Notifee
+      const channelId = await notifee.createChannel({
+        id: 'default3',
+        name: 'Default Channel3',
+     
+      });
+  
+      await notifee.displayNotification({
+        title,
+        body,
+        android: {
+          channelId,
+          smallIcon: 'ic_launcher', // Replace with your app's small icon
+        },
+      });
+    } catch (error) {
+      console.error('Error displaying notification:', error);
+    }
+  });
 
-
-
-
-    const requestPermission = async () => {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-      if (enabled) {
-        getFcmToken();
-        console.log('Authorization status:', authStatus);
-      }
-    };
-
-    requestPermission();
-  }, []);
 
 
  
@@ -63,17 +64,19 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>   
       <ApolloProvider client={apolloClient} >   
+      <ChatProvider >  
+    
       <ThemeProvider theme={theme}> 
 
       <Theme>  
-       <ChatProvider >  
         <LocationProvider>      
      
    <Route/>
    </LocationProvider>
-   </ChatProvider>
    </Theme>  
       </ThemeProvider>
+   </ChatProvider>
+
    </ApolloProvider>
     
    <Toast
