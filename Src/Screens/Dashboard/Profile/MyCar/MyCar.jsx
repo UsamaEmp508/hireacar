@@ -27,7 +27,7 @@ const MyCar = () => {
   
 
 
-  console.log('Profile data',data)
+  console.log(' data',data)
 
 
 
@@ -56,10 +56,10 @@ const MyCar = () => {
 
 
 
-
-
-
 console.log('car data',carData)
+
+
+
       const renderItem = ({ item ,index}) => <CarItem car={item?.car} index={index} edit={true} fullscreen={true} />;
 
     return (
@@ -87,7 +87,7 @@ carData.length > 0  ?
 <FlatList
 data={carData}
 renderItem={renderItem}
-keyExtractor={(item) => item?.id}
+keyExtractor={(item) => item?.car?.id}
 contentContainerStyle={{gap:25,marginTop:10,paddingBottom:30}}
 />
 :

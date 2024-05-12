@@ -132,6 +132,9 @@ useEffect(() => {
   return (
     <ScrollView>
       <Header />
+
+
+
       <Carousel
         data={data?.photos}
         ref={carouselRef}

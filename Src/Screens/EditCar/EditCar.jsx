@@ -16,6 +16,7 @@ import Header from '../../Components/Header/Header';
 import { Image } from '@rneui/base';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { FONTFAMILY } from '../../Theme/FontFamily';
+import FastImage from 'react-native-fast-image';
 const EditCar = () => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
@@ -74,7 +75,7 @@ const navigation = useNavigation();
           });
           if (responseData) {
             Alert.alert('Car Update Successfully');
-            navigation.navigate("dashboard",{screen:'Profile'});
+            navigation.navigate("MyCar");
           }
         } catch (error) {
           console.error('Error updating car:', error);
@@ -202,13 +203,13 @@ const sasToken ='?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=
         </TouchableOpacity>
       </View>
 
-      <ScrollView horizontal contentContainerStyle={{marginRight:20,marginTop:20}}>
+      <ScrollView horizontal contentContainerStyle={{marginRight:20,marginVertical:20}}>
         {/* Display thumbnails of selected images */}
         {selectedImages?.map((image, index) => (
           <View
             key={index}
             style={{ display: 'inline-block'}}>
-            <Image
+            <FastImage
               source={{uri:`${image}` }}
               style={{width: 100, height: 100, marginRight: 5,position: 'relative',}}
             />

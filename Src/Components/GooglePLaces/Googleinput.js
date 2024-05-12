@@ -339,12 +339,17 @@ const Googleinput = ({navigation}) => {
           ))}
         </View>
       )}
+
+
+
       <TouchableOpacity
         style={styles.currentLocationContainer}
         onPress={requestLocationPermission}
       >
          <Ionicons name="locate" size={24} color="#000" />
       </TouchableOpacity>
+
+
 <TouchableOpacity style={styles.chooseBtnContainer} onPress={handleChoose}>   
       <View style={styles.button} >
         <Text style={styles.buttonText}>Select Location</Text>

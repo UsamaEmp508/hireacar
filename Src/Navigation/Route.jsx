@@ -21,6 +21,7 @@ import Googleinput from '../Components/GooglePLaces/Googleinput';
 import { getData } from '../Utility/Storage/Storage';
 import Notifications from '../Screens/Dashboard/Notification/Notification';
 import EditCar from '../Screens/EditCar/EditCar';
+import Search from '../Screens/Dashboard/Search Screen/Search';
 const Route = () => {
   const {  user,setUser} = ChatState();
  
@@ -66,6 +67,8 @@ const Route = () => {
               <Stack.Screen name={navgiationStrings.Notification} component={Notifications} options={{ animation: 'fade_from_bottom'}} />
 
               <Stack.Screen name={navgiationStrings.Editcar} component={EditCar} options={{ animation: 'fade_from_bottom'}} />
+              <Stack.Screen name={navgiationStrings.Search} component={Search} options={{ animation: 'fade_from_bottom'}} />
+
 
 
         </Stack.Group>  :

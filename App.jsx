@@ -10,7 +10,7 @@ import ChatProvider, { ChatState } from "./Src/Context/ChatProvider";
 import { apolloClient } from "./Src/Service/graphql";
 import { LocationProvider } from "./Src/Theme/LocationContext";
 
-import notifee from '@notifee/react-native';
+import notifee , { AndroidStyle } from '@notifee/react-native';
 
 export default function App() {
 
@@ -38,8 +38,8 @@ export default function App() {
     try {
       // Display the notification using Notifee
       const channelId = await notifee.createChannel({
-        id: 'default3',
-        name: 'Default Channel3',
+        id: 'default4',
+        name: 'Default Channel4',
      
       });
   
@@ -48,7 +48,11 @@ export default function App() {
         body,
         android: {
           channelId,
-          smallIcon: 'ic_launcher', // Replace with your app's small icon
+          style: {
+            type: AndroidStyle.INBOX,
+            
+          
+          },
         },
       });
     } catch (error) {

@@ -156,4 +156,39 @@ borderRadius:10
     height: 6,
     width: '15%',
   },
+ 
+  dropdown_search: {
+    height: 50,
+    border:"none",
+    padding:14,
+borderRadius:10
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label_search: {
+    position: 'absolute',
+ 
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 14,
+    
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+    
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 50,
+    fontSize: 16,
+  },
 });

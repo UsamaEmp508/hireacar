@@ -174,7 +174,7 @@ storeData(data)
                   displayName: userdata.user.name,
                   email: userdata.user.email,
                   photoLink: userdata.user.photo,
-                  deviceToken:devicetoken
+                 
            
             };
 

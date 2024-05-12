@@ -136,7 +136,29 @@ row_heading_right:{
     fontFamily:FONTFAMILY.Poppins_Medium
 },
 
-
+suggestionsContainer: {
+    position: "absolute",
+    zIndex:1000,
+    top: 230,
+    right: 10,
+   
+    backgroundColor: "#FFFFFF",
+    color:"#000000",
+    borderRadius: 5,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  suggestion: {
+    paddingVertical: 5,
+    color:"#000"
+  },
     
    
   });

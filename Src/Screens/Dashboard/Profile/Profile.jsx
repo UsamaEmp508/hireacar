@@ -19,12 +19,17 @@ import { useNavigation } from '@react-navigation/native';
 
 import { ChatState } from '../../../Context/ChatProvider';
 import { removeData } from '../../../Utility/Storage/Storage';
+import { GET_USER_PROFILE } from '../../../Service/Queries';
+import { useQuery } from '@apollo/client';
 
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const navigation = useNavigation()
 const { user,setUser} = ChatState();
+const { loading:userprofileloading, data:userprofile } = useQuery(GET_USER_PROFILE, {
+  variables: { id: user?.userByGoogleId?.id }
+});
 
   const handletoggletheme = themeContext?.toggleTheme
 const Logout = async () => {
@@ -36,9 +41,9 @@ const Logout = async () => {
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       <View style={[styles.body, { backgroundColor: theme.input_Background }]}>
         <View style={styles.profile_image}>
-          <Image source={{uri:user?.userByGoogleId?.photoLink}} style={styles.image} />
+          <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
         </View>
-        <Text style={[styles.profile_name, { color: theme.primaryText }]}>{user?.userByGoogleId?.displayName}</Text>
+        <Text style={[styles.profile_name, { color: theme.primaryText }]}>{userprofile?.user?.displayName}</Text>
         <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>
           {user?.userByGoogleId?.email}
         </Text>
@@ -70,14 +75,14 @@ const Logout = async () => {
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
-{/* 
+
         <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('TermsCondition')}>
           <View style={styles.inner_tile_left}>  
           <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Terms and Condition</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>

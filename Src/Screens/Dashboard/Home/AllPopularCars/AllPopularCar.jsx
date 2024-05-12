@@ -17,8 +17,6 @@ const AllPopularCar = () => {
   const { loading, error, data } = useQuery(GET_ALL_CARS);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
  
-  
-const isloading  = true
 
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
@@ -49,7 +47,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     :
 
 
-    isloading ? (
+  loading ? (
       <FlatList
       data={Array.from({length: 8})}
       showsVerticalScrollIndicator={false}

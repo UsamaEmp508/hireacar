@@ -15,6 +15,40 @@ import { ChatState } from '../../../../Context/ChatProvider';
 
 import { apolloClient as client } from '../../../../Service/graphql';
 import { UPDATE_USER } from '../../../../Service/Mutation';
+import ActivityIndicatorModal from '../../../../Components/ActivityIndicatorModal';
+
+const containerName = 'carpictures';
+const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
+const sasToken ='?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=2022-11-02&sr=c&sig=Gou1kUymMG%2Bq%2FudWWfVoDKoEdF%2FTNSbtYFGhBYJgAFo%3D';
+  const uploadImageToBlobStorage = async file => {
+    try {
+      const uniqueFileName = `${Date.now()}-${file.name}`;
+      const urlWithSasToken = `${blobEndpoint}${containerName}/${uniqueFileName}${sasToken}`;
+  
+      // Determine the content type based on the file extension
+      let contentType = 'image/jpeg'; // Default to JPEG type
+      if (file.type === 'image/png' || file.name.endsWith('.png')) {
+          contentType = 'image/png';
+      }
+    
+  
+      await fetch(urlWithSasToken, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-ms-blob-type': 'BlockBlob',
+        },
+      });
+  
+      // Return the actual image URL without SAS token
+      const url = `${blobEndpoint}${containerName}/${uniqueFileName}`;
+      return url;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  };
 const EditProfile = ({ navigation }) => {
   const [activeInput, setActiveInput] = useState('');
   const themeContext = useContext(ThemeContext);
@@ -26,12 +60,17 @@ const EditProfile = ({ navigation }) => {
   const [googleId, setGoogleId] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [editMode, setEditMode] = useState(false); // State variable for edit mode
-const { user} = ChatState();
+
+  
+const { user,deviceToken} = ChatState();
 const [photo, setPhoto] = useState("");
-  const { loading, error, data,refetch } = useQuery(GET_USER_PROFILE, {
+  const { loading, data,refetch } = useQuery(GET_USER_PROFILE, {
     variables: { id: user?.userByGoogleId?.id }
   });
-console.log('data',data)
+console.log('data',photo) 
+
+
+
 
 
   useEffect(() => {
@@ -42,6 +81,7 @@ console.log('data',data)
       setCnic(data?.user?.cnic);
       setContactNumber(data?.user.contactNumber);
       setPhoto(data?.user?.photoLink)
+    
    
   }, [data]); // Run this effect whenever editMode changes
 
@@ -61,7 +101,7 @@ console.log('data',data)
       maxWidth: 2000,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, async (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -69,22 +109,41 @@ console.log('data',data)
       } else {
         let imageUri = response.uri || (response.assets && response.assets[0]?.uri);
         setSelectedImage(imageUri);
+        const fileName = imageUri.substring(imageUri.lastIndexOf('/') + 1); // Extract file name from URI
+        const file = {
+          uri: imageUri,
+          name: fileName,
+          type: 'image/jpeg', // Default to JPEG type
+        };
+      
+        const imageUrl = await uploadImageToBlobStorage(file);
+   
+        console.log('response from server',imageUrl)
+        setPhoto(imageUrl);
       }
     });
   };
+
+
+
+
+
+
 
   const myhandleSubmit = async (event) => {
     event.preventDefault();
 
     const upUser = {
-    
+  
       photoLink:photo,
 googleId:googleId,
       displayName: username,
       email: email,
       cnic: cnic,
       contactNumber: contactNumber,
+      deviceToken:"kcdhfkjdhjkghdfjkhg"
     };
+    console.log('payload data',upUser)
 
     client.mutate({
         mutation: UPDATE_USER,
@@ -98,7 +157,8 @@ googleId:googleId,
         console.log('res',res)
      Alert.alert('Profile updated successfully');
     setEditMode(!editMode);
-
+setSelectedImage(null)
+refetch()
       })
       .catch((err) => {
         console.log(err);
@@ -106,18 +166,35 @@ googleId:googleId,
       });
   };
 
+
+
+
+
+
+
+
+
   return (
     <KeyboardAwareScrollView style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
+      {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
       <Header text='Profile' />
 
+
+      
+
+
+
       <View style={[styles.name_contaier, { position: 'relative' }]}>
-        <Image source={require('../../../../Assets/Images/Message/image1.jpg')} style={styles.image} />
-        <Pressable style={{ width: 12, height: 12, position: 'absolute', bottom: 5, left: 55 }} onPress={() => openMediaPicker('photo')}>
+      <Image source={{ uri: selectedImage || photo }} style={styles.image} />
+{editMode && (
+        <TouchableOpacity style={{ width: 12, height: 12, position: 'absolute', bottom: 5, left: 55 }} onPress={() => openMediaPicker('photo')}>
           <Image source={require('../../../../Assets/Images/Profile/Camera.png')} style={{tintColor:themeContext?.isDarkTheme?"white":null}}/>
-        </Pressable>
+        </TouchableOpacity>
+)}
+
         <View style={{ flex: 0.95 }}>
-          <Text style={[styles.User_name, { color: theme.PrimarylightText }]}>Amina Mark</Text>
-          <Text style={[styles.user_lastname, { color: theme.PrimarylightText }]}>Jos, Pleteau</Text>
+          <Text style={[styles.User_name, { color: theme.PrimarylightText }]}>{username}</Text>
+          <Text style={[styles.user_lastname, { color: theme.PrimarylightText }]}>{email}</Text>
         </View>
 
         {!editMode   ? 

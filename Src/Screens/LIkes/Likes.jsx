@@ -5,7 +5,7 @@ import { ThemeContext } from '../../Theme/ThemeContext'
 import { darkTheme, lightTheme } from '../../Theme/Color'
 
 import { FONTFAMILY } from '../../Theme/FontFamily'
-import Animated, { FadeIn, FadeInDown, FadeInUp, useSharedValue } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeInLeft, FadeInUp, FadeOutDown, FadeOutRight, FadeOutUp, useSharedValue } from 'react-native-reanimated';
 import  Slider  from 'react-native-slider';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Toast from 'react-native-toast-message'
@@ -19,33 +19,33 @@ import { useLocation } from '../../Theme/LocationContext'
 import { useNavigation } from '@react-navigation/native'
 import { ChatState } from '../../Context/ChatProvider'
 import { useMutation } from '@apollo/client'
-
-
+import ActivityIndicatorModal from '../../Components/ActivityIndicatorModal'
+import { Dropdown } from 'react-native-element-dropdown';
 const Likes = () => {
   const [CarBrand, setCarBrand] = useState(null);
-  const [Year, setYear] = useState(null);
-  const progress = useSharedValue(100);
+
 const navigation = useNavigation()
   const [dailyPrice, setDailyPrice] = useState(100); // Initial daily price
 const [monthlyPrice, setMonthlyPrice] = useState(100); // Initial monthly price
 const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
 
   const [Gas, setGas] = useState(null);
-  const [gearType, setGearType] = useState(null);
+
   const [modelYear, setModelYear] = useState([]);
-  const [City, setCity] = useState([]);
+
 
   const [transmission, setTransmission] = useState('');
   const [carType, setCarType] = useState('');
   const [Color, setColor] = useState(null);
-  const [thumbnailUrl, setThumbnailUrl] = useState(null);
+
   const [Driver, setDriver] = useState(null);
   const [Misctext, setMisctext] = useState('');
-  const [Images, setImages] = useState([]);
+ 
   const [imageUrls, setImageUrls] = useState([]);
   const themeContext = useContext(ThemeContext);
   const [currentStep, setCurrentStep] = useState(0);
 
+const [Loading,SetLoading] = useState(false)
   const totalSteps = 4; // Total number of steps
   const { state } = useLocation();
   const { location, completeAddress } = state;
@@ -54,10 +54,11 @@ const [hourlyPrice, setHourlyPrice] = useState(100); // Initial hourly price
   const max = 100000;
 
 
-  const { selectedChat, setSelectedChat, user, setChats, chats } = ChatState();
  
 
-console.log('location data',location)
+console.log('model year',Color)
+
+
 
   const years = Array.from({ length: 22 }, (_, i) => new Date().getFullYear() - i); // last 22 years
   const yearOptions = years.map((year) => ({ label: String(year), value: year }));
@@ -82,7 +83,7 @@ console.log('location data',location)
   ];
 
 
-console.log('car options',carType)
+
 
 
   const carColorOptions = [
@@ -113,15 +114,14 @@ console.log('car options',carType)
   const validateStep = (step) => {
     switch (step) {
       case 0:
-        return true;
+         return true;
       case 1:
-        case 1:
-          return location && location.latitude !== undefined && location.longitude !== undefined;
-        
+         return location && location.latitude !== undefined && location.longitude !== undefined;
          case 2:
-        return  imageUrls.length > 0;
+         return  imageUrls.length > 0;
+
       case 3:
-        return CarBrand !== null && Year !== null && Gas !== null && gearType !== null && carType !== null;
+        return CarBrand !== null && modelYear !== null && Gas !== null && transmission !== null && carType !== null;
       case 4:
         return Color !== null && Driver !== null && hourlyPrice !== 0 && dailyPrice !== 0 && monthlyPrice !== 0 && Misctext !== '';
       default:
@@ -151,7 +151,7 @@ console.log('car options',carType)
     setCurrentStep((prevStep) => prevStep - 1);
   };
   
-  const progressPercentage = (currentStep / totalSteps) * 100;
+
 
   const SuccessStep = () => (
     <FadeInDownContainer>
@@ -166,7 +166,12 @@ console.log('car options',carType)
 
   const handleSubmit = () => {
     
+    if (Loading) {
+      return; // Prevent multiple submissions
+    }
   
+    // Set loading state to true
+    SetLoading(true);
   
 
     client
@@ -210,21 +215,24 @@ console.log('car options',carType)
       },
     })
       .then((res) => {
-        // Handle success
-        console.log('Car added successfully:', res.data);
+
         Alert.alert('Car added successfully');
+        setCurrentStep(0)
+        navigation.navigate('MyCar')
+        
       })
       .catch((error) => {
-        // Handle error
-        console.error('Error adding car:', error);
+      
         Alert.alert('Error adding car. Please try again.');
+      }).finally(() => {
+        // Set loading state to false when submission is complete
+        SetLoading(false);
       });
-
-
 
     })
     .catch((error) => {
       console.error("Error in the first mutation:", error);
+      SetLoading(false);
     });
 
   };
@@ -234,6 +242,7 @@ console.log('car options',carType)
   return (
     <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
+{Loading && <ActivityIndicatorModal loaderIndicator={Loading} />}
 
 <View style={styles.rowContainer}>
               <View
@@ -299,7 +308,7 @@ console.log('car options',carType)
 {currentStep === 0 && (
 
 
-<Animated.View  entering={FadeInUp.delay(800)} style={{marginTop:20}}>
+<Animated.View  entering={FadeInLeft.delay(1000)} style={{marginTop:20}}>
       <View style={styles.stepContainer}>
         <Text style={[styles.stepNumber,{color:theme.primaryText}]}>1</Text>
         <View style={styles.stepContent}>
@@ -331,7 +340,7 @@ console.log('car options',carType)
 
 
 
-<View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
+<Animated.View entering={FadeInUp.delay(800)} style={{ marginTop: 20 }}>
 <Text style={[styles.label,{color:theme.primaryText}]}>Pick Your cars Location</Text>
 
 <TouchableOpacity
@@ -344,13 +353,13 @@ console.log('car options',carType)
 
 
   
-</View>
+</Animated.View>
 
 
 )}
 
 {currentStep === 2 && (
-<Animated.View  entering={FadeInUp.delay(800)} style={{marginTop:20}} >  
+<Animated.View  entering={FadeOutRight.delay(800)} style={{marginTop:20}} >  
 <Text style={[styles.label,{color:theme.primaryText}]}> Add some photos of your car   </Text>
 
 
@@ -364,52 +373,95 @@ console.log('car options',carType)
 {currentStep === 3 && (
 
 
-<Animated.View entering={FadeInUp.delay(800)} style={{marginTop:20}}>
+<Animated.View entering={FadeOutDown.delay(800)} style={{marginTop:20}}>
       <Text style={[styles.label,{color:theme.primaryText}]}>Select Your Car's Information</Text>
 
       <View style={styles.inputContainer}>
         <Text style={[styles.label,{color:theme.primaryText}]}>Car Brand</Text>
         <Text style={[styles.note,{color:theme.PrimarylightText}]}>Note: If the car brand is not available, please enter your custom brand name.</Text>
-        <Picker
-       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
-       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
-        selectedValue={CarBrand}
-       mode='dropdown'
-       onValueChange={value => setCarBrand(value)}>
-        
-        {carBrandOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.label} />
-        ))}
-      </Picker>
+      
+
+      <Dropdown
+          style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
+          placeholderStyle={[styles.placeholderStyle]}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={carBrandOptions}
+          fontFamily='Poppins-Medium'
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={ 'Select Car Brand'}
+          searchPlaceholder="Search"
+          value={CarBrand}   
+          onChange={item => {
+            setCarBrand(item.value);
+          }}
+         
+        />
+
+
+
+
+      
       </View>
 
         <View style={styles.inputContainer}>
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Model Year</Text>
-          <Picker
-       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
-       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
-        selectedValue={modelYear}
-       mode='dropdown'
-
-        onValueChange={value => setModelYear(value)}>
+          <Dropdown
+          style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
+          placeholderStyle={[styles.placeholderStyle]}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={yearOptions}
+fontFamily='Poppins-Medium'   
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={'Select Model Year'}
+          searchPlaceholder="Search"
+          value={modelYear}
+         
+          onChange={item => {
+            setModelYear(item.value);
           
-        {yearOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.value} />
-        ))}
-      </Picker>
+          }}
+         
+        />
+
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Runs On</Text>
-          <Picker
-    style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
-    itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
-        selectedValue={Gas}
-        onValueChange={value => setGas(value)}>
-        {gasOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.label} />
-        ))}
-      </Picker>
+          <Dropdown
+          style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
+          placeholderStyle={[styles.placeholderStyle]}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={gasOptions}
+fontFamily='Poppins-Medium'   
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={'Runs On'}
+          searchPlaceholder="Search"
+          value={Gas}
+         
+          onChange={item => {
+            setGas(item.value);
+          
+          }}
+         
+        />
         </View>
 
         <View style={styles.inputContainer}>
@@ -452,22 +504,34 @@ console.log('car options',carType)
 {currentStep === 4 && (
 
 
-<Animated.View entering={FadeInUp.delay(800)} style={{marginTop:20}}>
+<Animated.View entering={FadeOutUp.delay(800)} style={{marginTop:20}}>
       <Text style={[styles.label,{color:theme.primaryText}]}>Select Your cars Price</Text>
 
       <View style={styles.inputContainer}>
         <Text style={[styles.label,{color:theme.primaryText}]}>Car Color</Text>
-        <Picker
-       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
-       itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
-        selectedValue={Color}
-       mode='dropdown'
-       onValueChange={value => setColor(value)}>
-        
-        {carColorOptions.map((brand, index) => (
-          <Picker.Item key={index} label={brand.label} value={brand.label} />
-        ))}
-      </Picker>
+        <Dropdown
+          style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
+          placeholderStyle={[styles.placeholderStyle]}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={carColorOptions}
+fontFamily='Poppins-Medium'   
+          containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={'Select Car Color'}
+          searchPlaceholder="Search"
+          value={Color}
+         
+          onChange={item => {
+            setColor(item.value);
+          
+          }}
+         
+        />
       </View>
 
         <View style={styles.inputContainer}>

@@ -9,6 +9,7 @@ import { ThemeContext } from '../../../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../../../Theme/Color';
 import { GET_CAR_BY_ID } from '../../../../Service/Queries';
 import { useQuery } from '@apollo/client';
+import ActivityIndicatorModal from '../../../../Components/ActivityIndicatorModal';
 
 const CardetailsScreen = ({route}) => {
 
@@ -25,16 +26,15 @@ const CardetailsScreen = ({route}) => {
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
   
-    if (loading) return <ActivityIndicator />;
-    if (error) return <Text>Error fetching data</Text>;
+   
    
   
    
 
-console.log('data',data.car)
 
   return (
       <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+{loading && <ActivityIndicatorModal loaderIndicator={loading} />}
 
 
 <Details data={data.car} />

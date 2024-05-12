@@ -18,6 +18,7 @@ import { ChatState } from '../../Context/ChatProvider';
 import { FlatList, ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
 import AntDesign from 'react-native-vector-icons/AntDesign'; // Import FontAwesome as an example
+import ActivityIndicatorModal from '../ActivityIndicatorModal';
 
 const CarItem = ({ car,index,fullscreen,edit}) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -115,11 +116,11 @@ const handleDelete = async (id) => {
 {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
 
       <Animated.View entering={FadeInDown.delay(200 * index)}>
-    <Pressable  style={[styles.container,{backgroundColor:theme.BackgroundSecondary,width:fullscreen?300:200}]} activeOpacity={0.7}>
+    <Pressable  style={[styles.container,{backgroundColor:theme.BackgroundSecondary,width:fullscreen?300:280}]} activeOpacity={0.7}>
 
   
     
-<View onPress={goToCarDetails}>   
+<Pressable onPress={goToCarDetails}>   
    { car?.photos?.length > 0  &&
 
 <>  
@@ -129,17 +130,17 @@ const handleDelete = async (id) => {
         showsHorizontalScrollIndicator={false}
      
         ref={scrollViewRef}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}  >
                     {car?.photos?.map((photo, index) => (
                         <FastImage
                             key={index}
-                            style={[styles.image, { height: fullscreen ? 200 : 100, marginRight: fullscreen ? 0 : 10 }]}
+                            style={[styles.image, { height: fullscreen ? 200 : 150, marginRight: fullscreen ? 0 : 10, }]}
                             source={{
                                 uri: photo,
-                                priority: FastImage.priority.high,
+                                
                             }}
                             sharedTransitionTag={car?.name}
-                          
+                          resizeMode='cover'
                         />
                     ))}
                 </ScrollView>
@@ -163,7 +164,7 @@ const handleDelete = async (id) => {
       }
 
   
-  </View>
+  </Pressable>
 
      <View style={styles.detailsContainer}>
 
@@ -230,7 +231,7 @@ row:{
     flexDirection:"row",
     justifyContent:"space-between",
     alignItems:"center",
-    marginTop:10,
+    marginTop:30,
     gap:10,
     borderBottomWidth:1,
     borderBottomColor:'#F3F2F3'
@@ -280,8 +281,9 @@ row:{
   navigationIcons: {
     position: 'absolute',
     bottom:-25,
-    right: 70,
- 
+    right: '40%',
+ justifyContent:"center",
+ alignItems:"center",
 
     borderRadius: 10,
     flexDirection:"row",

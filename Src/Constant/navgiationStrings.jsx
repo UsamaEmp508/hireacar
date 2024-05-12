@@ -16,7 +16,8 @@ export default {
    AllCarPopular:"AllCarPopular",
    MapLocation:"MapLocation",
    Notification:"Notification",
-   Editcar:"Editcar"
+   Editcar:"Editcar",
+   Search:"Search"
 
 
 
