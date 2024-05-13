@@ -159,3 +159,20 @@ export const ADD_NEW_LOCATION_MUTATION = gql`
     }
   }
 `;
+
+
+
+
+export const SaveToken = gql`
+mutation saveToken($data: NewTokenInput!) {
+  saveToken(data: $data) {
+  
+    userId
+    deviceId
+    platform
+  }
+}
+
+
+
+`;

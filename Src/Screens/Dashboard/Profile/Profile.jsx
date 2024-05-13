@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome as an example
 import Feather from 'react-native-vector-icons/Feather'; // Import FontAwesome as an example
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,21 +20,46 @@ import { useNavigation } from '@react-navigation/native';
 import { ChatState } from '../../../Context/ChatProvider';
 import { removeData } from '../../../Utility/Storage/Storage';
 import { GET_USER_PROFILE } from '../../../Service/Queries';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { SaveToken } from '../../../Service/Mutation';
 
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const navigation = useNavigation()
 const { user,setUser} = ChatState();
+const [saveToken, {  error }] = useMutation(SaveToken);
+console.log('user',user)
 const { loading:userprofileloading, data:userprofile } = useQuery(GET_USER_PROFILE, {
   variables: { id: user?.userByGoogleId?.id }
 });
+
+const handleSaveToken = async (userId, deviceId, platform) => {
+console.log(deviceId,userId,platform)
+
+  try {
+    const { data } = await saveToken({
+      variables: {
+        data: {
+          userId,
+          deviceId,
+          platform,
+        },
+      },
+    });
+    console.log('Token saved:', data.saveToken);
+  } catch (err) {
+    console.error('Error saving token:', err);
+  }
+};
+
 
   const handletoggletheme = themeContext?.toggleTheme
 const Logout = async () => {
   await removeData();
   setUser(null)
+  handleSaveToken(user?.userByGoogleId?.googleId,"",Platform.OS,)
+
 };
 
   return (
@@ -44,9 +69,7 @@ const Logout = async () => {
           <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
         </View>
         <Text style={[styles.profile_name, { color: theme.primaryText }]}>{userprofile?.user?.displayName}</Text>
-        <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>
-          {user?.userByGoogleId?.email}
-        </Text>
+        <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>{user?.userByGoogleId?.email} </Text>
 
    
         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('EditProfile')}>
@@ -83,7 +106,13 @@ const Logout = async () => {
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
-
+        <TouchableOpacity style={styles.tile} onPress={Logout}>
+          <View style={styles.inner_tile_left}>   
+          <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>
           <View style={styles.inner_tile_left}>  
@@ -95,13 +124,7 @@ const Logout = async () => {
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tile} onPress={Logout}>
-          <View style={styles.inner_tile_left}>   
-          <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
-          <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
-          </View>
-          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
-        </TouchableOpacity>
+        
 
 
 
@@ -146,7 +169,7 @@ const styles = StyleSheet.create({
 
 },
 body:{
-    width:'100%',
+ 
     flex:1,
     borderRadius:16,
     shadowColor: 'rgba(0, 0, 0, 0.08)',
