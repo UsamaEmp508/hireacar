@@ -45,7 +45,7 @@ const Chats = () => {
   }, [searchQuery, chats]);
 
   const setSelectChat = (item) => {
-    navigation.navigate('Messages');
+    navigation.navigate('Messages',{id:item?.id});
     setSelectedChat(item);
   };
 

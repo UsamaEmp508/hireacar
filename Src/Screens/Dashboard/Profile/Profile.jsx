@@ -22,6 +22,7 @@ import { removeData } from '../../../Utility/Storage/Storage';
 import { GET_USER_PROFILE } from '../../../Service/Queries';
 import { useMutation, useQuery } from '@apollo/client';
 import { SaveToken } from '../../../Service/Mutation';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
@@ -63,8 +64,8 @@ const Logout = async () => {
 };
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
-      <View style={[styles.body, { backgroundColor: theme.input_Background }]}>
+    <ScrollView style={[styles.container, { backgroundColor: theme.primaryBackground, }]}>
+      <View style={[styles.body, { backgroundColor: theme.input_Background,marginBottom:40 }]}>
         <View style={styles.profile_image}>
           <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
         </View>
@@ -106,13 +107,7 @@ const Logout = async () => {
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tile} onPress={Logout}>
-          <View style={styles.inner_tile_left}>   
-          <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
-          <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
-          </View>
-          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
-        </TouchableOpacity>
+    
 
         <TouchableOpacity style={styles.tile} onPress={handletoggletheme}>
           <View style={styles.inner_tile_left}>  
@@ -125,11 +120,17 @@ const Logout = async () => {
         </TouchableOpacity>
 
         
-
+        <TouchableOpacity style={styles.tile} onPress={Logout}>
+          <View style={styles.inner_tile_left}>   
+          <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
 
 
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

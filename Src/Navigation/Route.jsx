@@ -16,14 +16,18 @@ import AllLocation from '../Screens/Dashboard/Home/All Location/AllLocation';
 import AllcarPrice from '../Screens/Dashboard/Home/AllCarPrice/AllcarPrice';
 import AllPopularCar from '../Screens/Dashboard/Home/AllPopularCars/AllPopularCar';
 import { ChatState } from '../Context/ChatProvider';
+import { Linking, Text } from 'react-native';
 
 import Googleinput from '../Components/GooglePLaces/Googleinput';
 import { getData } from '../Utility/Storage/Storage';
 import Notifications from '../Screens/Dashboard/Notification/Notification';
 import EditCar from '../Screens/EditCar/EditCar';
 import Search from '../Screens/Dashboard/Search Screen/Search';
+import messaging from '@react-native-firebase/messaging';
+
 const Route = () => {
   const {  user,setUser} = ChatState();
+const NAVIGATION_IDS = ['messages'];
  
     const Stack = createNativeStackNavigator();
 
@@ -36,8 +40,73 @@ const Route = () => {
   
       getDataFromStorage();
     }, []);
+
+
+    function buildDeepLinkFromNotificationData(data) {
+      console.log("on click data",data)
+      const navigationId = data?.navigationId;
+      if (!NAVIGATION_IDS.includes(navigationId)) {
+        console.warn('Unverified navigationId', navigationId)
+        return null;
+      }
+    
+     
+    
+      const chatId = data?.chatId;
+      if (navigationId === 'Messages') {
+        return `hireacar://Messages/${chatId}`
+      }
+      console.warn('Missing postId')
+      return null
+    }
+    
+  
+    const linking = {
+      prefixes: ["hireacar://"],
+      config: {
+      initialRouteName: "dashboard",
+      screens: {
+        Messages: 'Messages/:id',
+                                           
+      },
+      },
+      async getInitialURL() {
+          const url = await Linking.getInitialURL();
+          if (typeof url === 'string') {
+            return url;
+          }
+          //getInitialNotification: When the application is opened from a quit state.
+          const message = await messaging().getInitialNotification();
+          const deeplinkURL = buildDeepLinkFromNotificationData(message?.data);
+          if (typeof deeplinkURL === 'string') {
+            return deeplinkURL;
+          }
+        },
+        subscribe(listener) {
+          const onReceiveURL = ({url}) => listener(url);
+      
+          // Listen to incoming links from deep linking
+          const linkingSubscription = Linking.addEventListener('url', onReceiveURL);
+      
+          //onNotificationOpenedApp: When the application is running, but in the background.
+          const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
+            const url = buildDeepLinkFromNotificationData(remoteMessage.data)
+            if (typeof url === 'string') {
+              listener(url)
+            }
+          });
+      
+          return () => {
+            linkingSubscription.remove();
+            unsubscribe();
+          };
+        },
+    };
+    
+
+
   return (
-    <NavigationContainer>   
+    <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>   
     <Stack.Navigator screenOptions={{ headerShown: false }}  >
       {
         user ?

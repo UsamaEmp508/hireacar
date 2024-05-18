@@ -1,93 +1,50 @@
 import React, { useEffect } from "react";
-import { ThemeProvider, createTheme } from '@rneui/themed';
 import Route from "./Src/Navigation/Route";
-import { ApolloProvider } from "@apollo/client";
-import { Theme } from "./Src/Theme/ThemeContext";
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import Toast from 'react-native-toast-message'
 import messaging from '@react-native-firebase/messaging';
-import ChatProvider, { ChatState } from "./Src/Context/ChatProvider";
-import { apolloClient } from "./Src/Service/graphql";
-import { LocationProvider } from "./Src/Theme/LocationContext";
-
-import notifee , { AndroidStyle } from '@notifee/react-native';
+import { ChatState } from "./Src/Context/ChatProvider";
+import notifee from '@notifee/react-native';
 
 export default function App() {
-
- 
-
-
-  const theme = createTheme({
-    lightColors: {
-      primary: '#e7e7e8',
-    },
-    darkColors: {
-      primary: '#000',
-    }, 
-    mode: 'light',
-  });
-
-
-
-
-  messaging().onMessage(async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
-
-    const { title, body } = remoteMessage.notification;
-  
-    try {
-      // Display the notification using Notifee
-      const channelId = await notifee.createChannel({
-        id: 'default4',
-        name: 'Default Channel4',
-     
-      });
-  
-      await notifee.displayNotification({
-        title,
-        body,
-        android: {
-          channelId,
-          style: {
-            type: AndroidStyle.INBOX,
-            
-          
-          },
-        },
-      });
-    } catch (error) {
-      console.error('Error displaying notification:', error);
+  const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
+console.log('notificaton',notification)
+  useEffect(() => {
+    let unsubscribe;
+    if (!notification) {
+      setNotification(true);
     }
-  });
-
-
-
- 
-
-
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>   
-      <ApolloProvider client={apolloClient} >   
-      <ChatProvider >  
     
-      <ThemeProvider theme={theme}> 
+    if (notification) {
+      unsubscribe = messaging().onMessage(async remoteMessage => {
+        console.log('Message handled in the foreground!', remoteMessage);
+        const { title, body } = remoteMessage.notification;
 
-      <Theme>  
-        <LocationProvider>      
-     
-   <Route/>
-   </LocationProvider>
-   </Theme>  
-      </ThemeProvider>
-   </ChatProvider>
+        try {
+          // Display the notification using Notifee
+          const channelId = await notifee.createChannel({
+            id: 'default85',
+            name: 'Default Channel85',
+          });
 
-   </ApolloProvider>
-    
-   <Toast
-position='top'
-bottomOffset={20}
-/>
+          await notifee.displayNotification({
+            title,
+            body,
+            android: {
+              channelId,
+            },
+          });
+        } catch (error) {
+          console.error('Error displaying notification:', error);
+        }
+      });
+    }
 
-      </GestureHandlerRootView>
-  );
+    // Clean up the listener on unmount or when notification state changes
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [notification]);
+
+  return <Route />;
 }

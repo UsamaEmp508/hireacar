@@ -7,7 +7,7 @@ const ChatContext = createContext();
 const ChatProvider = ({ children  }) => {
   const [selectedChat, setSelectedChat] = useState(false);
   const [user, setUser] = useState();
-  const [notification, setNotification] = useState([]);
+  const [notification, setNotification] = useState(true);
   const [chats, setChats] = useState([]);
   const [istyping, setIsTyping] = useState(false);
   const [devicetoken, setdevicetoken] = useState();

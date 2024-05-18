@@ -38,7 +38,7 @@ const CarItem = ({ car,index,fullscreen,edit}) => {
   const handleScroll = (pageIndex) => {
     const pageWidth = windowWidth; // Assuming SCREEN_WIDTH is defined
     const offsetX = pageIndex * pageWidth;
-    scrollViewRef.current.scrollTo({
+    scrollViewRef?.current?.scrollTo({
       animated: true,
       x: offsetX,
       y: 0,

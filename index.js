@@ -3,11 +3,26 @@
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-import messaging from '@react-native-firebase/messaging';
 import notifee , { AndroidStyle } from '@notifee/react-native';
+import React, { useEffect } from "react";
+import { ThemeProvider, createTheme } from '@rneui/themed';
+import { ApolloProvider } from "@apollo/client";
+import { Theme } from "./Src/Theme/ThemeContext";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message'
+import messaging from '@react-native-firebase/messaging';
+import ChatProvider, { ChatState } from "./Src/Context/ChatProvider";
+import { apolloClient } from "./Src/Service/graphql";
+import { LocationProvider } from "./Src/Theme/LocationContext";
 
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
+  
+
+
+
+
+const Main = () => {
+  messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log('Message handled in the background!', remoteMessage);
 
     messaging().onMessage(async remoteMessage => {
@@ -37,9 +52,42 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   
   
   });
-  
+  const theme = createTheme({
+    lightColors: {
+      primary: '#e7e7e8',
+    },
+    darkColors: {
+      primary: '#000',
+    }, 
+    mode: 'light',
+  });
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>   
+      <ApolloProvider client={apolloClient} >   
+      <ChatProvider >  
+    
+      <ThemeProvider theme={theme}> 
+
+      <Theme>  
+        <LocationProvider>   
+    <App/>
+      </LocationProvider>
+   </Theme>  
+      </ThemeProvider>
+   </ChatProvider>
+
+   </ApolloProvider>
+    
+   <Toast
+position='top'
+bottomOffset={20}
+/>
+
+      </GestureHandlerRootView>
+  )
+}
 
 
 
-
-AppRegistry.registerComponent(appName, () => App);
+AppRegistry.registerComponent(appName, () => Main);

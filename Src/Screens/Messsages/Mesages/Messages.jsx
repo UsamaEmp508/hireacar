@@ -12,27 +12,44 @@ import { getSenderFull } from '../../../config/ChatLogics';
 import { ChatState } from '../../../Context/ChatProvider';
 import { useMutation, useQuery } from '@apollo/client';
 import io from "socket.io-client";
+
+
 var socket, selectedChatCompare;
 const ENDPOINT = 'http://192.168.165.88:81'
-const Messages = () => {
+const Messages = ({route}) => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 
- 
+ const {id} = route.params
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
 
+
+
+
   const { selectedChat, setSelectedChat, user, notification, setNotification,istyping, setIsTyping } =
   ChatState();
 
   const { loading:mesageLoading, error, data } = useQuery(ALL_MESSAGES, {
-    variables: { chatId:selectedChat?.id },
+    variables: { chatId:id },
   });
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [senderInfo, setSenderInfo] = useState(null); 
+
+
+  console.log('notification',notification)
+
  
+
+
+
+
+
+
+
+
 
 useEffect(() => {
   if (selectedChat) {
@@ -88,7 +105,7 @@ const handleSendMessage = async (event) => {
     );
     socket.on("typing", () => setIsTyping(true));
     socket.on("stoptyping", () => setIsTyping(false));
-
+setNotification(false)
    
   }, []);
 
@@ -114,13 +131,13 @@ console.log('join chat',selectedChat?.id)
         selectedChatCompare.id !== newMessageRecieved.chat.id
       ) {
         if (!notification.includes(newMessageRecieved)) {
-          setNotification([newMessageRecieved, ...notification]);
           // setFetchAgain(!fetchAgain);
         }
       } else {
         setMessages([...messages, newMessageRecieved]);
+      
+
       }
-console.log('notification',notification)
 
     });
 
