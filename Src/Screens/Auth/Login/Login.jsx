@@ -40,10 +40,9 @@ const googleLogin = async () => {
       setLoading(true);
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-    
-        setUserdata(userInfo);
-       
-          
+
+        getUser(userInfo);
+             
     } catch (error) {
      // Stop loading indicator
 
@@ -121,25 +120,13 @@ const googleLogin = async () => {
 
   
 
-  
-   
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-  useEffect(() => {
-    const getUser = async () => {
+    const getUser = async (userInfo) => {
       try {
      
        
@@ -147,22 +134,22 @@ const googleLogin = async () => {
           const { data } = await client.query({
             query: GET_USER_QUERY_BY_GOOGLE_ID,
             variables: {
-              id: userdata.user.id,
+              id: userInfo.user.id,
             },
           });
           const userByGoogleId = data.userByGoogleId;
-          handleSaveToken(userdata?.user?.id,devicetoken,Platform.OS)
-
+          handleSaveToken(userInfo?.user?.id,devicetoken,Platform.OS)
+console.log('data',data)
 
 setUser(data)
 storeData(data)
           if (userByGoogleId === null) {
 
             const newUser = {
-              googleId: userdata.user.id,
-                  displayName: userdata.user.name,
-                  email: userdata.user.email,
-                  photoLink: userdata.user.photo,
+              googleId: userInfo.user.id,
+                  displayName: userInfo.user.name,
+                  email: userInfo.user.email,
+                  photoLink: userInfo.user.photo,
             };
 
 
@@ -195,8 +182,7 @@ storeData(data)
       
     };
 
-    getUser();
-  }, [userdata]);
+
 
 
 

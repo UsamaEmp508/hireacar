@@ -17,7 +17,8 @@ export default {
    MapLocation:"MapLocation",
    Notification:"Notification",
    Editcar:"Editcar",
-   Search:"Search"
+   Search:"Search",
+   Contact:"Contact"
 
 
 

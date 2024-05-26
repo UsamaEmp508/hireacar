@@ -24,10 +24,11 @@ import Notifications from '../Screens/Dashboard/Notification/Notification';
 import EditCar from '../Screens/EditCar/EditCar';
 import Search from '../Screens/Dashboard/Search Screen/Search';
 import messaging from '@react-native-firebase/messaging';
+import ContactSupport from '../Screens/Dashboard/Contact Support/Support';
 
 const Route = () => {
   const {  user,setUser} = ChatState();
-const NAVIGATION_IDS = ['messages'];
+const NAVIGATION_IDS = ['Messages'];
  
     const Stack = createNativeStackNavigator();
 
@@ -52,9 +53,9 @@ const NAVIGATION_IDS = ['messages'];
     
      
     
-      const chatId = data?.chatId;
+      const id = data?.chatId;
       if (navigationId === 'Messages') {
-        return `hireacar://Messages/${chatId}`
+        return `hireacar://Messages/${id}`
       }
       console.warn('Missing postId')
       return null
@@ -77,6 +78,8 @@ const NAVIGATION_IDS = ['messages'];
           }
           //getInitialNotification: When the application is opened from a quit state.
           const message = await messaging().getInitialNotification();
+console.log('message ',message)
+
           const deeplinkURL = buildDeepLinkFromNotificationData(message?.data);
           if (typeof deeplinkURL === 'string') {
             return deeplinkURL;
@@ -116,9 +119,9 @@ const NAVIGATION_IDS = ['messages'];
         
         <Stack.Screen name={navgiationStrings.AllLocation} component={AllLocation} options={{ animation: 'fade_from_bottom'}} />
     
+        <Stack.Screen name={navgiationStrings.Contact} component={ContactSupport}   options={{ animation: 'slide_from_right'}} />
         
         
-              <Stack.Screen name={navgiationStrings.Slider} component={Slider}   options={{ animation: 'slide_from_right'}} />
     
               <Stack.Screen name={navgiationStrings.CarDetails} component={CarDetails} options={{ animation: 'slide_from_right'}} />
               <Stack.Screen name={navgiationStrings.Brand} component={Brand} options={{ animation: 'fade_from_bottom'}} />
@@ -142,8 +145,11 @@ const NAVIGATION_IDS = ['messages'];
 
         </Stack.Group>  :
 
-<Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
+        <Stack.Group>   
+              <Stack.Screen name={navgiationStrings.Slider} component={Slider}   options={{ animation: 'slide_from_right'}} />
 
+<Stack.Screen name={navgiationStrings.Login} component={Login} options={{ animation: 'fade_from_bottom'}} />
+</Stack.Group>
 
       }
         

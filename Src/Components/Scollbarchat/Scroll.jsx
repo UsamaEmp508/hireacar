@@ -24,7 +24,9 @@ const { setUser,user} = ChatState();
   
 
     const renderItem = ({ item,index }) => {
-
+      const createdAtDate = new Date(item?.createdAt);
+      const date = createdAtDate?.toLocaleDateString(); // Format date
+      const time = createdAtDate?.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time
       return(
 
 
@@ -37,9 +39,7 @@ const { setUser,user} = ChatState();
             style={{ marginTop: 7, marginRight: 4, width: 40, height: 40, borderRadius: 20 }}
             source={{ uri: item.sender.photoLink }}
           />
-          // <Tooltip title={m.sender.displayName} placement="bottom-start" arrow>
-           
-          // </Tooltip>
+        
         )}
         <View
           style={{
@@ -52,6 +52,7 @@ const { setUser,user} = ChatState();
             maxWidth: '75%',
           }}>
           <Text style={[styles.content]}>{item.content}</Text>
+          <Text style={[styles.time]}>{date}{time}</Text>
         </View>
       </View>
       
@@ -90,5 +91,10 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily:FONTFAMILY.Poppins_Medium
       },
+      time:
+      {
+        fontSize: 12,
+        fontFamily:FONTFAMILY.Poppins_Medium
+      }
 
 })

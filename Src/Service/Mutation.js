@@ -9,6 +9,7 @@ mutation SendMessage($content: String!, $chatId: String!, $userId: String!) {
   sendMessage(content: $content, chatId: $chatId, userId: $userId) {
     content
       id   
+      createdAt
     
       chat
       {
@@ -160,6 +161,23 @@ export const ADD_NEW_LOCATION_MUTATION = gql`
   }
 `;
 
+export const CREATE_CONTACT = gql`
+  mutation CreateContact($name: String!, $email: String!, $phoneNumber: String!, $message: String!) {
+    createContact(
+      name: $name
+      email: $email
+      phoneNumber: $phoneNumber
+      message: $message
+    ) {
+      id
+      name
+      email
+      phoneNumber
+      message
+      createdAt
+    }
+  }
+`;
 
 
 

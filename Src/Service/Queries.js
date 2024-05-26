@@ -128,6 +128,7 @@ export const ALL_MESSAGES = gql`
     allMessages(chatId: $chatId) {
       content
       id
+      createdAt
 
     
     

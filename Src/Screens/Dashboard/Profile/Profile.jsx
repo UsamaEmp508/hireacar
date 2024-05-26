@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Import FontAwesome as an example
-import Feather from 'react-native-vector-icons/Feather'; // Import FontAwesome as an example
+import Icon from 'react-native-vector-icons/FontAwesome'; 
+import Feather from 'react-native-vector-icons/Feather'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import FontAwesome as an example
-
-// Import FontAwesome as an example
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
 
 
 
@@ -23,6 +21,7 @@ import { GET_USER_PROFILE } from '../../../Service/Queries';
 import { useMutation, useQuery } from '@apollo/client';
 import { SaveToken } from '../../../Service/Mutation';
 import { ScrollView } from 'react-native-gesture-handler';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
@@ -57,10 +56,13 @@ console.log(deviceId,userId,platform)
 
   const handletoggletheme = themeContext?.toggleTheme
 const Logout = async () => {
-  await removeData();
-  setUser(null)
+    
+  GoogleSignin.revokeAccess()
+  GoogleSignin.signOut()
+  
   handleSaveToken(user?.userByGoogleId?.googleId,"",Platform.OS,)
-
+  removeData();
+  setUser(null)
 };
 
   return (
@@ -104,6 +106,15 @@ const Logout = async () => {
           <View style={styles.inner_tile_left}>  
           <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Terms and Condition</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
+    
+
+        <TouchableOpacity style={styles.tile} onPress={() =>  navigation.navigate('Contact')}>
+          <View style={styles.inner_tile_left}>  
+          <Ionicons name={themeContext?.isDarkTheme ? 'car-sport-outline' : 'car-sport-outline'} size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Contact Support</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>
