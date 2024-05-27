@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import Details from '../../../../Components/Car Details/Details';
 import { FONTFAMILY } from '../../../../Theme/FontFamily';
@@ -33,12 +33,12 @@ const CardetailsScreen = ({route}) => {
 
 
   return (
-      <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+      <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
 
 
-<Details data={data.car} />
-    </View>
+<Details data={data?.car} />
+    </SafeAreaView>
   )
 }
 

@@ -7,7 +7,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 export const styles = StyleSheet.create({
     container:{
         flex:1,
-    paddingHorizontal:SPACING.space_20
+  
       
     },
 
@@ -78,17 +78,19 @@ fontFamily:FONTFAMILY.Poppins_Bold
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        
     },
   
     left:{
         flexDirection:"row",
     flex:1,
-       gap:5,
+       gap:10,
 
        paddingHorizontal:SPACING.space_16,
         alignItems:"center",
-        paddingVertical:SPACING.space_4,
-        borderRadius:SPACING.space_15
+        paddingVertical:SPACING.space_16,
+        borderRadius:SPACING.space_15,
+        paddingHorizontal:SPACING.space_10
     },
 
 left_input:{
