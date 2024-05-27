@@ -10,7 +10,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import FastImage from 'react-native-fast-image'
 import Entypo from 'react-native-vector-icons/Entypo';
 import { BottomSheet } from '@rneui/themed';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useMutation, useQuery } from '@apollo/client';
 import { deleteCar } from '../../Service/Mutation';
 import { GET_USER_PROFILE } from '../../Service/Queries';
@@ -110,7 +110,7 @@ const handleDelete = async (id) => {
 };
 
     return (
-<SafeAreaProvider>  
+<View >  
 
 
 {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
@@ -207,7 +207,7 @@ const handleDelete = async (id) => {
 
 
     </Animated.View>
-    </SafeAreaProvider>
+    </View>
   );
 };
 

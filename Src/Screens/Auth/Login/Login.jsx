@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View ,Platform} from 'react-native'
+import { Image, Text, TouchableOpacity, View ,Platform, SafeAreaView} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './Style'
 import { ThemeContext } from '../../../Theme/ThemeContext'
@@ -37,11 +37,11 @@ const [systemUserId, setSystemUserId] = useState(null);
 
 const googleLogin = async () => {
     try {
-      setLoading(true);
+
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
 
-        getUser(userInfo);
+        // getUser(userInfo);
              
     } catch (error) {
      // Stop loading indicator
@@ -55,43 +55,31 @@ const googleLogin = async () => {
         } else {
         }
       }
-        finally{
-          setLoading(false); 
-        }
+       
       }
         
     
       useEffect(() => {
-        const getFcmToken = async () => {
-       const  token = await messaging().getToken();
-          if (token) {
-              console.log("Your Firebase state token is:", token);
-              setDeviceToken(token);
+     
+    
 
-          } else {
-              console.log("Failed", "No Token Received");
+        const requestPermissionAndToken = async () => {
+          try {
+            if (Platform.OS === "android") {
+              await messaging().requestPermission();
+            }
+    
+            const token = await messaging().getToken();
+            console.log("generating FCM token:", token);
+    
+          } catch (error) {
+            console.log("Error generating FCM token:", error);
           }
         };
     
+        requestPermissionAndToken();
     
-    
-    
-    
-    
-    
-    
-        const requestPermission = async () => {
-          const authStatus = await messaging().requestPermission();
-          const enabled =
-            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-          if (enabled) {
-            getFcmToken();
-            console.log('Authorization status:', authStatus);
-          }
-        };
-    
-        requestPermission();
+  
       }, []);
 
 
@@ -190,7 +178,7 @@ storeData(data)
 
 
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
 
@@ -206,7 +194,7 @@ storeData(data)
 
 
 
-    </View>
+    </SafeAreaView>
   )
 }
 

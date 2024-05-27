@@ -1,5 +1,5 @@
 
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext } from 'react'
 import CarItem from '../../../../Components/Car Card/Card';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
@@ -21,7 +21,10 @@ const AllPopularCar = () => {
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground, }]}>
+<View style={{paddingHorizontal:SPACING.space_20}}>
+
+
 
 
     <Header text={'Popular Cars'} />
@@ -80,7 +83,8 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     )
     
     }
-        </View>
+    </View>
+        </SafeAreaView>
   )
 }
 
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
    
     container:{
         flex:1,
-        paddingHorizontal:SPACING.space_20
+       
       },
       screen_title:{
         fontSize:FONTSIZE.size_18,
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        
     },
   
     left:{
@@ -113,7 +118,8 @@ const styles = StyleSheet.create({
        paddingHorizontal:SPACING.space_16,
         alignItems:"center",
         paddingVertical:SPACING.space_4,
-        borderRadius:SPACING.space_15
+        borderRadius:SPACING.space_15,
+        paddingVertical:15
     },
   
   left_input:{

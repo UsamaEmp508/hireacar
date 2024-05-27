@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View,TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, TextInput, View,TouchableOpacity, Alert, SafeAreaView } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { styles } from './Styles'
 import { ThemeContext } from '../../Theme/ThemeContext'
@@ -240,6 +240,7 @@ console.log('model year',Color)
 
     
   return (
+    <SafeAreaView style={{flex:1}}>   
     <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 {Loading && <ActivityIndicatorModal loaderIndicator={Loading} />}
@@ -359,10 +360,8 @@ console.log('model year',Color)
 )}
 
 {currentStep === 2 && (
-<Animated.View  entering={FadeOutRight.delay(800)} style={{marginTop:20}} >  
+<Animated.View  entering={FadeInUp.delay(800)} style={{marginTop:20}} >  
 <Text style={[styles.label,{color:theme.primaryText}]}> Add some photos of your car   </Text>
-
-
 
 
 <ImageUpload onImageUrlsChange={handleImageUrlsChange} />
@@ -664,6 +663,7 @@ marginVertical:15,
      
 
     </KeyboardAwareScrollView>
+    </SafeAreaView>
   )
 }
 

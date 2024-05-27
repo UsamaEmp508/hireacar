@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { styles } from './Styles';
 import { ThemeContext } from '../../../Theme/ThemeContext';
@@ -15,7 +15,7 @@ import { Skeleton } from '@rneui/base';
 import { FlatList } from 'react-native-gesture-handler';
 import { useLocation, useLocationActions } from '../../../Theme/LocationContext';
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
+import { SPACING } from '../../../Theme/Spacing';
 import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
 const apiKey = "AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A";
 
@@ -132,7 +132,10 @@ navigation.navigate('Search')
 
 
   return (
-    <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+<SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+
+
+    <ScrollView contentContainerStyle={{  paddingHorizontal:SPACING.space_20}}>
 {/* header */}
 <View style={styles.Header_Profile}>
 
@@ -344,6 +347,10 @@ navigation.navigate('Search')
 
     
     </ScrollView>
+
+    </SafeAreaView>
+
+
   )
 }
 

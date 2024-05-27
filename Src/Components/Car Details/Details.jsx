@@ -157,8 +157,8 @@ useEffect(() => {
 
       <View style={{paddingHorizontal:20}}>  
       <Animated.View entering={FadeIn.delay(600)} style={{marginTop:60,}}>
-      <Text style={[styles.carName,{color:theme.primaryText}]}>{data.name}</Text>
-      <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data.City} Pakistan</Text>
+      <Text style={[styles.carName,{color:theme.primaryText}]}>{data?.name}</Text>
+      <Text style={[styles.priceSubHeading,{color:theme.PrimarylightText}]}>{data?.City} Pakistan</Text>
       </Animated.View>
       <Animated.View entering={FadeInDown.delay(800)} style={{marginTop:10}}>
     
@@ -248,17 +248,18 @@ useEffect(() => {
 
       
 <Text style={[styles.carName,{color:theme.primaryText}]}>Additional Information</Text>
-<View style={[styles.input_container, { backgroundColor: theme.BackgroundSecondary, marginVertical: 10,  borderColor: '#000',
+<View style={[styles.input_container, { backgroundColor: theme.BackgroundSecondary, marginVertical: 15,  borderColor: '#000',
             borderWidth:1 }]}>
           
               <TextInput
-                style={[styles.input, { color: theme.PrimarylightText,verticalAlign:"top" }]}
+                style={[styles.input, { color: theme.PrimarylightText,paddingVertical:60}]}
                
                 placeholderTextColor={theme.PrimarylightText}
               multiline={true}
               numberOfLines={6}
               editable={false} // Make the TextInput read-only
               value={data?.features} // Set the initial value to the features data
+              verticalAlign='top'
               />
              
             </View>
