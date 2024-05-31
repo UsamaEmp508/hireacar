@@ -9,6 +9,9 @@ import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
 import Header from '../../../Components/Header/Header';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FONTFAMILY } from '../../../Theme/FontFamily';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../Theme/ThemeContext';
+import { darkTheme,lightTheme } from '../../../Theme/Color';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
@@ -24,6 +27,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const ContactSupport = ({ navigation }) => {
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+
+
   const [createContact, { loading, error }] = useMutation(CREATE_CONTACT);
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -45,7 +52,8 @@ const ContactSupport = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.safeArea}>
+    <SafeAreaView style={{flex:1}}>
+    <KeyboardAwareScrollView contentContainerStyle={[styles.safeArea,{backgroundColor:theme.primaryBackground}]}>
       <Header text="Contact Support" />
       {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
       
@@ -57,9 +65,9 @@ const ContactSupport = ({ navigation }) => {
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View style={{marginTop:20}}>
             <TextInput
-              style={styles.textInput}
+          style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
               placeholder="Enter Your Name"
-              placeholderTextColor="#000000B2"
+              placeholderTextColor={theme.PrimarylightText}
               onChangeText={handleChange('name')}
               onBlur={handleBlur('name')}
               value={values.name}
@@ -67,9 +75,11 @@ const ContactSupport = ({ navigation }) => {
             {touched.name && errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
 
             <TextInput
-              style={styles.textInput}
+                    style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+
               placeholder="Enter Your Email"
-              placeholderTextColor="#000000B2"
+              placeholderTextColor={theme.PrimarylightText}
+
               onChangeText={handleChange('email')}
               onBlur={handleBlur('email')}
               value={values.email}
@@ -78,9 +88,11 @@ const ContactSupport = ({ navigation }) => {
             {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
             <TextInput
-              style={styles.textInput}
+                              style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+
               placeholder="Enter Your Phone Number"
-              placeholderTextColor="#000000B2"
+              placeholderTextColor={theme.PrimarylightText}
+
               onChangeText={handleChange('phoneNumber')}
               onBlur={handleBlur('phoneNumber')}
               value={values.phoneNumber}
@@ -89,9 +101,11 @@ const ContactSupport = ({ navigation }) => {
             {touched.phoneNumber && errors.phoneNumber && <Text style={styles.errorText}>{errors.phoneNumber}</Text>}
 
             <TextInput
-              style={styles.msgTextInput}
+                                        style={[styles.msgTextInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+
               placeholder="Enter Your Message"
-              placeholderTextColor="#000000B2"
+              placeholderTextColor={theme.PrimarylightText}
+
             multiline={true}
         
               textAlignVertical="top"
@@ -106,11 +120,11 @@ const ContactSupport = ({ navigation }) => {
             backgroundColor: '#21408E',
             borderRadius: 5,
             border: 'transpaernt',
-            paddingVertical: 8,
+            paddingVertical: 12,
             paddingHorizontal: 8,
     marginHorizontal: 18,
 
-            marginVertical: 15,
+            marginTop: 25,
             fontSize: 16,
           }}
           onPress={handleSubmit}>
@@ -120,6 +134,7 @@ const ContactSupport = ({ navigation }) => {
         )}
       </Formik>
     </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -129,6 +144,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flexGrow: 1,
     backgroundColor: '#FFFFFF',
+    paddingTop:10
   },
   textInput: {
     height: 56,

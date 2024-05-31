@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Feather from 'react-native-vector-icons/Feather'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -66,6 +66,7 @@ const Logout = async () => {
 };
 
   return (
+    <SafeAreaView style={{flex:1}}>   
     <ScrollView style={[styles.container, { backgroundColor: theme.primaryBackground, }]}>
       <View style={[styles.body, { backgroundColor: theme.input_Background,marginBottom:40 }]}>
         <View style={styles.profile_image}>
@@ -142,6 +143,8 @@ const Logout = async () => {
 
       </View>
     </ScrollView>
+
+    </SafeAreaView>
   );
 }
 

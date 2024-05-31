@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, FlatList, Image, Pressable } from 'react-native';
+import { View, Text, TextInput, FlatList, Image, Pressable, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from '@apollo/client';
 import Moment from 'moment';
@@ -82,6 +82,8 @@ const Chats = () => {
   };
 
   return (
+
+   <SafeAreaView style={{flex:1}}>  
     <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       <Text style={[styles.screen_title, { color: theme.primaryText }]}>Message</Text>
       <View style={styles.search}>
@@ -144,6 +146,7 @@ const Chats = () => {
         )}
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 

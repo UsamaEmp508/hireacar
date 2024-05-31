@@ -3,10 +3,32 @@ import Route from "./Src/Navigation/Route";
 import messaging from '@react-native-firebase/messaging';
 import { ChatState } from "./Src/Context/ChatProvider";
 import notifee from '@notifee/react-native';
-
 export default function App() {
   const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
 console.log('notificaton',notification)
+
+
+
+useEffect(() => {
+     
+  const requestPermissionAndToken = async () => {
+    try {
+      if (Platform.OS === "android") {
+        await messaging().requestPermission();
+      }
+
+      const token = await messaging().getToken();
+      console.log("generating FCM token:", token);
+
+    } catch (error) {
+      console.log("Error generating FCM token:", error);
+    }
+  };
+
+  requestPermissionAndToken();
+
+
+}, []);
   useEffect(() => {
     let unsubscribe;
     if (!notification) {

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import Header from '../../../../Components/Header/Header'
 
@@ -13,8 +13,16 @@ const Terms = () => {
     const themeContext = useContext(ThemeContext);
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   return (
+<SafeAreaView style={{flex:1}}>   
+
     <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}] }   contentContainerStyle={{paddingBottom:20}}>
     <Header text={'Terms and Conditions'}/>
+
+    <View style={{paddingHorizontal:20}}>
+
+
+   
+
   <Text style={[styles.title,{color:theme.primaryText,marginTop:20}]}>Terms and Conditions</Text>
 
 
@@ -66,10 +74,11 @@ const Terms = () => {
 <Text style={[styles.peragraph_text,{color:theme.PrimarylightText}]}>For any questions regarding these Terms, please contact us at info@hireacar.pk.</Text>
 
 
-
+</View>
   
 
 </ScrollView>
+</SafeAreaView>
   )
 }
 
@@ -80,7 +89,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        paddingHorizontal: SPACING.space_24,
         paddingVertical:SPACING.space_10
       },
      

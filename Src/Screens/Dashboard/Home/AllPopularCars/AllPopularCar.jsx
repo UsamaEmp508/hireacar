@@ -22,7 +22,7 @@ const AllPopularCar = () => {
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
   return (
     <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground, }]}>
-<View style={{paddingHorizontal:SPACING.space_20}}>
+
 
 
 
@@ -83,7 +83,6 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     )
     
     }
-    </View>
         </SafeAreaView>
   )
 }
@@ -107,7 +106,8 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
-        
+        marginHorizontal:20,
+        marginTop:20
     },
   
     left:{

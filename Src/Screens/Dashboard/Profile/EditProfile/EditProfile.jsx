@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, Pressable, Alert } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity, Pressable, Alert, SafeAreaView } from 'react-native';
 import { styles } from './EditStyle';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -175,6 +175,7 @@ refetch()
 
 
   return (
+    <SafeAreaView style={{flex:1}}>   
     <KeyboardAwareScrollView style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
       <Header text='Profile' />
@@ -322,6 +323,7 @@ marginTop:activeInput === 'cnic' ? 10 : 0
       )}
 
     </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 

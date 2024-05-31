@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext } from 'react'
 import { lightTheme, darkTheme } from '../../../../Theme/Color';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
@@ -78,14 +78,14 @@ const AllLocation = ({navigation}) => {
       </Animated.View>
     );
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 <Header text={'All Location'}  />
 
 <View style={styles.search}>
 
-<View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}> 
+<View style={[styles.left,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]}  > 
 <Image source={require('../../../../Assets/Images/Home/Search_icon.png')} style={{tintColor:themeContext?.isDarkTheme?"#fff" :"#181B0E"}} />
 <TextInput inputMode='text' style={styles.left_input} placeholder='Search Location here.....' placeholderTextColor={theme.PrimarylightText} />
 
@@ -102,11 +102,13 @@ const AllLocation = ({navigation}) => {
       keyExtractor={(item) => item.id}
       numColumns={3}
       contentContainerStyle={{marginVertical:10,gap:20}}
+      columnWrapperStyle={{alignSelf:"center"}}
+
 
     />
 
 
-    </View>
+    </SafeAreaView>
   )
 }
 
@@ -141,6 +143,8 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        marginHorizontal:20,
+        marginTop:20
     },
   
     left:{
@@ -157,7 +161,8 @@ const styles = StyleSheet.create({
   left_input:{
   flex:1,
   fontSize:FONTSIZE.size_14,
-  fontFamily:FONTFAMILY.Poppins_Regular
+  fontFamily:FONTFAMILY.Poppins_Regular,
+  paddingVertical:10
   
   },
   

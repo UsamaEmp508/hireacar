@@ -112,7 +112,7 @@ console.log('message ',message)
     <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>   
     <Stack.Navigator screenOptions={{ headerShown: false }}  >
       {
-        !user ?
+        user ?
         <Stack.Group>    
    <Stack.Screen name={"dashboard"} component={Navigator} options={{ animation: 'slide_from_right'}} />
         <Stack.Screen name={navgiationStrings.AllBrands} component={AllBrands} options={{ animation: 'fade_from_bottom'}} />

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View,SafeAreaView } from 'react-native'
 import React, { useContext } from 'react'
 import Header from '../../../../Components/Header/Header'
 
@@ -15,8 +15,14 @@ const Policy = () => {
     const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
   const navigation = useNavigation()
   return (
-    <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}] }   contentContainerStyle={{paddingBottom:20}}>
+   
+<SafeAreaView style={{flex:1}}>   
+   
+   <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}] }   contentContainerStyle={{paddingBottom:20}}>
         <Header text={'Privacy Policy'}/>
+    <View style={{paddingHorizontal:20}}>
+
+    
       <Text style={[styles.title,{color:theme.primaryText,marginTop:20}]}>This privacy policy ("Policy") outlines how we collect, use, share, and protect the personal information of users ("you" or "user") of our website [hireacar.pk] ("Site") and our services. By using our Site and services, you consent to the practices described in this Policy. 1. Information We Collect We collect the following information from you:</Text>
       <Text style={[styles.peragraph_text,{color:theme.PrimarylightText}]}>1.1 Personal Information: We collect your name, email address, phone number, mailing address, date of birth, gender, and driver's license number.</Text>
     
@@ -59,9 +65,11 @@ const Policy = () => {
       <Text style={[styles.peragraph_text,{color:theme.PrimarylightText}]}>6. Changes to This Privacy Policy We may update this Privacy Policy from time to time. If we make any material changes to this Privacy Policy, we will notify you by email or through a conspicuous notice on the Site.</Text>
       <Text style={[styles.peragraph_text,{color:theme.PrimarylightText}]}>7. Contact Us If you have any questions about this Privacy Policy, please contact us at [info@hireacar.pk] ---</Text>
 
-      
+      </View>
 
     </ScrollView>
+
+    </SafeAreaView>
   )
 }
 
@@ -74,7 +82,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        paddingHorizontal: SPACING.space_24,
         paddingVertical:SPACING.space_10
       },
      

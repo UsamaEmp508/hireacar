@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client';
 import { GET_NEAREST_CARS } from '../../../Service/Queries';
@@ -29,7 +29,7 @@ const Search = () => {
 
 
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 <Header text={'Nearest Car'} />
 
 {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
@@ -46,7 +46,7 @@ contentContainerStyle={{gap:25,marginTop:10,paddingBottom:30}}
 :
 <Text style={[styles.heading,{color:theme.primaryText,marginTop:20,textAlign:"center"}]}>No Cars available</Text>
 }
-    </View>
+    </SafeAreaView>
   )
 }
 

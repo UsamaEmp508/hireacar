@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext } from 'react'
 import CarItem from '../../../../Components/Car Card/Card';
 import { ThemeContext } from '../../../../Theme/ThemeContext';
@@ -23,7 +23,7 @@ const AllcarPrice = () => {
 
 const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscreen={true} />;
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
     <Header text={'Cars By Price'} />
@@ -84,7 +84,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
     )
     
     }
-        </View>
+        </SafeAreaView>
   )
 }
 
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         paddingHorizontal:SPACING.space_20
+
       },
       screen_title:{
         fontSize:FONTSIZE.size_18,
@@ -107,6 +108,8 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        paddingHorizontal:20,
+       
     },
   
     left:{
@@ -122,6 +125,7 @@ const styles = StyleSheet.create({
   
   left_input:{
   flex:1,
+  paddingVertical:12,
   fontSize:FONTSIZE.size_14,
   fontFamily:FONTFAMILY.Poppins_Regular
   

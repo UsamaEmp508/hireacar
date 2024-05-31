@@ -3,16 +3,17 @@ import { FONTFAMILY } from '../../../../Theme/FontFamily'
 export const styles = StyleSheet.create({
     container:{
         flex:1,
-        paddingHorizontal:24,
 
 
     },
   
     form_container:{
         marginTop:20,
+        paddingHorizontal:24,
+
     },
     input_container:{
-marginBottom:12
+marginBottom:12,
     },
     label:{
         fontFamily:FONTFAMILY.Poppins_Medium,
@@ -25,8 +26,8 @@ marginBottom:12
 width:'100%',
 borderRadius:10,
 paddingHorizontal:20,
-paddingVertical:10,
 fontFamily:FONTFAMILY.Poppins_Regular,
+paddingVertical:20
 
 
     },
@@ -35,14 +36,17 @@ fontFamily:FONTFAMILY.Poppins_Regular,
         height:119,
         borderRadius:10,
         borderWidth:1,
-borderColor:"#006175"
+borderColor:"#006175",
+paddingVertical:10
+
             },
             name_contaier:{
                 flexDirection:"row",
                 justifyContent:'space-between',
                 alignItems:'center',
                 marginTop:20,
-                gap:10
+                gap:10,
+                paddingHorizontal:20
             },
             image:{
                 width:67,

@@ -38,7 +38,8 @@ export const styles = StyleSheet.create({
 left_input:{
 flex:1,
 fontSize:FONTSIZE.size_14,
-fontFamily:FONTFAMILY.Poppins_Regular
+fontFamily:FONTFAMILY.Poppins_Regular,
+paddingVertical:10
 
 },
 

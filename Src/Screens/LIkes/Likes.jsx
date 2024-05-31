@@ -372,7 +372,7 @@ console.log('model year',Color)
 {currentStep === 3 && (
 
 
-<Animated.View entering={FadeOutDown.delay(800)} style={{marginTop:20}}>
+<Animated.View entering={FadeInUp.delay(800)} style={{marginTop:20}}>
       <Text style={[styles.label,{color:theme.primaryText}]}>Select Your Car's Information</Text>
 
       <View style={styles.inputContainer}>

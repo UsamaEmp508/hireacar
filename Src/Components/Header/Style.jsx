@@ -12,9 +12,10 @@ export const styles = StyleSheet.create({
   header:{
     flexDirection:'row',
     alignItems:'center',
-    gap:60,
-    paddingHorizontal:10,
+    gap:90,
+
     marginTop:SPACING.space_4,
+    marginHorizontal:20
   },
   heading:{
     fontFamily:FONTFAMILY.Jost_SemiBold,

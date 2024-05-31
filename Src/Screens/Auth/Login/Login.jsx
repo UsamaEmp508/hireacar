@@ -59,28 +59,8 @@ const googleLogin = async () => {
       }
         
     
-      useEffect(() => {
-     
     
-
-        const requestPermissionAndToken = async () => {
-          try {
-            if (Platform.OS === "android") {
-              await messaging().requestPermission();
-            }
-    
-            const token = await messaging().getToken();
-            console.log("generating FCM token:", token);
-    
-          } catch (error) {
-            console.log("Error generating FCM token:", error);
-          }
-        };
-    
-        requestPermissionAndToken();
-    
-  
-      }, []);
+      
 
 
 
