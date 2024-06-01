@@ -1,5 +1,5 @@
 import React, { useContext,useEffect,useState } from 'react';
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Header from '../../../Components/Header/Header';
 import { ThemeContext } from '../../../Theme/ThemeContext';
 import { lightTheme, darkTheme } from '../../../Theme/Color';
@@ -12,10 +12,10 @@ import { getSenderFull } from '../../../config/ChatLogics';
 import { ChatState } from '../../../Context/ChatProvider';
 import { useMutation, useQuery } from '@apollo/client';
 import io from "socket.io-client";
-
+import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
 
 var socket, selectedChatCompare;
-const ENDPOINT = 'http://192.168.165.88:81'
+const ENDPOINT = 'http://localhost:81'
 const Messages = ({route}) => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
@@ -25,21 +25,21 @@ const Messages = ({route}) => {
   const [newMessage, setNewMessage] = useState("");
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
-
+const [messageloading,setmessageloading] = useState(false)
 
 
 
   const { selectedChat, setSelectedChat, user, notification, setNotification,istyping, setIsTyping } =
   ChatState();
 
-  const { loading:mesageLoading, error, data } = useQuery(ALL_MESSAGES, {
+  const { loading, error, data } = useQuery(ALL_MESSAGES, {
     variables: { chatId:id },
   });
   const [sendMessage] = useMutation(SEND_MESSAGE)
   const [senderInfo, setSenderInfo] = useState(null); 
 
 
-  console.log('notification',notification)
+  console.log('loading',loading)
 
  
 
@@ -65,7 +65,7 @@ useEffect(() => {
 const handleSendMessage = async (event) => {
   if (newMessage) {
     event.preventDefault();
-
+setmessageloading(true)
     socket.emit("stoptyping", selectedChat.id);
 
     setNewMessage("");
@@ -81,8 +81,12 @@ const handleSendMessage = async (event) => {
 
 
       socket.emit("new message", result.data.sendMessage);
+      setmessageloading(false)
+
       setMessages([...messages, result.data.sendMessage]);
     } catch (error) {
+      setmessageloading(false)
+
       console.error("Error sending message:", error);
     }
   }
@@ -178,14 +182,16 @@ console.log('join chat',selectedChat?.id)
  
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
+       <ActivityIndicatorModal loaderIndicator={loading || messageloading} />
+
       <Header text={'Messages'} />
      
 
 
 
 
-<Scroll   messages={messages}  />
+<Scroll   messages={messages}   />
 
 
 
@@ -205,7 +211,7 @@ console.log('join chat',selectedChat?.id)
           <Text style={styles.sendButtonText}>Send</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -224,12 +230,14 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#ccc',
     padding: 5,
+    marginTop:5
   },
   input: {
     flex: 1,
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 10,
+    paddingTop:10,
     marginRight: 10,
     height:60
   },

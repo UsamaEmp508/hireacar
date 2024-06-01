@@ -240,8 +240,8 @@ console.log('model year',Color)
 
     
   return (
-    <SafeAreaView style={{flex:1}}>   
-    <KeyboardAwareScrollView  style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={{flex:1,backgroundColor:theme.primaryBackground}}>   
+    <KeyboardAwareScrollView  style={[styles.container,]}>
 
 {Loading && <ActivityIndicatorModal loaderIndicator={Loading} />}
 

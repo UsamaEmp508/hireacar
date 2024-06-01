@@ -15,14 +15,14 @@ import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal'
 import { storeData } from '../../../Utility/Storage/Storage'
 const Login = ({navigation}) => {
 
-const { setUser} = ChatState();
+const { setUser,devicetoken} = ChatState();
 const [userdata, setUserdata] = useState(null);
 const [createUser] = useMutation(CREATE_USER_MUTATION);
 const [systemUserId, setSystemUserId] = useState(null); 
     const themeContext = useContext(ThemeContext);
     const [loading, setLoading] = useState(false);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-  const [devicetoken, setDeviceToken] = useState(null);
+
   const webClientId = "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com"; 
   const [saveToken, {  error }] = useMutation(SaveToken);
  
@@ -41,7 +41,7 @@ const googleLogin = async () => {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
 
-        // getUser(userInfo);
+        getUser(userInfo);
              
     } catch (error) {
      // Stop loading indicator

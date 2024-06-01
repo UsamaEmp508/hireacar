@@ -52,8 +52,8 @@ const ContactSupport = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
-    <KeyboardAwareScrollView contentContainerStyle={[styles.safeArea,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={{flex:1,backgroundColor:theme.primaryBackground}}>
+    <KeyboardAwareScrollView contentContainerStyle={[styles.safeArea]}>
       <Header text="Contact Support" />
       {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
       
@@ -143,7 +143,7 @@ export default ContactSupport;
 const styles = StyleSheet.create({
   safeArea: {
     flexGrow: 1,
-    backgroundColor: '#FFFFFF',
+  
     paddingTop:10
   },
   textInput: {
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     marginLeft: 20,
+    marginVertical:10,
    
     fontFamily:FONTFAMILY.Poppins_Regular,
 

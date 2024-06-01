@@ -20,8 +20,57 @@ import ActivityIndicatorModal from '../../../../Components/ActivityIndicatorModa
 const containerName = 'carpictures';
 const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
 const sasToken ='?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=2022-11-02&sr=c&sig=Gou1kUymMG%2Bq%2FudWWfVoDKoEdF%2FTNSbtYFGhBYJgAFo%3D';
+
+const EditProfile = ({ navigation }) => {
+  const [activeInput, setActiveInput] = useState('');
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [cnic, setCnic] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [googleId, setGoogleId] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [editMode, setEditMode] = useState(false); // State variable for edit mode
+  const [EditLoading, setEditLoading] = useState(false); // Loader for overall loading
+  const [imageUploading, setImageUploading] = useState(false); 
+  
+const { user,deviceToken} = ChatState();
+const [photo, setPhoto] = useState("");
+  const {  loading,data,refetch } = useQuery(GET_USER_PROFILE, {
+    variables: { id: user?.userByGoogleId?.id }
+  });
+console.log('data',photo) 
+
+
+
+
+
+  useEffect(() => {
+    // Set initial values when edit mode is enabled
+    setGoogleId(data?.user.googleId)
+      setUsername(data?.user?.displayName);
+      setEmail(data?.user?.email);
+      setCnic(data?.user?.cnic);
+      setContactNumber(data?.user.contactNumber);
+      setPhoto(data?.user?.photoLink)
+      
+    
+   
+  }, [data]); // Run this effect whenever editMode changes
+
+  const handleInputFocus = (inputName) => {
+    setActiveInput(inputName);
+  };
+
+  const handleInputBlur = () => {
+    setActiveInput('');
+  };
+
+
   const uploadImageToBlobStorage = async file => {
     try {
+
       const uniqueFileName = `${Date.now()}-${file.name}`;
       const urlWithSasToken = `${blobEndpoint}${containerName}/${uniqueFileName}${sasToken}`;
   
@@ -42,56 +91,18 @@ const sasToken ='?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=
       });
   
       // Return the actual image URL without SAS token
+
       const url = `${blobEndpoint}${containerName}/${uniqueFileName}`;
+
       return url;
     } catch (error) {
+
       console.error('Error uploading image:', error);
       return null;
     }
   };
-const EditProfile = ({ navigation }) => {
-  const [activeInput, setActiveInput] = useState('');
-  const themeContext = useContext(ThemeContext);
-  const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [cnic, setCnic] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [googleId, setGoogleId] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [editMode, setEditMode] = useState(false); // State variable for edit mode
-
-  
-const { user,deviceToken} = ChatState();
-const [photo, setPhoto] = useState("");
-  const { loading, data,refetch } = useQuery(GET_USER_PROFILE, {
-    variables: { id: user?.userByGoogleId?.id }
-  });
-console.log('data',photo) 
 
 
-
-
-
-  useEffect(() => {
-    // Set initial values when edit mode is enabled
-    setGoogleId(data?.user.googleId)
-      setUsername(data?.user?.displayName);
-      setEmail(data?.user?.email);
-      setCnic(data?.user?.cnic);
-      setContactNumber(data?.user.contactNumber);
-      setPhoto(data?.user?.photoLink)
-    
-   
-  }, [data]); // Run this effect whenever editMode changes
-
-  const handleInputFocus = (inputName) => {
-    setActiveInput(inputName);
-  };
-
-  const handleInputBlur = () => {
-    setActiveInput('');
-  };
 
   const openMediaPicker = (mediaType) => {
     const options = {
@@ -115,11 +126,14 @@ console.log('data',photo)
           name: fileName,
           type: 'image/jpeg', // Default to JPEG type
         };
+     
       
         const imageUrl = await uploadImageToBlobStorage(file);
    
         console.log('response from server',imageUrl)
         setPhoto(imageUrl);
+    
+
       }
     });
   };
@@ -132,7 +146,7 @@ console.log('data',photo)
 
   const myhandleSubmit = async (event) => {
     event.preventDefault();
-
+setEditLoading(true)
     const upUser = {
   
       photoLink:photo,
@@ -141,7 +155,7 @@ googleId:googleId,
       email: email,
       cnic: cnic,
       contactNumber: contactNumber,
-      deviceToken:"kcdhfkjdhjkghdfjkhg"
+   
     };
     console.log('payload data',upUser)
 
@@ -153,6 +167,7 @@ googleId:googleId,
         },
       })
       .then((res) => {
+        setEditLoading(false)
 
         console.log('res',res)
      Alert.alert('Profile updated successfully');
@@ -161,6 +176,8 @@ setSelectedImage(null)
 refetch()
       })
       .catch((err) => {
+        setEditLoading(false)
+
         console.log(err);
         console.log(JSON.stringify(err, null, 2));
       });
@@ -175,9 +192,10 @@ refetch()
 
 
   return (
-    <SafeAreaView style={{flex:1}}>   
-    <KeyboardAwareScrollView style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
-      {loading && <ActivityIndicatorModal loaderIndicator={loading} />}
+    <SafeAreaView style={{flex:1,backgroundColor: theme.primaryBackground}}>   
+       <ActivityIndicatorModal loaderIndicator={loading || imageUploading || EditLoading} />
+
+    <KeyboardAwareScrollView style={[styles.container, ]}>
       <Header text='Profile' />
 
 
@@ -280,27 +298,26 @@ marginTop:activeInput === 'cnic' ? 10 : 0
 
 
         <View style={styles.input_container}>
-          <Text style={[styles.label, { color: theme.primaryText }]}>contactNumber</Text>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: theme.BackgroundSecondary,
-                borderWidth: activeInput === 'contactNumber' ? 0.5 : 0,
-                borderColor: activeInput === 'contactNumber' ? '#F1F1F0' : 'transparent',
-                color:theme.PrimarylightText,
-                marginTop:activeInput === 'contactNumber' ? 10 : 0
+  <Text style={[styles.label, { color: theme.primaryText }]}>Contact Number</Text>
+  <TextInput
+    style={[
+      styles.input,
+      {
+        backgroundColor: theme.BackgroundSecondary,
+        borderWidth: activeInput === 'contactNumber' ? 0.5 : 0,
+        borderColor: activeInput === 'contactNumber' ? '#F1F1F0' : 'transparent',
+        color: theme.PrimarylightText,
+        marginTop: activeInput === 'contactNumber' ? 10 : 0,
+      },
+    ]}
+    onFocus={() => handleInputFocus('contactNumber')}
+    onBlur={handleInputBlur}
+    onChangeText={setContactNumber} // Correct handler for contact number
+    editable={editMode} // Make the input editable based on editMode state
+    value={contactNumber} // Set the initial value of the input field
+  />
+</View>
 
-
-              },
-            ]}
-            onFocus={() => handleInputFocus('contactNumber')}
-            onBlur={handleInputBlur}
-            onChangeText={setCnic}
-            editable={editMode} // Make the input editable based on editMode state
-            value={contactNumber} // Set the initial value of the input field
-          />
-        </View>
 
       </View>
 
@@ -315,6 +332,7 @@ marginTop:activeInput === 'cnic' ? 10 : 0
             paddingVertical: 8,
             paddingHorizontal: 8,
             marginVertical: 15,
+            marginHorizontal:24,
             fontSize: 16,
           }}
           onPress={myhandleSubmit}>

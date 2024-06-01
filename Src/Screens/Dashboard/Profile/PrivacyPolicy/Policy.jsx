@@ -16,9 +16,9 @@ const Policy = () => {
   const navigation = useNavigation()
   return (
    
-<SafeAreaView style={{flex:1}}>   
+<SafeAreaView style={{flex:1,backgroundColor:theme.primaryBackground}}>   
    
-   <ScrollView style={[styles.container,{backgroundColor:theme.primaryBackground}] }   contentContainerStyle={{paddingBottom:20}}>
+   <ScrollView style={[styles.container] }   contentContainerStyle={{paddingBottom:20}}>
         <Header text={'Privacy Policy'}/>
     <View style={{paddingHorizontal:20}}>
 

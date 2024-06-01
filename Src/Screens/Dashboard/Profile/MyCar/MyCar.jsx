@@ -63,10 +63,10 @@ console.log('car data',carData)
       const renderItem = ({ item ,index}) => <CarItem car={item?.car} index={index} edit={true} fullscreen={true} />;
 
     return (
-<SafeAreaView style={{flex:1}}>   
+<SafeAreaView style={{flex:1,backgroundColor:theme.primaryBackground}}>   
+ <ActivityIndicatorModal loaderIndicator={loading} />
       
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
-{loading && <ActivityIndicatorModal loaderIndicator={loading} />}
+    <View style={styles.container}>
 
       <Header text={'My Car'}  />
 

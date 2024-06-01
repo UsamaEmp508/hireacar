@@ -22,7 +22,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { SaveToken } from '../../../Service/Mutation';
 import { ScrollView } from 'react-native-gesture-handler';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
+import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
+import FastImage from 'react-native-fast-image';
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
@@ -30,7 +31,7 @@ const navigation = useNavigation()
 const { user,setUser} = ChatState();
 const [saveToken, {  error }] = useMutation(SaveToken);
 console.log('user',user)
-const { loading:userprofileloading, data:userprofile } = useQuery(GET_USER_PROFILE, {
+const { loading, data:userprofile } = useQuery(GET_USER_PROFILE, {
   variables: { id: user?.userByGoogleId?.id }
 });
 
@@ -66,11 +67,18 @@ const Logout = async () => {
 };
 
   return (
-    <SafeAreaView style={{flex:1}}>   
-    <ScrollView style={[styles.container, { backgroundColor: theme.primaryBackground, }]}>
+    <SafeAreaView style={{flex:1,backgroundColor: theme.primaryBackground,}}>   
+    <ActivityIndicatorModal loaderIndicator={loading} />
+
+    <ScrollView style={[styles.container]}>
+
+
+
+
+
       <View style={[styles.body, { backgroundColor: theme.input_Background,marginBottom:40 }]}>
         <View style={styles.profile_image}>
-          <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
+          <FastImage source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
         </View>
         <Text style={[styles.profile_name, { color: theme.primaryText }]}>{userprofile?.user?.displayName}</Text>
         <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>{user?.userByGoogleId?.email} </Text>
@@ -136,6 +144,15 @@ const Logout = async () => {
           <View style={styles.inner_tile_left}>   
           <Icon name="sign-out" size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Logout</Text>
+          </View>
+          <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
+        </TouchableOpacity>
+
+
+        <TouchableOpacity style={styles.tile} >
+          <View style={styles.inner_tile_left}>   
+          <Icon name="trash" size={24} color={theme.primaryText} style={styles.leftIcon} />
+          <Text style={[styles.tileText, { color: theme.primaryText }]}>Delete Account</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
         </TouchableOpacity>

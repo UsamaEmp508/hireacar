@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext } from 'react'
 import CarItem from '../../../../Components/Car Card/Card';
 import { styles } from '../AllBrands/Style';
@@ -22,7 +22,7 @@ const renderItem = ({ item ,index}) => <CarItem car={item} index={index} fullscr
 
 
   return (
-    <View style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
+    <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
 <Header text={'Cars By Brands'}  />
@@ -81,7 +81,7 @@ contentContainerStyle={{alignSelf:"center",marginTop:10}}
 )
 
 }
-    </View>
+    </SafeAreaView>
   )
 }
 

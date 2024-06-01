@@ -19,6 +19,8 @@ export const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15,
         alignItems:"center",
+        marginHorizontal:24,
+        marginVertical:10
     },
   
     left:{
@@ -28,7 +30,8 @@ export const styles = StyleSheet.create({
   
        paddingHorizontal:SPACING.space_16,
         alignItems:"center",
-        paddingVertical:SPACING.space_4,
+        paddingVertical:15,
+        
         borderRadius:SPACING.space_15
     },
   

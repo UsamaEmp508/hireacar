@@ -60,7 +60,8 @@ marginBottom:hp('40%')
         backgroundColor:"#4477C3",
         justifyContent:'center',
         alignItems:'center',
-        marginBottom:10,
+        marginBottom:hp('20%')
+
     },
     nextButtonText:{
         fontSize:FONTSIZE.size_16,

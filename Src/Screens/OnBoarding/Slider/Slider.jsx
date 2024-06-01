@@ -37,9 +37,9 @@ const Slider = ({navigation}) => {
     const isLast = index === slides.length - 1;
 
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1,backgroundColor: theme.sliderBackground}}>
         <View
-          style={[styles.container, {backgroundColor: theme.sliderBackground}]}>
+          style={[styles.container]}>
           <View style={styles.slide}>
             <Text style={[styles.title, {color: theme.WhiteColor}]}>
               {item.title}

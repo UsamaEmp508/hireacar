@@ -30,11 +30,11 @@ const CardetailsScreen = ({route}) => {
    
   
    
-
+console.log('id',id,data)
 
   return (
       <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
-{loading && <ActivityIndicatorModal loaderIndicator={loading} />}
+ <ActivityIndicatorModal loaderIndicator={loading} />
 
 
 <Details data={data?.car} />

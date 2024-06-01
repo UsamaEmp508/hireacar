@@ -140,7 +140,7 @@ navigation.navigate('Search')
 <View style={styles.Header_Profile}>
 
 
-{userprofileloading && <ActivityIndicatorModal loaderIndicator={userprofileloading} />}
+<ActivityIndicatorModal loaderIndicator={userprofileloading} />
 
 <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image_profile} />

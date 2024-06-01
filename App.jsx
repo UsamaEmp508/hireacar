@@ -4,7 +4,7 @@ import messaging from '@react-native-firebase/messaging';
 import { ChatState } from "./Src/Context/ChatProvider";
 import notifee from '@notifee/react-native';
 export default function App() {
-  const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
+  const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping,setdevicetoken } = ChatState();
 console.log('notificaton',notification)
 
 
@@ -19,6 +19,7 @@ useEffect(() => {
 
       const token = await messaging().getToken();
       console.log("generating FCM token:", token);
+      setdevicetoken(token)
 
     } catch (error) {
       console.log("Error generating FCM token:", error);
