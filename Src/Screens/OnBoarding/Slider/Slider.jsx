@@ -39,7 +39,7 @@ const Slider = ({navigation}) => {
     return (
       <SafeAreaView style={{flex: 1,backgroundColor: theme.sliderBackground}}>
         <View
-          style={[styles.container]}>
+          style={styles.container}>
           <View style={styles.slide}>
             <Text style={[styles.title, {color: theme.WhiteColor}]}>
               {item.title}
