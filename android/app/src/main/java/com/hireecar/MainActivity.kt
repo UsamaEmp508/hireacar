@@ -1,4 +1,4 @@
-package com.hireacar
+package com.hireecar
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

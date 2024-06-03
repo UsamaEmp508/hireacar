@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>app-1-421313407099-ios-063589ca9189d9d65e9ade</string>
+				<string>app-1-1022459501790-ios-37bdd52d88c097f28e764f</string>
 			</array>
 		</dict>
 		<dict>
@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.421313407099-giu29dfu1evm084knc25tfpg5359efet</string>
+				<string>com.googleusercontent.apps.1022459501790-65uvrbhum54bmsh9s2la8b406ilh82d1</string>
 			</array>
 		</dict>
 	</array>
@@ -126,6 +126,8 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
+		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

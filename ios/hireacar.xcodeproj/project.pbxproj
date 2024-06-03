@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* hireacarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* hireacarTests.m */; };
-		013DC6C32C04F5DE00504341 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 013DC6C22C04F5DE00504341 /* GoogleService-Info.plist */; };
+		014DF6F82C0E543C00D92F9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 014DF6F72C0E543C00D92F9F /* GoogleService-Info.plist */; };
 		05FA8EA57CE14FE8B161A6E0 /* Mulish-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC35B367F22143D697DF1737 /* Mulish-BoldItalic.ttf */; };
 		0E2C0F93764148B89E496C4D /* Mulish-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AAF7F56EB4245FB93BC835B /* Mulish-Light.ttf */; };
 		0FBF96F2DFE5489AB39618D4 /* Jost-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6DE60548F17644E39D6DBD09 /* Jost-ExtraLight.ttf */; };
@@ -82,7 +82,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* hireacarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = hireacarTests.m; sourceTree = "<group>"; };
 		013DC6C12C04F06A00504341 /* hireacar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = hireacar.entitlements; path = hireacar/hireacar.entitlements; sourceTree = "<group>"; };
-		013DC6C22C04F5DE00504341 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		014DF6F72C0E543C00D92F9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04C2527A5A024CE999FEB74D /* Jost-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Jost-ThinItalic.ttf"; path = "../Src/Assets/Fonts/Jost-ThinItalic.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* hireacar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hireacar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = hireacar/AppDelegate.h; sourceTree = "<group>"; };
@@ -277,7 +277,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				013DC6C22C04F5DE00504341 /* GoogleService-Info.plist */,
+				014DF6F72C0E543C00D92F9F /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* hireacar */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* hireacarTests */,
@@ -416,7 +416,7 @@
 				7AA22D57FDED4875BD0CB358 /* Inter-Medium.ttf in Resources */,
 				47AA6BA46EE64CE18B1BD6C4 /* Inter-Regular.ttf in Resources */,
 				57E894D66CD94B1A8272CD64 /* Inter-SemiBold.ttf in Resources */,
-				013DC6C32C04F5DE00504341 /* GoogleService-Info.plist in Resources */,
+				014DF6F82C0E543C00D92F9F /* GoogleService-Info.plist in Resources */,
 				E0E22AAFFE124E3FA202DF7D /* Inter-Thin.ttf in Resources */,
 				77FE8F9A5F344A60B3763221 /* Jost-Black.ttf in Resources */,
 				7EEF1CD997494AE2BA05520A /* Jost-BlackItalic.ttf in Resources */,
@@ -657,7 +657,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hireecar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hireacar.app/hireacar";
 			};
@@ -681,7 +681,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hireecar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hireacar.app/hireacar";
 			};
@@ -695,9 +695,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = hireacar/hireacar.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J898DPF329;
+				DEVELOPMENT_TEAM = 7N8T28ZGP5;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = hireacar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = hireacar;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -708,7 +709,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hireacar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hireecar;
 				PRODUCT_NAME = hireacar;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -724,8 +725,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = hireacar/hireacar.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J898DPF329;
+				DEVELOPMENT_TEAM = 7N8T28ZGP5;
 				INFOPLIST_FILE = hireacar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = hireacar;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -736,7 +738,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hireacar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hireecar;
 				PRODUCT_NAME = hireacar;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -823,10 +825,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
@@ -905,10 +904,7 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;
