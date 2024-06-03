@@ -1,48 +1,48 @@
 {
   "project_info": {
-    "project_number": "421313407099",
-    "project_id": "hireacar-5d299",
-    "storage_bucket": "hireacar-5d299.appspot.com"
+    "project_number": "1022459501790",
+    "project_id": "hireacar-31fb2",
+    "storage_bucket": "hireacar-31fb2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:421313407099:android:33a24e27f367c3425e9ade",
+        "mobilesdk_app_id": "1:1022459501790:android:ef191babcdb5f4a18e764f",
         "android_client_info": {
-          "package_name": "com.hireacar"
+          "package_name": "com.hireecar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "421313407099-9b9cep98e7n6qatuka3jbhl6ia8d93kf.apps.googleusercontent.com",
+          "client_id": "1022459501790-6ks0stmdkt69lvi2ltfsb9trk8havel5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.hireacar",
+            "package_name": "com.hireecar",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com",
+          "client_id": "1022459501790-n7gfhobegikjhrt3r9594p3s5kabfdjn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCT0Ie-C-MOWrJ_r5f6Q1ZpPwkSOeuKANU"
+          "current_key": "AIzaSyDrhxia5bMob1uF5v61VHxtjckceEU2Q2Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "421313407099-ehfuivfr1dcibch496vpm0dss9ssks0c.apps.googleusercontent.com",
+              "client_id": "1022459501790-n7gfhobegikjhrt3r9594p3s5kabfdjn.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "421313407099-giu29dfu1evm084knc25tfpg5359efet.apps.googleusercontent.com",
+              "client_id": "1022459501790-65uvrbhum54bmsh9s2la8b406ilh82d1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.hireacar"
+                "bundle_id": "com.hireecar"
               }
             }
           ]

@@ -26,7 +26,7 @@ if linkage != nil
   $RNFirebaseAsStaticFramework = true
 end
 
-target 'hireacar' do
+target 'Hireacar' do
   config = use_native_modules!
 
   rn_maps_path = '../node_modules/react-native-maps'
@@ -51,7 +51,7 @@ pod 'Firebase/Messaging' , :modular_headers => true
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'hireacarTests' do
+  target 'HireacarTests' do
     inherit! :complete
     # Pods for testing
   end
