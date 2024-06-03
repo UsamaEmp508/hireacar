@@ -3,29 +3,23 @@ import Route from "./Src/Navigation/Route";
 import messaging from '@react-native-firebase/messaging';
 import { ChatState } from "./Src/Context/ChatProvider";
 import notifee from '@notifee/react-native';
-import { Platform } from "react-native";
+
 export default function App() {
   const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
 console.log('notificaton',notification)
 
 useEffect(() => {
   if (Platform.OS === 'android') {
-    console.log('Platform is Android. Requesting permission...');
-    messaging()
-      .requestPermission()
-      .then(() => {
-        console.log('Permission granted. Getting token...');
-        return messaging().getToken();
-      })
-      .then(token => {
-        console.log('Token received:', token);
-      })
-      .catch(error => {
-        console.error('Error getting FCM token:', error);
-      });
+    messaging().requestPermission();
   }
-}, []);
+    messaging()
+    .getToken()
+    .then(token => {
+      console.log('token ------->>', token);
 
+
+    });
+}, [])
 
 
 
