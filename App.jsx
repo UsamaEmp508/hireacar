@@ -3,6 +3,7 @@ import Route from "./Src/Navigation/Route";
 import messaging from '@react-native-firebase/messaging';
 import { ChatState } from "./Src/Context/ChatProvider";
 import notifee from '@notifee/react-native';
+import { Platform } from "react-native";
 
 export default function App() {
   const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
@@ -37,6 +38,11 @@ useEffect(() => {
         const { title, body } = remoteMessage.notification;
 
         try {
+if(Platform.OS  === 'ios')
+{
+  await notifee.requestPermission()
+}
+
           // Display the notification using Notifee
           const channelId = await notifee.createChannel({
             id: 'default85',
@@ -49,6 +55,7 @@ useEffect(() => {
             android: {
               channelId,
             },
+
           });
         } catch (error) {
           console.error('Error displaying notification:', error);

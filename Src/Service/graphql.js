@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const apolloClient = new ApolloClient({
-  uri: `https://api.hireacar.pk/graphql` ,
+  uri: `http://localhost:9000/graphql` ,
   cache: new InMemoryCache(),
 }); 
 

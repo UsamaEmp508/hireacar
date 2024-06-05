@@ -16,7 +16,6 @@ padding:20
         justifyContent:"center",
         alignItems:'center',
         gap:10,
-        width:"100%",
         padding:10
    
     },
