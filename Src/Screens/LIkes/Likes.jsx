@@ -11,7 +11,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Toast from 'react-native-toast-message'
 import {Picker} from '@react-native-picker/picker';
 import ImageUpload from '../../Components/ImageUpload/Upload'
-import { CheckBox, Image, color } from '@rneui/base'
+import { CheckBox } from '@rneui/base'
 import { apolloClient as client } from '../../Service/graphql'
 import { ADD_NEW_CAR, ADD_NEW_LOCATION_MUTATION } from '../../Service/Mutation'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -116,14 +116,18 @@ console.log('model year',Color)
       case 0:
          return true;
       case 1:
-         return location && location.latitude !== undefined && location.longitude !== undefined;
+        //  return location && location.latitude !== undefined && location.longitude !== undefined;
+      return true
          case 2:
-         return  imageUrls.length > 0;
+        //  return  imageUrls.length > 0;
+        return true
 
       case 3:
-        return CarBrand !== null && modelYear !== null && Gas !== null && transmission !== null && carType !== null;
-      case 4:
-        return Color !== null && Driver !== null && hourlyPrice !== 0 && dailyPrice !== 0 && monthlyPrice !== 0 && Misctext !== '';
+        // return CarBrand !== null && modelYear !== null && Gas !== null && transmission !== null && carType !== null;
+      return true
+        case 4:
+     return true
+        // return Color !== null && Driver !== null && hourlyPrice !== 0 && dailyPrice !== 0 && monthlyPrice !== 0 && Misctext !== '';
       default:
         return false;
     }
@@ -382,13 +386,15 @@ console.log('model year',Color)
 
       <Dropdown
           style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
-          placeholderStyle={[styles.placeholderStyle]}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+        placeholderStyle={[styles.placeholderStyle,{color:theme.PrimarylightText}]}
+          selectedTextStyle={[styles.selectedTextStyle,{color:theme.PrimarylightText}]}
+          inputSearchStyle={[styles.inputSearchStyle,{color:theme.PrimarylightText}]}
           iconStyle={styles.iconStyle}
+          
           data={carBrandOptions}
           fontFamily='Poppins-Medium'
           containerStyle={{backgroundColor:theme.BackgroundSecondary}}
+          itemTextStyle={{color:theme.PrimarylightText}}
           search
           maxHeight={300}
           labelField="label"
@@ -412,9 +418,11 @@ console.log('model year',Color)
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Model Year</Text>
           <Dropdown
           style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
-          placeholderStyle={[styles.placeholderStyle]}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+          inputSearchStyle={[styles.inputSearchStyle,{color:theme.PrimarylightText}]}
+          placeholderStyle={[styles.placeholderStyle,{color:theme.PrimarylightText}]}
+          selectedTextStyle={[styles.selectedTextStyle,{color:theme.PrimarylightText}]}
+          itemTextStyle={{color:theme.PrimarylightText}}
+
           iconStyle={styles.iconStyle}
           data={yearOptions}
 fontFamily='Poppins-Medium'   
@@ -440,9 +448,10 @@ fontFamily='Poppins-Medium'
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Runs On</Text>
           <Dropdown
           style={[styles.dropdown_search, {  backgroundColor:theme.BackgroundSecondary,borderRadius:8 }]}
-          placeholderStyle={[styles.placeholderStyle]}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+          inputSearchStyle={[styles.inputSearchStyle,{color:theme.PrimarylightText}]}
+          placeholderStyle={[styles.placeholderStyle,{color:theme.PrimarylightText}]}
+          selectedTextStyle={[styles.selectedTextStyle,{color:theme.PrimarylightText}]}
+          itemTextStyle={{color:theme.PrimarylightText}}
           iconStyle={styles.iconStyle}
           data={gasOptions}
 fontFamily='Poppins-Medium'   
@@ -467,7 +476,7 @@ fontFamily='Poppins-Medium'
           <Text style={[styles.label,{color:theme.PrimarylightText}]}>Transmission</Text>
           <Picker
       style={[styles.dropdown,{backgroundColor:theme.BackgroundSecondary,borderRadius:10}]}
-      itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:14}}
+      itemStyle={{fontFamily:FONTFAMILY.Poppins_Medium,fontSize:15,color:theme.PrimarylightText}}
       mode='dropdown'
         selectedValue={transmission}
         onValueChange={value => setTransmission(value)}>

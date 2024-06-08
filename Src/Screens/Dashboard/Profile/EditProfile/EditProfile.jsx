@@ -12,10 +12,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_USER_PROFILE } from '../../../../Service/Queries';
 import { ChatState } from '../../../../Context/ChatProvider';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import { apolloClient as client } from '../../../../Service/graphql';
 import { UPDATE_USER } from '../../../../Service/Mutation';
 import ActivityIndicatorModal from '../../../../Components/ActivityIndicatorModal';
+import FastImage from 'react-native-fast-image';
 
 const containerName = 'carpictures';
 const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
@@ -144,8 +147,7 @@ console.log('data',photo)
 
 
 
-  const myhandleSubmit = async (event) => {
-    event.preventDefault();
+  const myhandleSubmit = async () => {
 setEditLoading(true)
     const upUser = {
   
@@ -186,6 +188,15 @@ refetch()
 
 
 
+  const validationSchema = Yup.object().shape({
+  
+    cnic: Yup.string()
+      .matches(/^[0-9]{5}-[0-9]{7}-[0-9]{1}$/, 'CNIC must be in the format 12345-1234567-1')
+      .required('CNIC is required'),
+    contactNumber: Yup.string()
+      .matches(/^\+92\d{10}$/, 'Contact number must start with +92 and be 10 digits long')
+      .required('Contact number is required'),
+  });
 
 
 
@@ -200,11 +211,22 @@ refetch()
 
 
       
-
+      <Formik
+          initialValues={{
+          
+            cnic: data?.user?.cnic || '',
+            contactNumber: data?.user?.contactNumber || '+92',
+          }}
+          enableReinitialize
+          validationSchema={validationSchema}
+          onSubmit={myhandleSubmit}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+            <>
 
 
       <View style={[styles.name_contaier, { position: 'relative' }]}>
-      <Image source={{ uri: selectedImage || photo }} style={styles.image} />
+      <FastImage source={{ uri: selectedImage || photo }} style={styles.image} />
 {editMode && (
         <TouchableOpacity style={{ width: 12, height: 12, position: 'absolute', bottom: 5, left: 55 }} onPress={() => openMediaPicker('photo')}>
           <Image source={require('../../../../Assets/Images/Profile/Camera.png')} style={{tintColor:themeContext?.isDarkTheme?"white":null}}/>
@@ -243,7 +265,7 @@ marginTop:activeInput === 'Username' ? 10 : 0
               },
             ]}
             onFocus={() => handleInputFocus('Username')}
-            onBlur={handleInputBlur}
+          
             onChangeText={setUsername}
             editable={editMode} // Make the input editable based on editMode state
             value={username} // Set the initial value of the input field
@@ -264,7 +286,7 @@ marginTop:activeInput === 'Email' ? 10 : 0
               },
             ]}
             onFocus={() => handleInputFocus('Email')}
-            onBlur={handleInputBlur}
+           
             onChangeText={setEmail}
             editable={editMode} // Make the input editable based on editMode state
             value={email} // Set the initial value of the input field
@@ -272,51 +294,52 @@ marginTop:activeInput === 'Email' ? 10 : 0
         </View>
 
         <View style={styles.input_container}>
-          <Text style={[styles.label, { color: theme.primaryText }]}>Cnic</Text>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                backgroundColor: theme.BackgroundSecondary,
-                borderWidth: activeInput === 'cnic' ? 0.5 : 0,
-                borderColor: activeInput === 'cnic' ? '#F1F1F0' : 'transparent',
-                color:theme.PrimarylightText,
-marginTop:activeInput === 'cnic' ? 10 : 0
+                  <Text style={[styles.label, { color: theme.primaryText }]}>Cnic</Text>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        backgroundColor: theme.BackgroundSecondary,
+                        borderWidth: activeInput === 'cnic' ? 0.5 : 0,
+                        borderColor: activeInput === 'cnic' ? '#F1F1F0' : 'transparent',
+                        color: theme.PrimarylightText,
+                        marginTop: activeInput === 'cnic' ? 10 : 0
+                      },
+                    ]}
+                    onFocus={() => handleInputFocus('cnic')}
+                   
+                    onChangeText={handleChange('cnic')}
+                    onBlur={handleBlur('cnic')}
+                    editable={editMode}
+                    value={values.cnic}
+                  />
+                  {touched.cnic && errors.cnic && <Text style={{ color: 'red',marginTop:10,fontFamily:FONTFAMILY.Sora_Regular }}>{errors.cnic}</Text>}
+                </View>
 
+                <View style={styles.input_container}>
+                  <Text style={[styles.label, { color: theme.primaryText }]}>Contact Number</Text>
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        backgroundColor: theme.BackgroundSecondary,
+                        borderWidth: activeInput === 'contactNumber' ? 0.5 : 0,
+                        borderColor: activeInput === 'contactNumber' ? '#F1F1F0' : 'transparent',
+                        color: theme.PrimarylightText,
+                        marginTop: activeInput === 'contactNumber' ? 10 : 0
+                      },
+                    ]}
+                    onFocus={() => handleInputFocus('contactNumber')}
+                 
+                    onChangeText={handleChange('contactNumber')}
+                    onBlur={handleBlur('contactNumber')}
+                    editable={editMode}
+                    value={values.contactNumber}
+                  />
+                {touched.contactNumber && errors.contactNumber && <Text style={{ color: 'red',marginTop:10,fontFamily:FONTFAMILY.Sora_Regular }}>{errors.contactNumber}</Text>}
 
-              },
-            ]}
-            onFocus={() => handleInputFocus('cnic')}
-            onBlur={handleInputBlur}
-            onChangeText={setCnic}
-            editable={editMode} // Make the input editable based on editMode state
-            value={cnic} // Set the initial value of the input field
-          />
-        </View>
+                </View>
 
-
-
-
-        <View style={styles.input_container}>
-  <Text style={[styles.label, { color: theme.primaryText }]}>Contact Number</Text>
-  <TextInput
-    style={[
-      styles.input,
-      {
-        backgroundColor: theme.BackgroundSecondary,
-        borderWidth: activeInput === 'contactNumber' ? 0.5 : 0,
-        borderColor: activeInput === 'contactNumber' ? '#F1F1F0' : 'transparent',
-        color: theme.PrimarylightText,
-        marginTop: activeInput === 'contactNumber' ? 10 : 0,
-      },
-    ]}
-    onFocus={() => handleInputFocus('contactNumber')}
-    onBlur={handleInputBlur}
-    onChangeText={setContactNumber} // Correct handler for contact number
-    editable={editMode} // Make the input editable based on editMode state
-    value={contactNumber} // Set the initial value of the input field
-  />
-</View>
 
 
       </View>
@@ -335,11 +358,16 @@ marginTop:activeInput === 'cnic' ? 10 : 0
             marginHorizontal:24,
             fontSize: 16,
           }}
-          onPress={myhandleSubmit}>
+          onPress={handleSubmit}>
           <Text style={{ color: 'white', fontFamily: FONTFAMILY.Poppins_Medium, fontSize: 14, textAlign: "center" }}>Submit</Text>
         </TouchableOpacity>
       )}
 
+
+
+            </>
+          )}
+        </Formik>
     </KeyboardAwareScrollView>
     </SafeAreaView>
   );

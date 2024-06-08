@@ -20,7 +20,8 @@ const Header = ({ text }) => {
         <TouchableOpacity onPress={() => Navigation.goBack()}>
         <AntDesign name="arrowleft" size={32} color={theme.primaryText} />
         </TouchableOpacity>
-        <Text style={[styles.heading, { color: theme.primaryText }]}>{text}</Text>
+        <Text style={[styles.heading, { color: theme.primaryText,flex:1 }]}>{text}</Text>
+        <View></View>
       </View>
     </>
   );

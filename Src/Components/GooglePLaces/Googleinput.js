@@ -32,7 +32,7 @@ const Googleinput = ({navigation}) => {
   const [searchText, setSearchText] = useState("");
   const [searchTrue, setSearchTrue] = useState(true);
   const [searchResults, setSearchResults] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const mapRef = useRef(null);
 
 
@@ -268,6 +268,7 @@ const Googleinput = ({navigation}) => {
     setLocation(addLoc);
 
     setCompleteAddress(completeLocation)
+   
       navigation.navigate("Add Car")
 
     

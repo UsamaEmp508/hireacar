@@ -63,7 +63,8 @@ fontFamily:FONTFAMILY.Poppins_Bold
 
     Header_Subheading:{
         fontSize:FONTSIZE.size_14,
-        fontFamily:FONTFAMILY.Poppins_Medium
+        fontFamily:FONTFAMILY.Poppins_Medium,
+        marginTop:5
             },
 
 
@@ -86,7 +87,7 @@ fontFamily:FONTFAMILY.Poppins_Bold
     flex:1,
        gap:10,
 
-       paddingHorizontal:SPACING.space_16,
+       paddingHorizontal:SPACING.space_20,
         alignItems:"center",
         paddingVertical:SPACING.space_16,
         borderRadius:SPACING.space_15,
@@ -96,7 +97,7 @@ fontFamily:FONTFAMILY.Poppins_Bold
 left_input:{
 flex:1,
 fontSize:FONTSIZE.size_14,
-fontFamily:FONTFAMILY.Poppins_Regular
+fontFamily:FONTFAMILY.Poppins_Regular,
 
 },
 
@@ -125,7 +126,10 @@ row:{
 
     flexDirection:"row",
     justifyContent:"space-between",
-    alignItems:"center"
+    alignItems:"center",
+    gap:20,
+    flexWrap:"wrap",
+    marginBottom:15
 },
 
 

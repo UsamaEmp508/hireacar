@@ -64,7 +64,7 @@ const Main = () => {
         </ChatProvider>
       </ApolloProvider>
 
-      <Toast position="top" bottomOffset={20} />
+      <Toast position="top" topOffset={80} />
     </GestureHandlerRootView>
   );
 };

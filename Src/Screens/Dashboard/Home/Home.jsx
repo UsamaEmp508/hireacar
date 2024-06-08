@@ -17,6 +17,7 @@ import { useLocation, useLocationActions } from '../../../Theme/LocationContext'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { SPACING } from '../../../Theme/Spacing';
 import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
+import FastImage from 'react-native-fast-image';
 const apiKey = "AIzaSyCqDlu3XKQ-VZ5xBTmksn4QqP2doT4Rh_A";
 
 const Home = () => {
@@ -135,15 +136,17 @@ navigation.navigate('Search')
 <SafeAreaView style={[styles.container,{backgroundColor:theme.primaryBackground}]}>
 
 
-    <ScrollView contentContainerStyle={{  paddingHorizontal:SPACING.space_20}}>
+    <ScrollView contentContainerStyle={{  paddingHorizontal:SPACING.space_12}}>
 {/* header */}
 <View style={styles.Header_Profile}>
 
 
-<ActivityIndicatorModal loaderIndicator={userprofileloading} />
+{userprofileloading &&
+<ActivityIndicator/>
+}
 
 <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
-          <Image source={{uri:userprofile?.user?.photoLink}} style={styles.image_profile} />
+          <FastImage source={{uri:userprofile?.user?.photoLink}} style={styles.image_profile} />
         </TouchableOpacity>
 
 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
@@ -164,7 +167,7 @@ navigation.navigate('Search')
 <View style={styles.search}>
 
 <View style={[styles.left,{backgroundColor:theme.BackgroundSecondary,borderColor:theme.primaryBackground,borderWidth:1}]}> 
-<Image source={require('../../../Assets/Images/Home/Search_icon.png')}  style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:16,height:18}} />
+<Image source={require('../../../Assets/Images/Home/Search_icon.png')}  style={{tintColor:themeContext.isDarkTheme ? '#FFF':null,width:16,height:18,marginLeft:5}} />
 <TextInput inputMode='text' style={[styles.left_input,{color:theme.primaryText}]} placeholder='Search By location' placeholderTextColor={theme.PrimarylightText}  value={searchText}
           onChangeText={(text) => {
             setSearchTrue(true);
@@ -178,10 +181,6 @@ navigation.navigate('Search')
 </View>
 
 
-<View style={[styles.right,{backgroundColor:"#1F4590"}]}> 
-<Image source={require('../../../Assets/Images/Home/Filter.png')}  style={{width:20,height:18,tintColor:"#ffffff",} } />
-
-</View>
 
 
 </View>
@@ -250,7 +249,7 @@ navigation.navigate('Search')
        
           return item.id;
         }}
-        pagingEnabled
+        
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
        
@@ -306,7 +305,7 @@ navigation.navigate('Search')
        
                   return item.id;
                 }}
-                pagingEnabled
+                
         contentContainerStyle={{gap:10,marginVertical:10}}
         horizontal
        

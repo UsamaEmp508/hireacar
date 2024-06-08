@@ -65,7 +65,7 @@ const ContactSupport = ({ navigation }) => {
         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View style={{marginTop:20}}>
             <TextInput
-          style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+          style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1,color:theme.PrimarylightText}]} 
               placeholder="Enter Your Name"
               placeholderTextColor={theme.PrimarylightText}
               onChangeText={handleChange('name')}
@@ -75,7 +75,7 @@ const ContactSupport = ({ navigation }) => {
             {touched.name && errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
 
             <TextInput
-                    style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+                    style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1,color:theme.PrimarylightText}]} 
 
               placeholder="Enter Your Email"
               placeholderTextColor={theme.PrimarylightText}
@@ -88,7 +88,7 @@ const ContactSupport = ({ navigation }) => {
             {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
             <TextInput
-                              style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+                              style={[styles.textInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1,color:theme.PrimarylightText}]} 
 
               placeholder="Enter Your Phone Number"
               placeholderTextColor={theme.PrimarylightText}
@@ -101,7 +101,7 @@ const ContactSupport = ({ navigation }) => {
             {touched.phoneNumber && errors.phoneNumber && <Text style={styles.errorText}>{errors.phoneNumber}</Text>}
 
             <TextInput
-                                        style={[styles.msgTextInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1}]} 
+                                        style={[styles.msgTextInput,{backgroundColor:theme.InputFeild,borderColor:'#F1F1F0',borderWidth:1,color:theme.PrimarylightText}]} 
 
               placeholder="Enter Your Message"
               placeholderTextColor={theme.PrimarylightText}

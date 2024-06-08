@@ -5,7 +5,7 @@ import { FONTFAMILY } from '../../Theme/FontFamily';
 import { Theme, ThemeContext } from '../../Theme/ThemeContext';
 import { darkTheme, lightTheme } from '../../Theme/Color';
 import FastImage from 'react-native-fast-image';
-
+import ActivityIndicatorModal from '../ActivityIndicatorModal';
 const containerName = 'carpictures';
 const blobEndpoint = 'https://hacblob.blob.core.windows.net/';
 const sasToken = '?sp=racwdli&st=2024-04-30T04:14:42Z&se=2025-05-02T12:14:42Z&sv=2022-11-02&sr=c&sig=Gou1kUymMG%2Bq%2FudWWfVoDKoEdF%2FTNSbtYFGhBYJgAFo%3D';
@@ -33,6 +33,7 @@ const uploadImageToBlobStorage = async file => {
     return url;
   } catch (error) {
     console.error('Error uploading image:', error);
+    Alert.alert('Error uploading image')
     return null;
   }
 };
@@ -66,7 +67,7 @@ const ImageUpload = ({ onImageUrlsChange }) => {
       } else if (response.error) {
         console.log('Image picker error: ', response.error);
       } else {
-        console.log('response', response);
+       
         let imageUri = response.assets && response.assets[0]?.uri;
         console.log('image uri', imageUri);
         setSelectedImages([...selectedImages, imageUri]);
@@ -149,7 +150,8 @@ const ImageUpload = ({ onImageUrlsChange }) => {
       </ScrollView>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#21408E" />
+            <ActivityIndicatorModal loaderIndicator={loading } />
+
       ) : (
         <TouchableOpacity
           onPress={handleImageUpload}

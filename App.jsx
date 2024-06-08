@@ -7,7 +7,7 @@ import { Platform } from "react-native";
 import { StyleSheet,View } from "react-native";
 import SplashScreen from "./Src/Screens/Splash/SplashScreen";
 export default function App() {
-  const { notification, setNotification } = ChatState();
+  const { notification, setNotification,setdevicetoken } = ChatState();
   const [loader, setLoader] = useState(true);
 
 
@@ -20,7 +20,7 @@ useEffect(() => {
     .then(token => {
       console.log('token ------->>', token);
 
-
+      setdevicetoken(token)
     });
 }, [])
 

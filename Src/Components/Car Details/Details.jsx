@@ -23,7 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ChatState } from '../../Context/ChatProvider';
 import FastImage from 'react-native-fast-image';
   
-
+import ActivityIndicatorModal from '../ActivityIndicatorModal';
  // Import FontAwesome as an example
 
 const Details = ({ data }) => {
@@ -58,6 +58,9 @@ useEffect(() => {
 
   setChats(chatdataalready?.FetchChats)
    }, [chatdataalready])
+
+
+
 
   const renderPagination = () => (
     <Pagination
@@ -113,6 +116,23 @@ useEffect(() => {
   
 
 
+  const dialCall = (phone) => {
+    // Remove non-numeric characters from the phone number
+    const formattedPhone = phone.replace(/\D/g, '');
+  
+    // Add the country code to the phone number
+    const formattedPhoneNumber = `tel:+92${formattedPhone}`;
+  
+
+  
+    // Open the phone app with the final phone number
+    if (Platform.OS === 'android') {
+      Linking.openURL(`tel:${formattedPhoneNumber}`);
+    } else {
+      Linking.openURL(`telprompt:${formattedPhoneNumber}`);
+    }
+  };
+
   const handleSnapToItem = (index) => {
     setActiveIndex(index);
     // Check if carouselRef.current exists
@@ -132,6 +152,7 @@ useEffect(() => {
   return (
     <ScrollView>
       <Header />
+      <ActivityIndicatorModal loaderIndicator={chatLoading} />
 
 
 
@@ -402,7 +423,11 @@ zoomControlEnabled={true}
           <TouchableOpacity onPress={handleAccessChat}>
             <MaterialIcons name="message" size={24} color="#B1B3B4" style={styles.icon} />
           </TouchableOpacity>
+
+<TouchableOpacity onPress={() => dialCall(data?.owner?.contactNumber)}>    
+
           <MaterialIcons name="call" size={24} color="#B1B3B4" style={styles.icon} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

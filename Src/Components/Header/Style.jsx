@@ -12,14 +12,16 @@ export const styles = StyleSheet.create({
   header:{
     flexDirection:'row',
     alignItems:'center',
-    gap:90,
+    justifyContent:"space-between",
 
     marginTop:SPACING.space_4,
     marginHorizontal:20
   },
   heading:{
     fontFamily:FONTFAMILY.Jost_SemiBold,
-    fontSize:FONTSIZE.size_20
+    fontSize:FONTSIZE.size_20,
+    textAlign:"center",
+    marginRight:20
   }
 
 })

@@ -31,11 +31,10 @@ const Login = ({ navigation }) => {
 
   const googleLogin = async () => {
     try {
+      setLoading(true); // Set loading to true when login begins
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       const { idToken, user } = await GoogleSignin.signIn();
       console.log('userinfo', user);
-
-      // Pass user information to getUser function
       getUser(user);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -47,13 +46,14 @@ const Login = ({ navigation }) => {
       } else {
         console.log('Some other error', error);
       }
+      setLoading(false); // Set loading back to false on error
     }
   };
 
   const handleSaveToken = async (userId, devicetoken, platform) => {
     console.log("save token login screen", userId, devicetoken, platform);
     try {
-      const { data } = await saveToken({
+      await saveToken({
         variables: {
           data: {
             userId,
@@ -62,7 +62,6 @@ const Login = ({ navigation }) => {
           },
         },
       });
-      console.log('Token saved:', data.saveToken);
     } catch (err) {
       console.error('Error saving token:', err);
     }
@@ -97,7 +96,7 @@ const Login = ({ navigation }) => {
               newUserData: newUser,
             },
           });
-          handleSaveToken(userdata?.user?.id, devicetoken, Platform.OS);
+          handleSaveToken(data?.createUser?.id, devicetoken, Platform.OS);
           setUser(data);
           storeData(data);
         } catch (error) {
@@ -106,11 +105,12 @@ const Login = ({ navigation }) => {
       } else {
         setSystemUserId(userByGoogleId.id);
       }
+      setLoading(false); // Set loading back to false after login process is completed
     } catch (error) {
       console.error(error);
+      setLoading(false); // Set loading back to false on error
     }
   };
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.primaryBackground }]}>
       {loading && <ActivityIndicatorModal loaderIndicator={loading} />}

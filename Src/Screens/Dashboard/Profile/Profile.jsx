@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Platform, SafeAreaView, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
 import Feather from 'react-native-vector-icons/Feather'; 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -24,16 +24,42 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import ActivityIndicatorModal from '../../../Components/ActivityIndicatorModal';
 import FastImage from 'react-native-fast-image';
+import { DELETE_USER } from '../../../Service/Mutation';
 const Profile = () => {
   const themeContext = useContext(ThemeContext);
   const theme = themeContext?.isDarkTheme ? darkTheme : lightTheme;
 const navigation = useNavigation()
 const { user,setUser} = ChatState();
 const [saveToken, {  error }] = useMutation(SaveToken);
+const [deleteUser, { loading:deleteuser }] = useMutation(DELETE_USER);
 console.log('user',user)
 const { loading, data:userprofile } = useQuery(GET_USER_PROFILE, {
   variables: { id: user?.userByGoogleId?.id }
 });
+
+
+console.log('user profile',userprofile)
+
+// const handleDeleteUser = async () => {
+
+//   try {
+//     const { data } = await deleteUser({ variables: { id: userprofile?.user?.id } });
+
+//     // Handle success
+//     console.log('User deleted:', data);
+//     Alert.alert('Account deleted')
+//   removeData();
+//   setUser(null)
+    
+//   } catch (error) {
+//     // Handle error
+//     console.log('Error deleting user:', error);
+//     Alert.alert('Error deleting user')
+//   }
+// };
+  
+
+
 
 const handleSaveToken = async (userId, deviceId, platform) => {
 console.log(deviceId,userId,platform)
@@ -68,7 +94,7 @@ const Logout = async () => {
 
   return (
     <SafeAreaView style={{flex:1,backgroundColor: theme.primaryBackground,}}>   
-    <ActivityIndicatorModal loaderIndicator={loading} />
+    <ActivityIndicatorModal loaderIndicator={loading || deleteuser} />
 
     <ScrollView style={[styles.container]}>
 
@@ -81,7 +107,7 @@ const Logout = async () => {
           <FastImage source={{uri:userprofile?.user?.photoLink}} style={styles.image} />
         </View>
         <Text style={[styles.profile_name, { color: theme.primaryText }]}>{userprofile?.user?.displayName}</Text>
-        <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>{user?.userByGoogleId?.email} </Text>
+        <Text style={[styles.profile_mail, { color: theme.PrimarylightText }]}>{userprofile?.user?.email} </Text>
 
    
         <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('EditProfile')}>
@@ -149,13 +175,13 @@ const Logout = async () => {
         </TouchableOpacity>
 
 
-        <TouchableOpacity style={styles.tile} >
+        {/* <TouchableOpacity style={styles.tile} onPress={handleDeleteUser}>
           <View style={styles.inner_tile_left}>   
           <Icon name="trash" size={24} color={theme.primaryText} style={styles.leftIcon} />
           <Text style={[styles.tileText, { color: theme.primaryText }]}>Delete Account</Text>
           </View>
           <Icon name={themeContext?.isDarkTheme ? 'angle-right' : 'angle-right'} size={24} color={theme.primaryText} style={styles.rightIcon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
 
       </View>
