@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import Route from "./Src/Navigation/Route";
 import messaging from '@react-native-firebase/messaging';
 import { ChatState } from "./Src/Context/ChatProvider";
 import notifee from '@notifee/react-native';
 import { Platform } from "react-native";
-
+import { StyleSheet,View } from "react-native";
+import SplashScreen from "./Src/Screens/Splash/SplashScreen";
 export default function App() {
-  const { selectedChat, setSelectedChat, user, notification, setNotification, isTyping, setIsTyping } = ChatState();
-console.log('notificaton',notification)
+  const { notification, setNotification } = ChatState();
+
 
 useEffect(() => {
   if (Platform.OS === 'android') {
@@ -76,5 +77,14 @@ if(Platform.OS  === 'ios')
 
 
 
-  return <Route />;
+  return  <View style={styles.container}>
+  {loader  ? <SplashScreen/> :  <Route/>   }
+</View>;
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
