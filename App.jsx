@@ -8,6 +8,7 @@ import { StyleSheet,View } from "react-native";
 import SplashScreen from "./Src/Screens/Splash/SplashScreen";
 export default function App() {
   const { notification, setNotification } = ChatState();
+  const [loader, setLoader] = useState(true);
 
 
 useEffect(() => {
@@ -24,6 +25,12 @@ useEffect(() => {
 }, [])
 
 
+
+useEffect(() => {
+  setTimeout(() => {
+    setLoader(false);
+  }, 2000);
+}, []);
 
 
 
